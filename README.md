@@ -48,7 +48,7 @@ Understanding these compounding effects is essential for enhancing grid resilien
 
 ## 🔬 Methodology
 
-The framework integrates **climate projections**, **thermal engineering**, and **power system optimisation** into a unified simulation pipeline:
+The framework integrates **climate projections**, **thermal modeling**, and **power system optimisation** into a unified simulation pipeline:
 
 <p align="center">
   <img src="images/framework_update_2025.png" width="800" /><br>
@@ -65,10 +65,10 @@ The key methodological components are:
 | **Renewable Generation** | Weather-driven capacity factors computed via [Atlite](https://github.com/PyPSA/atlite) for solar, onshore wind, and offshore wind |
 | **Conductor Thermal Model** | IEEE Std 738-2012 heat-balance equation solved per line segment to obtain spatially-resolved conductor temperatures |
 | **Multi-Segment Modelling** | Transmission lines subdivided along the ERA5 grid to capture localised thermal hotspots |
-| **Generator Derating** | Temperature-dependent capacity reduction for thermal, nuclear, and renewable generators |
-| **Iterative TD-ACOPF** | Temperature-dependent AC optimal power flow with resistance-temperature feedback loop until convergence |
+| **Generator Derating** | Temperature-dependent capacity reduction for conventional generators |
+| **Iterative TD-ACOPF** | Temperature-dependent AC optimal power flow with electricity-temperature feedback loop until convergence |
 
-The iterative TD-ACOPF solver alternates between the AC-OPF solution (which determines branch currents) and the heat-balance equation (which determines conductor temperatures), updating line resistance at each step:
+The iterative TD-ACOPF solver alternates between the AC-OPF solution (which determines branch currents) and the heat-balance equation (which determines conductor temperatures), updating network parameters at each step:
 
 <p align="center">
   <img src="images/opf_analysis.png" width="800" /><br>
@@ -82,12 +82,11 @@ The iterative TD-ACOPF solver alternates between the AC-OPF solution (which dete
 
 | Feature | Description |
 |---------|-------------|
-| **IEEE 738 Heat-Balance Model** | Steady-state conductor temperature from convective/radiative cooling and solar/Joule heating, with bisection and Newton-Raphson solvers |
-| **Iterative TD-ACOPF** | Resistance-temperature feedback loop updating branch impedance at each OPF iteration until convergence |
+| **IEEE 738 Heat-Balance Model** | Steady-state conductor temperature from convective/radiative cooling and solar/Joule heating, with Bisection/Newton solvers |
+| **Iterative TD-ACOPF** | electricity-temperature feedback loop updating network parameters at each OPF iteration until convergence |
 | **Pyomo / IPOPT Solver** | Full AC power flow with rectangular or polar voltage formulations, N-1 security constraints (AC & linearised LODF), DC lines, storage, and load-shedding |
-| **Quadratic Thermal Approximation** | Embeds a linearised heat-balance constraint directly in the OPF for single-shot solutions |
-| **Generator Derating** | Ambient-temperature-dependent capacity reduction for thermal, nuclear, and renewable generators |
-| **Heatwave Scenarios** | Bias-corrected future heatwave profiles from ERA5 reanalysis and CMIP6 climate projections via delta mapping |
+| **Generator Derating** | Weather-dependent capacity modeling for thermal, nuclear, and renewable generators |
+| **Heatwave Scenarios** | Bias-corrected future heatwave profiles from ERA5 reanalysis and RCP45 climate projections via delta mapping |
 | **Multi-Country Networks** | Supports PyPSA-Eur networks (ES, FR, IT, GB, DE, PT, NL, BE) and IEEE 30-bus benchmarks |
 | **Parallel Simulation** | Multiprocessing support for large-scale sensitivity sweeps across heatwave years, load-growth rates, storage ratios, and thermal limits |
 
@@ -287,7 +286,7 @@ conda install -c conda-forge ipopt       # Conda (any OS)
 
 ---
 
-## ⚡ Analysis Modes
+<!-- ## ⚡ Analysis Modes
 
 The TD-ACOPF supports multiple analysis configurations controlled by a string tag:
 
@@ -303,15 +302,15 @@ The TD-ACOPF supports multiple analysis configurations controlled by a string ta
 | `base_fixsc` | - | - | - | Fixed (0.7) | 1 |
 | `base_seg_derate` | - | Yes | Yes | - | 1 |
 
----
+--- -->
 
 ## 📚 References
 
 This project builds on the following standards, tools, and data sources:
 
 - **IEEE Std 738-2012** — [IEEE Standard for Calculating the Current-Temperature Relationship of Bare Overhead Conductors](https://standards.ieee.org/ieee/738/6228/)
-- **PyPSA-Eur** — T. Brown *et al.*, [PyPSA-Eur: An Open Optimisation Model of the European Transmission System](https://doi.org/10.1016/j.enconman.2018.08.084), *Energy Conversion and Management*, 2019
-- **ERA5 Reanalysis** — H. Hersbach *et al.*, [The ERA5 Global Reanalysis](https://doi.org/10.1002/qj.3803), *Quarterly Journal of the Royal Meteorological Society*, 2020
+- **PyPSA-Eur** — [PyPSA-Eur: An Open Optimisation Model of the European Transmission System](https://doi.org/10.1016/j.enconman.2018.08.084), *Energy Conversion and Management*, 2019
+- **ERA5 Reanalysis** — [The ERA5 Global Reanalysis](https://doi.org/10.1002/qj.3803), *Quarterly Journal of the Royal Meteorological Society*, 2020
 - **ENTSO-E** — [Transparency Platform](https://transparency.entsoe.eu/)
 - **Atlite** — [https://github.com/PyPSA/atlite](https://github.com/PyPSA/atlite)
 
