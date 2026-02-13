@@ -1,20 +1,21 @@
 /**
- * Temperature analysis results data
+ * Demand calibration results data
+ * TODO: Replace placeholder imageUrl with actual result images
  */
 var demandResultsData = [
     {
-      color: '#3366ff',
-      title: 'Temperature Distribution',
-      description: 'Statistical distribution of temperature anomalies across different regions.'
+      imageUrl: 'images/results/demand_result_1.png',
+      title: 'Temperature-Demand Relationship',
+      description: 'Calibrated BAIT thermal-comfort model showing the nonlinear relationship between temperature and electricity demand per country.'
     },
     {
-      color: '#5588ff',
-      title: 'Temporal Trends',
-      description: 'Multi-year trends in temperature variations showing increasing frequency of extremes.'
+      imageUrl: 'images/results/demand_result_2.png',
+      title: 'Demand Profile Validation',
+      description: 'Comparison of modelled vs. observed ENTSO-E hourly demand during historical heatwave periods.'
     }
   ];
   
-  // Function to show temperature results
+  // Function to show demand calibration results
   function showDemandResults() {
     ResultsViewer.showResults('Demand Calibration Results', demandResultsData);
   }

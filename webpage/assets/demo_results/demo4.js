@@ -1,20 +1,21 @@
 /**
- * Temperature analysis results data
+ * TD-ACOPF results data
+ * TODO: Replace placeholder imageUrl with actual result images
  */
 var opfResultsData = [
     {
-      color: '#3366ff',
-      title: 'Temperature Distribution',
-      description: 'Statistical distribution of temperature anomalies across different regions.'
+      imageUrl: 'images/results/opf_result_1.png',
+      title: 'Convergence Profile',
+      description: 'Iterative convergence of the resistance-temperature feedback loop showing branch impedance updates across OPF iterations.'
     },
     {
-      color: '#5588ff',
-      title: 'Temporal Trends',
-      description: 'Multi-year trends in temperature variations showing increasing frequency of extremes.'
+      imageUrl: 'images/results/opf_result_2.png',
+      title: 'Load Shedding Map',
+      description: 'Spatially-resolved load shedding and branch congestion under heatwave conditions from the TD-ACOPF solution.'
     }
   ];
   
-  // Function to show temperature results
+  // Function to show OPF results
   function showOPFResults() {
-    ResultsViewer.showResults('OPF Results', opfResultsData);
+    ResultsViewer.showResults('TD-ACOPF Results', opfResultsData);
   }

@@ -6,33 +6,141 @@
 -->
 <html>
 	<head>
-		<title>HEAT-GRID: Heatwave Impact on European Electricity Grids</title>
+		<title>HEAT-Analysis: Heatwave Impact on European Electricity Grids</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<style>
+			.feature-table {
+				width: 100%;
+				border-collapse: collapse;
+				margin: 1em 0;
+			}
+			.feature-table th, .feature-table td {
+				padding: 10px 14px;
+				text-align: left;
+				border-bottom: 1px solid #ddd;
+				font-size: 0.9em;
+			}
+			.feature-table th {
+				background: #f5f5f5;
+				font-weight: 600;
+			}
+			.feature-table tr:hover {
+				background: #fafafa;
+			}
+			.bibtex-block {
+				background: #f8f8f8;
+				border: 1px solid #e0e0e0;
+				border-radius: 6px;
+				padding: 1em 1.2em;
+				font-family: 'Courier New', monospace;
+				font-size: 0.82em;
+				line-height: 1.6;
+				overflow-x: auto;
+				white-space: pre-wrap;
+				word-wrap: break-word;
+				text-align: left;
+				color: #333;
+			}
+			.badges {
+				display: flex;
+				gap: 8px;
+				flex-wrap: wrap;
+				justify-content: center;
+				margin: 1em 0;
+			}
+			.badges img {
+				height: 22px;
+			}
+			/* Fix image centering and add white margin to edge */
+			.spotlight .image {
+				padding: 1rem 2rem;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background-color: #ffffff;
+			}
+			.spotlight .image img {
+				object-fit: contain;
+				object-position: center center;
+				width: 100%;
+				height: auto;
+			}
+			.spotlight.style1 .image {
+				width: 45% !important;
+			}
+			/* Reduce vertical spacing between spotlight sections */
+			.spotlight.style1 .content {
+				padding-top: 3rem !important;
+				padding-bottom: 2rem !important;
+			}
+			/* Reduce gap between text and image */
+			.spotlight.orient-right .content {
+				padding-right: 3rem !important;
+				padding-left: 1.5rem !important;
+			}
+			.spotlight.orient-left .content {
+				padding-left: 3rem !important;
+				padding-right: 1.5rem !important;
+			}
+			/* Reduce gap between stacked images */
+			.spotlight .image[style*="flex-direction: column"] {
+				gap: 0.5rem !important;
+				padding-top: 0.5rem;
+				padding-bottom: 0.5rem;
+			}
+			/* Banner image should remain edge-to-edge */
+			.banner .image {
+				padding: 0;
+				background-color: transparent;
+			}
+			.banner .image img {
+				object-fit: cover;
+				height: 100%;
+			}
+			.banner .content {
+				padding-right: 3rem !important;
+				padding-left: 3rem !important;
+			}
+			/* Demo result placeholder */
+			.demo-result-placeholder {
+				background: #f0f0f0;
+				border: 2px dashed #ccc;
+				border-radius: 6px;
+				padding: 40px 20px;
+				color: #999;
+				font-style: italic;
+				text-align: center;
+				margin-top: 0.5em;
+			}
+		</style>
 	</head>
 	<body class="is-preload">
 
 		<!-- Wrapper -->
 			<div id="wrapper" class="divided">
 
-				<!-- One -->
+				<!-- Banner: Hero Section -->
 					<section class="banner style5 orient-left content-align-center image-position-right fullscreen onload-image-fade-in onload-content-fade-right">
 						<div class="content">
-							<h1>HEAT-GRID</h1>
-							<h3>Heatwave Impact on European Electricity Grids</h3>
-							<!-- <h3>A comprehensive study of heatwave effects on electricity grids.</h3> -->
+							<h1>HEAT-Analysis</h1>
+							<h3>Heatwave Impact on European Electricity Grids:<br>Temperature-Dependent Optimal Power Flow Framework</h3>
 							<p class="major">
-								<!-- Heatwave Impact on European Electricity Grids -->
-								<!-- Heatwave Effects Analysis Tool for Grid Resilience Investigation and Diagnostics -->
-								<!-- A comprehensive study of heatwave effects on European electricity grids. -->
-								As climate change increases the frequency, intensity, and duration of heatwaves, understanding their impact on electricity grids is crucial for enhancing societal security and resilience.
+								As climate change increases the frequency, intensity, and duration of heatwaves, understanding their compounding impact on electricity grids is crucial for enhancing societal security and resilience.
 							</p>
+							<div class="badges">
+								<img src="https://img.shields.io/badge/python-%3E%3D3.9-blue?logo=python&logoColor=white" alt="Python">
+								<img src="https://img.shields.io/badge/license-CC--BY--4.0-green" alt="License">
+								<img src="https://img.shields.io/badge/built%20on-PyPSA--Eur-orange" alt="PyPSA-Eur">
+								<img src="https://img.shields.io/badge/solver-IPOPT-red" alt="IPOPT">
+								<img src="https://img.shields.io/badge/standard-IEEE%20738--2012-lightblue" alt="IEEE 738">
+							</div>
 							<ul class="actions fit">
-								<li><a href="" class="button big wide smooth-scroll-middle">Paper</a></li>
+								<li><a href="papers/Heatwave_Impact_on_EU_Grid_Main.pdf" class="button big wide smooth-scroll-middle">Paper</a></li>
 								<li><a href="https://github.com/emliang/HEAT-GRID" class="button big wide smooth-scroll-middle">Code</a></li>
-								<li><a href="#first" class="button big wide smooth-scroll-middle">Learn More</a></li>
+								<li><a href="#background" class="button big wide smooth-scroll-middle">Learn More</a></li>
 							</ul>
 						</div>
 						<div class="image">
@@ -40,200 +148,177 @@
 						</div>
 					</section>
 
-				<!-- Two -->
-				<section class="spotlight style1 orient-left content-align-left image-position-center onscroll-image-fade-in" id="first">
+				<!-- Background: Heatwave Crisis -->
+				<section class="spotlight style1 orient-left content-align-left image-position-center onscroll-image-fade-in" id="background">
 					<div class="content">
 						<h2>Heatwave Crisis in Europe</h2>
-						<p>Heatwaves are defined as periods when the maximum temperature exceeded the 98th percentile of the 1961-1990 reference period, and exceeded 28°C, for a period of three or more days.</p>
+						<p>Climate change is increasing the frequency, intensity, and duration of heatwaves across Europe. Heatwaves are defined as periods when the maximum temperature exceeds the 98th percentile of the 1961&ndash;1990 reference period and exceeds 28 &deg;C for three or more consecutive days.</p>
 						<h3>Recent Significant Events</h3>
 						<ul class="alt">
-							<li><strong>2019:</strong> The Western European Heatwaves <a href="https://www.ecmwf.int/en/newsletter/161/news/2019-western-european-heatwaves">ECMWF Analysis →</a></li>
-							<li><strong>2022:</strong> Extreme Heat Crisis <a href="https://climate.copernicus.eu/esotc/2022/extreme-heat">Copernicus Climate Report →</a></li>
-							<li><strong>2023:</strong> July Heatwave Surge <a href="https://www.ecmwf.int/en/about/media-centre/science-blog/2023/european-heatwave-july-2023">ECMWF Science Blog →</a></li>
+							<li><strong>2019:</strong> Western European Heatwaves &mdash; record temperatures across France, Germany, and the Netherlands. <a href="https://www.ecmwf.int/en/newsletter/161/news/2019-western-european-heatwaves">ECMWF Analysis &rarr;</a></li>
+							<li><strong>2022:</strong> Extreme Heat Crisis &mdash; prolonged drought and heat across Southern and Western Europe. <a href="https://climate.copernicus.eu/esotc/2022/extreme-heat">Copernicus Report &rarr;</a></li>
+							<li><strong>2023:</strong> July Heatwave Surge &mdash; Mediterranean temperatures exceeding 45 &deg;C. <a href="https://www.ecmwf.int/en/about/media-centre/science-blog/2023/european-heatwave-july-2023">ECMWF Blog &rarr;</a></li>
+							<li><strong>2024:</strong> Widespread heat events continuing the trend of increasing intensity and duration.</li>
 						</ul>
-						<p class="major"><em>These events demonstrate increasing frequency and intensity of extreme heat across Europe, with significant impacts on health, agriculture, and infrastructure.</em></p>
-
-
-						<!-- <ul class="actions stacked">
-							<li><a href="https://climate.copernicus.eu/heatwaves-brief-introduction" class="button">Read Full Report</a></li>
-						</ul> -->
+						<p><em>These events demonstrate the escalating frequency and severity of extreme heat across Europe, with significant impacts on health, agriculture, and critical infrastructure.</em></p>
 					</div>
 					<div class="image">
-						<img src="images/July_25_2019_Europe_max_temperatures.png" alt="Methodology Framework" />
+						<img src="images/July_25_2019_Europe_max_temperatures.png" alt="July 2019 European maximum temperatures" />
 					</div>
 				</section>
 
 
-				<!-- Two -->
-				<section class="spotlight style1 orient-right content-align-left image-position-center onscroll-image-fade-in" id="first">
+				<!-- Impact on Electricity Grid -->
+				<section class="spotlight style1 orient-right content-align-left image-position-center onscroll-image-fade-in">
 					<div class="content">
-						<h2>Impacts on Electricity Grid</h2>
-						<!-- <p>Grid blackout risk is directly correlated with temperature extremes and increasing electricity demand.</p> -->
-						<h3>Risk Factors</h3>
-						<div class="risk-factors">
-							<ul>
-								<li><span style="color: #ff5555; font-weight: bold; margin-right: 5px; font-size: 1.2em;">⬆</span> <strong>Cooling Demand:</strong> Peak consumption during extreme heat</li>
-								<li><span style="color: #0f25b1; font-weight: bold; margin-right: 5px; font-size: 1.2em;">⬇</span> <strong>Generation Capacity:</strong> Efficiency drops as temperatures rise</li>
-								<li><span style="color: #0f25b1; font-weight: bold; margin-right: 5px; font-size: 1.2em;">⬇</span> <strong>Transmission Capacity:</strong> Overloaded lines and equipment</li>
-							</ul>
-						</div>
-						<p class="major"><em>Heatwaves-induced imbalanced demand and supply significantly increase the risk of power grid load shedding and blackouts</em></p>
-						<!-- <ul class="actions stacked">
-							<li><a href="https://www.pnnl.gov/news-media/extreme-heat-hurricanes-wildfires-how-summers-extremes-disrupt-power-grid" class="button">View Datasets</a></li>
-						</ul> -->
+						<h2>Triple Threat to Electricity Grids</h2>
+						<p>Extreme heat events pose a <strong>compounding triple threat</strong> to power systems, simultaneously stressing demand, supply, and transmission:</p>
+						<ul>
+							<li><span style="color: #e74c3c; font-weight: bold; margin-right: 5px; font-size: 1.2em;">&#9650;</span> <strong>Surging Demand:</strong> Cooling loads spike during heatwaves, pushing peak consumption to record levels.</li>
+							<li><span style="color: #2980b9; font-weight: bold; margin-right: 5px; font-size: 1.2em;">&#9660;</span> <strong>Reduced Supply:</strong> Thermal and nuclear generators derate under high ambient temperatures; renewable output fluctuates with weather conditions.</li>
+							<li><span style="color: #2980b9; font-weight: bold; margin-right: 5px; font-size: 1.2em;">&#9660;</span> <strong>Degraded Transmission:</strong> Overhead conductors heat up, increasing resistance and sag, which forces operators to reduce power flow to maintain safety clearances.</li>
+						</ul>
+						<p><em>These heatwave-induced imbalances between demand and supply significantly increase the risk of power grid load shedding and blackouts.</em></p>
 					</div>
 					<div class="image">
-						<img src="images/summer-extremes-hero.png" alt="Methodology Framework" />
+						<img src="images/framework_update_2025.png" alt="Summer extremes threatening power grids" />
 					</div>
 				</section>
 
 
-				<!-- Two -->
-					<section class="spotlight style0 orient-left content-align-left image-position-center onscroll-image-fade-in" id="first">
+				<!-- Methodology -->
+					<section class="spotlight style1 orient-left content-align-left image-position-center onscroll-image-fade-in" id="methodology">
 						<div class="content">
 							<h2>Methodology</h2>
-							<p>To evaluate the impacts of heatwaves on electricity grids, we propose a comprehensive methodology that includes:</p>
-							<ul>
-								<li>Future Heatwave Projection (2025-2030)</li>
-								<li>Future Demand Modeling by Demand.ninja</li>
-								<li>Renewable Generation Analysis by Atlite</li>
-								<li>Generation Derating Analysis</li>
-								<li>Multi-Segment Conductor Thermal Modeling</li>
-								<li>AC Optimal Power Flow Analysis</li>
-							</ul>
-							<ul class="actions stacked">
-								<li><a href="#datasets" class="button">View Datasets</a></li>
-							</ul>
+							<p>The framework integrates <strong>climate projections</strong>, <strong>thermal engineering</strong>, and <strong>power system optimisation</strong> into a unified pipeline.</p>
+							<h3>Modelling</h3>
+							<p>Projected heatwave scenarios are generated via bias-corrected delta mapping from historical extremes onto CMIP6 projections. Weather-driven demand (BAIT model), renewable capacity factors (<a href="https://github.com/PyPSA/atlite">Atlite</a>), and generator derating curves translate these scenarios into grid-level inputs. Conductor temperatures are resolved per line segment using the IEEE 738-2012 heat-balance equation.</p>
+							<h3>Algorithm</h3>
+							<p>The <strong>Temperature-Dependent ACOPF</strong> (TD-ACOPF) iteratively couples two sub-problems: (1) a full AC optimal power flow (Pyomo/IPOPT) that determines branch currents and dispatch, and (2) a heat-balance update that recomputes conductor temperatures and line resistance. The loop repeats until the resistance&ndash;temperature feedback converges, capturing the nonlinear coupling between electrical loading and thermal state that conventional OPF ignores.</p>
 						</div>
-						<div class="image">
-							<img src="images/Framework_2025.png" alt="Methodology Framework" />
+						<div class="image" style="flex-direction: column; gap: 0.1rem;">
+							<img src="images/modeling.png" alt="HeatAnalysis Modelling Framework" />
+							<img src="images/opf_analysis.png" alt="TD-ACOPF Algorithm Workflow" />
 						</div>
 					</section>
 
-				<!-- Three -->
-					<!-- <section class="spotlight style1 orient-right content-align-left image-position-center onscroll-image-fade-in" id="datasets">
-						<div class="content">
-							<h2>Key Datasets</h2>
-							<p>Our research leverages multiple authoritative data sources:</p>
-							<ul>
-								<li>PyPSA-Eur: European transmission network data</li>
-								<li>ERA5: Historical climate data</li>
-								<li>C3S: Future climate projections</li>
-								<li>ENTSO-E: Power demand statistics</li>
-								<li>Demand.ninja: Weather-dependent demand models</li>
-								<li>Atlite: Renewable generation calculations</li>
-							</ul>
-						</div>
-						<div class="image">
-							<img src="images/spotlight02.jpg" alt="" />
-						</div>
-					</section> -->
 
-				<!-- Four -->
+				<!-- Demos Section -->
 				<script src="assets/js/viewer.js"></script>
 				<script src="assets/demo_results/demo1.js"></script>
 				<script src="assets/demo_results/demo2.js"></script>
 				<script src="assets/demo_results/demo3.js"></script>
 				<script src="assets/demo_results/demo4.js"></script>
 				<script src="assets/demo_results/demo5.js"></script>
-					<section class="wrapper style1 align-center">
+					<section class="wrapper style1 align-center" id="demos">
 						<div class="inner">
 							<h2>Demos</h2>
-							<p class="major">Explore demonstrations showcasing key aspects of our methodology:</p>
+							<p class="major">Explore demonstrations showcasing key components of our methodology and results.</p>
 							<div class="items style1 medium onscroll-fade-in">
 
 								<section>
 									<span class="icon solid style2 major fa-temperature-high"></span>
 									<h3>Heatwave Generation</h3>
 									<div style="display: flex; justify-content: center; gap: 1.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem">
-									  <a href="#heatwave-code" class="button small">Code</a>
+									  <a href="#" class="button small" onclick="event.preventDefault();">Code (TBD)</a>
 									  <a onclick="showHeatwaveResults()" class="button small">Results</a>
 									</div>
-									<p>Morphing approach for heatwave generation</p>
-								  </section>
-					
-
+									<p>Bias-corrected delta mapping approach for projecting future heatwave scenarios from historical extreme events.</p>
+								</section>
 								<section>
 									<span class="icon solid style2 major fa-chart-line"></span>
 									<h3>Demand Calibration</h3>
 									<div style="display: flex; justify-content: center; gap: 1.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem">
-										<a href="#demand-code" class="button small">Code</a>
-										<a onclick="showDemandResults()" class="button small"">Results</a>
+										<a href="#" class="button small" onclick="event.preventDefault();">Code (TBD)</a>
+										<a onclick="showDemandResults()" class="button small">Results</a>
 									</div>
-									<p>Weather-dependent demand modeling</p>
+									<p>BAIT thermal-comfort demand model calibrated per country using SCEM optimisation against ENTSO-E data.</p>
 								</section>
-
 								<section>
 									<span class="icon solid style2 major fa-balance-scale"></span>
 									<h3>Conductor Thermal Model</h3>
 									<div style="display: flex; justify-content: center; gap: 1.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem">
-										<a href="#heatbalance-code" class="button small">Code</a>
-										<a onclick="showThermalResults()" class="button small"">Results</a>
+										<a href="#" class="button small" onclick="event.preventDefault();">Code (TBD)</a>
+										<a onclick="showThermalResults()" class="button small">Results</a>
 									</div>
-									<p>Heat flow equation calculation and visualization</p>
+									<p>IEEE 738-2012 heat-balance equation for computing steady-state conductor temperatures and dynamic line ratings.</p>
 								</section>
 
 								<section>
 									<span class="icon solid style2 major fa-cogs"></span>
 									<h3>TD-AC-OPF Solving</h3>
 									<div style="display: flex; justify-content: center; gap: 1.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem">
-										<a href="#opf-code" class="button small">Code</a>
-										<a onclick="showOPFResults()" class="button small"">Results</a>
+										<a href="#" class="button small" onclick="event.preventDefault();">Code (TBD)</a>
+										<a onclick="showOPFResults()" class="button small">Results</a>
 									</div>
-									<p>Iterative algorithm based on IPOPT with Pyomo-based modeling</p>
+									<p>Iterative temperature-dependent ACOPF algorithm using Pyomo modelling with IPOPT non-linear solver.</p>
 								</section>
 
 								<section>
 								<span class="icon solid style2 major fa-network-wired"></span>
 									<h3>IEEE Grid Analysis</h3>
 									<div style="display: flex; justify-content: center; gap: 1.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem">
-										<a href="#ieee-code" class="button small">Code</a>
-										<a onclick="showIEEEResults()" class="button small"">Results</a>
+										<a href="#" class="button small" onclick="event.preventDefault();">Code (TBD)</a>
+										<a onclick="showIEEEResults()" class="button small">Results</a>
 									</div>
-									<p>Toy example in IEEE 30-bus grid with synthetic data </p>
+									<p>Validation on the IEEE 30-bus test system with synthetic heatwave data to demonstrate the TD-ACOPF methodology.</p>
 								</section>
-
-								<!-- <section>
-									<span class="icon solid style2 major fa-globe-europe"></span>
-									<h3>European Grid Analysis</h3>
-									<div style="display: flex; justify-content: center; gap: 1.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem">
-										<a href="#country-code" class="button small">Code</a>
-										<a href="#country-result" class="button small"">Results</a>
-									</div>
-									<p>Comprehensive country-level analysis</p>
-								</section> -->
 							</div>
 						</div>
 					</section>
 
 
-
-
-
-					<section class="spotlight style0 orient-left content-align-left image-position-center onscroll-image-fade-in" id="first">
+				<!-- European Grid Results -->
+					<section class="spotlight style1 orient-left content-align-left image-position-center onscroll-image-fade-in" id="results">
 						<div class="content">
 							<h2>European Grid Results</h2>
-							<p>:</p>
+							<p>Our framework has been applied to multiple European countries to assess heatwave impacts on real transmission networks:</p>
 							<ul>
-								<!-- <li>Future Heatwave Projection (2025-2030)</li> -->
+								<li><strong>Load Shedding:</strong> Quantified involuntary load curtailment under projected heatwave scenarios across ES, FR, IT, GB, DE, PT, NL, and BE.</li>
+								<li><strong>Branch Congestion:</strong> Identified thermally-constrained transmission corridors where conductor temperatures approach or exceed rated limits.</li>
+								<li><strong>Conductor Temperatures:</strong> Spatially-resolved temperature maps showing localised hotspots along multi-segment transmission lines.</li>
+								<li><strong>Cross-Border Flows:</strong> Analysed how heatwave-induced congestion affects interconnector utilisation and power exchanges between countries.</li>
+								<li><strong>Sensitivity Analysis:</strong> Systematic sweeps across heatwave years, load-growth rates, battery storage ratios, and thermal limit assumptions.</li>
 							</ul>
-							<!-- <ul class="actions stacked">
-								<li><a href="#datasets" class="button">View Datasets</a></li>
-							</ul> -->
+							<ul class="actions stacked">
+								<li><a href="papers/Heatwave_Impact_on_EU_Grid_Main.pdf" class="button">Read Full Paper</a></li>
+								<li><a href="papers/Heatwave_Impact_on_EU_Grid_Supp.pdf" class="button">Supplementary Material</a></li>
+							</ul>
 						</div>
-						<!-- <div class="image">
-							<img src="images/Framework_2025.png" alt="Methodology Framework" />
-						</div> -->
+						<div class="image">
+							<img src="images/Framework_2025.png" alt="European Grid Analysis Framework" />
+						</div>
 					</section>
 
+
+				<!-- Citation -->
+				<section class="wrapper style1 align-center" id="citation">
+					<div class="inner" style="max-width: 700px;">
+						<h2>Citation</h2>
+						<p>If you find HEAT-Analysis helpful in your research, please consider citing our work:</p>
+						<div class="bibtex-block">@article{heatanalysis2025,
+  title   = {Heatwave Impact on European Electricity Grids:
+             Temperature-Dependent Optimal Power Flow Framework},
+  year    = {2025},
+  url     = {https://github.com/emliang/HEAT-GRID}
+}</div>
+						<br>
+						<ul class="actions" style="justify-content: center;">
+							<li><a href="papers/Heatwave_Impact_on_EU_Grid_Main.pdf" class="button">Download Paper (PDF)</a></li>
+							<li><a href="papers/Heatwave_Impact_on_EU_Grid_Supp.pdf" class="button">Supplementary (PDF)</a></li>
+						</ul>
+					</div>
+				</section>
 
 
 				<!-- Footer -->
 					<footer class="wrapper style1 align-center">
 						<div class="inner">
-							<p>&copy; HEAT-GRID Project. License: CC-BY-4.0 
+							<p>&copy; HEAT-GRID Project. License: <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY-4.0</a>.
 								<br>
-								Designed by <a href="https://html5up.net/">HTML5 UP</a>
+								If you have questions or encounter any issues, please <a href="https://github.com/emliang/HEAT-GRID/issues">open an issue</a> on GitHub.
+								<br>
+								Designed by <a href="https://html5up.net/">HTML5 UP</a>.
 							</p>
 						</div>
 					</footer>
@@ -248,7 +333,6 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
-
 
 	</body>
 </html>

@@ -1,21 +1,22 @@
 /**
  * Heatwave generation results data
+ * TODO: Replace placeholder imageUrl with actual result images
  */
 var heatwaveResultsData = [
     {
-      color: '#ff6600',
-      title: 'Heatwave Visualization 1',
-      description: 'Sequential morphing of heatwave patterns showing temperature gradients across regions.'
+      imageUrl: 'images/results/heatwave_result_1.png',
+      title: 'Heatwave Projection Map',
+      description: 'Projected heatwave temperature anomalies across Europe using bias-corrected delta mapping from 2019/2022/2024 historical extremes.'
     },
     {
-      color: '#ff4400',
-      title: 'Heatwave Visualization 2',
-      description: 'Temperature anomaly visualization showing intensity variations during peak heatwave conditions.'
+      imageUrl: 'images/results/heatwave_result_2.png',
+      title: 'Temporal Evolution',
+      description: 'Temporal evolution of morphed heatwave patterns throughout a 7-day extreme event for future scenario (2026-2030).'
     },
     {
-      color: '#ff3300',
-      title: 'Heatwave Visualization 3',
-      description: 'Temporal evolution of morphing heatwave patterns throughout a 7-day extreme event.'
+      imageUrl: 'images/results/heatwave_result_3.png',
+      title: 'Country-Level Comparison',
+      description: 'Comparison of peak temperature distributions across ES, FR, IT, DE, GB under different heatwave projection years.'
     }
   ];
   

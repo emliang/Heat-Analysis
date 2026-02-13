@@ -1,11 +1,43 @@
-numpy==1.25.2
-scipy==1.10.1
-pandas==2.0.3
-matplotlib==3.5.3
-pypsa==0.25.1
-pypsa-eur==0.10.0
-atlite==0.2.11
-pyomo==6.6.1
-pypower==5.1.16
-pypop7==0.0.81
-xarray==2023.8.0
+# =============================================================================
+# HeatAnalysis — Requirements
+# =============================================================================
+
+# --- Core scientific computing ---
+numpy
+pandas
+scipy
+xarray
+netCDF4
+
+# --- Power-system modelling ---
+pypsa
+pypower
+pyomo
+atlite
+
+# --- Optimisation ---
+pypop7                  # SCEM calibration in demand_utils
+
+# --- Geospatial ---
+geopandas
+cartopy
+shapely
+
+# --- Plotting ---
+matplotlib
+seaborn
+
+# --- Climate data access ---
+cdsapi                  # Copernicus CDS API (data download only)
+
+# --- Utilities ---
+holidays
+pytz
+networkx
+pyyaml
+
+# --- NOTE ---
+# IPOPT must be installed separately (not available via pip).
+#   macOS:   brew install ipopt
+#   Ubuntu:  sudo apt install coinor-libipopt-dev
+#   Conda:   conda install -c conda-forge ipopt
