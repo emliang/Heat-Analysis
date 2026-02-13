@@ -33,7 +33,7 @@ Climate change is increasing the frequency, intensity, and duration of [**heatwa
 - **Degraded transmission capacity** — overhead conductors heat up, increasing resistance and sagging, which forces operators to reduce power flow to maintain safety clearances.
 
 <p align="center">
-  <img src="images/temperature.png" width="700" /><br>
+  <img src="webpage/images/temperature.png" width="700" /><br>
   <em>European summer (JJA) temperature anomalies relative to 1991-2020 baseline.
   Credit: <a href="https://climate.copernicus.eu/european-heatwave-july-2023-longer-term-context">C3S/ECMWF/KNMI</a></em>
 </p>
@@ -41,7 +41,7 @@ Climate change is increasing the frequency, intensity, and duration of [**heatwa
 Understanding these compounding effects is essential for enhancing grid resilience. This framework provides a **quantitative, physics-based assessment** of heatwave impacts on European power systems, from projected weather scenarios all the way to optimal power flow analysis.
 
 <p align="center">
-  <img src="images/heatwave.png" width="550" /><br>
+  <img src="webpage/images/heatwave.png" width="550" /><br>
   <em>European surface temperature during a major heatwave event.
   Credit: <a href="https://www.cpc.ncep.noaa.gov/">NOAA Climate Prediction Center</a></em>
 </p>
@@ -53,7 +53,7 @@ Understanding these compounding effects is essential for enhancing grid resilien
 The framework integrates **climate projections**, **thermal modeling**, and **power system optimisation** into a unified simulation pipeline:
 
 <p align="center">
-  <img src="images/framework_update_2025.png" width="800" /><br>
+  <img src="webpage/images/framework_update_2025.png" width="800" /><br>
   <em>Overview of the HeatAnalysis framework: heatwaves simultaneously reduce transmission capacity (left),
   increase cooling demand, derate generators, and alter renewable output (right).</em>
 </p>
@@ -73,7 +73,7 @@ The key methodological components are:
 The iterative TD-ACOPF solver alternates between the AC-OPF solution (which determines branch currents) and the heat-balance equation (which determines conductor temperatures), updating network parameters at each step:
 
 <p align="center">
-  <img src="images/opf_analysis.png" width="800" /><br>
+  <img src="webpage/images/opf_analysis.png" width="800" /><br>
   <em>Iterative TD-ACOPF workflow: projected heatwave snapshots (left) are fed into the OPF ↔ heat-flow
   iteration loop (centre), producing spatially-resolved congestion and load-shedding maps (right).</em>
 </p>
