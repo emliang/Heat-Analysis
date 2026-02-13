@@ -87,9 +87,12 @@
 			}
 			/* Reduce gap between stacked images */
 			.spotlight .image[style*="flex-direction: column"] {
-				gap: 0.5rem !important;
-				padding-top: 0.5rem;
-				padding-bottom: 0.5rem;
+				gap: 0 !important;
+				padding: 0 1rem !important;
+			}
+			.spotlight .image[style*="flex-direction: column"] img {
+				margin: 0;
+				padding: 0;
 			}
 			/* Banner image should remain edge-to-edge */
 			.banner .image {
@@ -191,15 +194,15 @@
 						<div class="content">
 							<h2>Methodology</h2>
 							<p>The framework integrates <strong>climate projections</strong>, <strong>thermal engineering</strong>, and <strong>power system optimisation</strong> into a unified pipeline.</p>
-							<h3>Modelling</h3>
-							<p>Projected heatwave scenarios are generated via bias-corrected delta mapping from historical extremes onto CMIP6 projections. Weather-driven demand (BAIT model), renewable capacity factors (<a href="https://github.com/PyPSA/atlite">Atlite</a>), and generator derating curves translate these scenarios into grid-level inputs. Conductor temperatures are resolved per line segment using the IEEE 738-2012 heat-balance equation.</p>
-							<h3>Algorithm</h3>
-							<p>The <strong>Temperature-Dependent ACOPF</strong> (TD-ACOPF) iteratively couples two sub-problems: (1) a full AC optimal power flow (Pyomo/IPOPT) that determines branch currents and dispatch, and (2) a heat-balance update that recomputes conductor temperatures and line resistance. The loop repeats until the resistance&ndash;temperature feedback converges, capturing the nonlinear coupling between electrical loading and thermal state that conventional OPF ignores.</p>
+							<!-- <h3>Modelling</h3> -->
+							<p><strong>Modelling:</strong> Projected heatwave scenarios are generated via bias-corrected delta mapping from historical extremes onto CMIP6 projections. Weather-driven demand (BAIT model), renewable capacity factors (<a href="https://github.com/PyPSA/atlite">Atlite</a>), and generator derating curves translate these scenarios into grid-level inputs. Conductor temperatures are resolved per line segment using the IEEE 738-2012 heat-balance equation.</p>
+							<!-- <h3>Algorithm</h3> -->
+							<p><strong>Algorithm:</strong> The Temperature-Dependent ACOPF (TD-ACOPF) iteratively couples two sub-problems: (1) a full AC optimal power flow (Pyomo/IPOPT) that determines branch currents and dispatch, and (2) a heat-balance update that recomputes conductor temperatures and line resistance. The loop repeats until the resistance&ndash;temperature feedback converges, capturing the nonlinear coupling between electrical loading and thermal state that conventional OPF ignores.</p>
 						</div>
-						<div class="image" style="flex-direction: column; gap: 0.1rem;">
-							<img src="images/modeling.png" alt="HeatAnalysis Modelling Framework" />
-							<img src="images/opf_analysis.png" alt="TD-ACOPF Algorithm Workflow" />
-						</div>
+					<div class="image" style="flex-direction: column; gap: 0; justify-content: center;">
+						<img src="images/modeling.png" alt="HeatAnalysis Modelling Framework" style="margin: 0; padding: 0;" />
+						<img src="images/opf_analysis.png" alt="TD-ACOPF Algorithm Workflow" style="margin: 0; padding: 0;" />
+					</div>
 					</section>
 
 
