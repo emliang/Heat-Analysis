@@ -9,8 +9,10 @@
     <a href="https://github.com/PyPSA/pypsa-eur"><img src="https://img.shields.io/badge/built%20on-PyPSA--Eur-orange" alt="PyPSA-Eur"></a>
     <a href="https://coin-or.github.io/Ipopt/"><img src="https://img.shields.io/badge/solver-IPOPT-red" alt="IPOPT"></a>
     <a href="https://standards.ieee.org/ieee/738/6228/"><img src="https://img.shields.io/badge/standard-IEEE%20738--2012-lightblue" alt="IEEE 738"></a>
+    <a href="https://emliang.github.io/Heat-Analysis/"><img src="https://img.shields.io/badge/Project-Page-blue?logo=github" alt="Project Page"></a>
   </p>
   <p align="center">
+    <a href="https://emliang.github.io/Heat-Analysis/">Project Page</a> &nbsp;|&nbsp;
     <a href="#-background">Background</a> &nbsp;|&nbsp;
     <a href="#-methodology">Methodology</a> &nbsp;|&nbsp;
     <a href="#-key-features">Features</a> &nbsp;|&nbsp;
