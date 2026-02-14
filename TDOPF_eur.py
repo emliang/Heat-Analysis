@@ -1016,10 +1016,10 @@ def main(country_code='ES'):
 if __name__ == "__main__":
     # Single-country runs
     # small: 'PT', 'NL', 'BE'  |  mid: 'IT', 'ES', 'GB'  |  large: 'FR', 'DE'
-    for country_code in ['ES', 'IT', 'FR', 'PT', 'NL', 'BE', 'GB', 'DE']:
+    for country_code in ['ES']:
         main(country_code)
 
     # Multi-country (cross-border) runs
-    for country_list in [['ES', 'PT'], ['ES', 'FR'], ['FR', 'ES'],
-                         ['FR', 'IT'], ['FR', 'GB'], ['FR', 'DE']]:
-        main(country_list)
+    # for country_list in [['ES', 'PT'], ['ES', 'FR'], ['FR', 'ES'],
+    #                      ['FR', 'IT'], ['FR', 'GB'], ['FR', 'DE']]:
+    #     main(country_list)
