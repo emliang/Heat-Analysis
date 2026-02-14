@@ -220,34 +220,34 @@
 							<div class="items style1 medium onscroll-fade-in">
 
 								<section>
-									<span class="icon solid style2 major fa-temperature-high"></span>
-									<h3>Heatwave Generation</h3>
-									<div style="display: flex; justify-content: center; gap: 1.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem">
-									  <a href="#" class="button small" onclick="event.preventDefault();">Code (TBD)</a>
+								<span class="icon solid style2 major fa-temperature-high"></span>
+								<h3>Heatwave Generation</h3>
+								<div style="display: flex; justify-content: center; gap: 1.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem">
+								  <a href="https://github.com/emliang/Heat-Analysis/blob/main/scripts/3.test_creat_heatwaves.ipynb" class="button small">Code</a>
 									  <a onclick="showHeatwaveResults()" class="button small">Results</a>
 									</div>
 									<p>Bias-corrected delta mapping approach for projecting future heatwave scenarios from historical extreme events.</p>
 								</section>
 								<section>
-									<span class="icon solid style2 major fa-chart-line"></span>
-									<h3>Demand Calibration</h3>
-									<div style="display: flex; justify-content: center; gap: 1.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem">
-										<a href="#" class="button small" onclick="event.preventDefault();">Code (TBD)</a>
+								<span class="icon solid style2 major fa-chart-line"></span>
+								<h3>Demand Calibration</h3>
+								<div style="display: flex; justify-content: center; gap: 1.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem">
+									<a href="https://github.com/emliang/Heat-Analysis/blob/main/scripts/2.test_demand_calibration.ipynb" class="button small">Code</a>
 										<a onclick="showDemandResults()" class="button small">Results</a>
 									</div>
 									<p>BAIT thermal-comfort demand model calibrated per country using SCEM optimisation against ENTSO-E data.</p>
 								</section>
 								<section>
-									<span class="icon solid style2 major fa-balance-scale"></span>
-									<h3>Conductor Thermal Model</h3>
-									<div style="display: flex; justify-content: center; gap: 1.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem">
-										<a href="#" class="button small" onclick="event.preventDefault();">Code (TBD)</a>
+								<span class="icon solid style2 major fa-balance-scale"></span>
+								<h3>Conductor Thermal Model</h3>
+								<div style="display: flex; justify-content: center; gap: 1.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem">
+									<a href="https://github.com/emliang/Heat-Analysis/blob/main/scripts/4.test_solve_heat_balance.ipynb" class="button small">Code</a>
 										<a onclick="showThermalResults()" class="button small">Results</a>
 									</div>
 									<p>IEEE 738-2012 heat-balance equation for computing steady-state conductor temperatures and dynamic line ratings.</p>
 								</section>
 
-								<section>
+								<!-- <section>
 									<span class="icon solid style2 major fa-cogs"></span>
 									<h3>TD-AC-OPF Solving</h3>
 									<div style="display: flex; justify-content: center; gap: 1.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem">
@@ -265,7 +265,7 @@
 										<a onclick="showIEEEResults()" class="button small">Results</a>
 									</div>
 									<p>Validation on the IEEE 30-bus test system with synthetic heatwave data to demonstrate the TD-ACOPF methodology.</p>
-								</section>
+								</section> -->
 							</div>
 						</div>
 					</section>
@@ -283,10 +283,10 @@
 								<li><strong>Cross-Border Flows:</strong> Analysed how heatwave-induced congestion affects interconnector utilisation and power exchanges between countries.</li>
 								<li><strong>Sensitivity Analysis:</strong> Systematic sweeps across heatwave years, load-growth rates, battery storage ratios, and thermal limit assumptions.</li>
 							</ul>
-							<ul class="actions stacked">
+							<!-- <ul class="actions stacked">
 								<li><a href="papers/Heatwave_Impact_on_EU_Grid_Main.pdf" class="button">Read Full Paper</a></li>
 								<li><a href="papers/Heatwave_Impact_on_EU_Grid_Supp.pdf" class="button">Supplementary Material</a></li>
-							</ul>
+							</ul> -->
 						</div>
 						<div class="image">
 							<img src="images/Framework_2025.png" alt="European Grid Analysis Framework" />
@@ -298,12 +298,11 @@
 				<section class="wrapper style1 align-center" id="citation">
 					<div class="inner" style="max-width: 700px;">
 						<h2>Citation</h2>
-						<p>If you find HEAT-Analysis helpful in your research, please consider citing our work:</p>
+						<p>If you find it helpful in your research, please consider citing our work:</p>
 						<div class="bibtex-block">@article{heatanalysis2025,
-  title   = {Heatwave Impact on European Electricity Grids:
-             Temperature-Dependent Optimal Power Flow Framework},
-  year    = {2025},
-  url     = {https://github.com/emliang/HEAT-GRID}
+  title   = {European Electricity Grids May Exhibit Heatwave-induced Capacity Bottlenecks},
+  author  = {Liang, Enming and Chen, Minghua and Keshav, Srinivasan},
+  year    = {2025}
 }</div>
 						<br>
 						<ul class="actions" style="justify-content: center;">
