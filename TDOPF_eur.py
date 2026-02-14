@@ -942,8 +942,9 @@ def main(country_code='ES'):
     args['parallel_mode'] = False
 
     # --- Load network ---
-    network, _ = load_network_EU(country_code, RATIO)
-    nbus = network.buses.shape[0]
+    # network, _ = load_network_EU(country_code, RATIO)
+    # nbus = network.buses.shape[0]
+    nbus = country_bus[country_code]
 
     if isinstance(country_code, list):
         # ---- Multi-country: load-growth sensitivity ----
