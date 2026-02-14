@@ -15,9 +15,9 @@
     <a href="https://emliang.github.io/Heat-Analysis/">Project Page</a> &nbsp;|&nbsp;
     <a href="#-background">Background</a> &nbsp;|&nbsp;
     <a href="#-methodology">Methodology</a> &nbsp;|&nbsp;
-    <a href="#-key-features">Features</a> &nbsp;|&nbsp;
+    <a href="#-data-sources--flow">Data</a> &nbsp;|&nbsp;
     <a href="#-workflow">Workflow</a> &nbsp;|&nbsp;
-    <a href="#-installation">Installation</a> &nbsp;|&nbsp;
+    <a href="#-quick-start">Quick Start</a> &nbsp;|&nbsp;
     <a href="#-citation">Citation</a>
   </p>
 </p>
@@ -79,7 +79,7 @@ The iterative TD-ACOPF solver alternates between the AC-OPF solution (which dete
 </p>
 
 ---
-
+<!-- 
 ## ✨ Key Features
 
 | Feature | Description |
@@ -92,202 +92,111 @@ The iterative TD-ACOPF solver alternates between the AC-OPF solution (which dete
 | **Multi-Country Networks** | Supports PyPSA-Eur networks (ES, FR, IT, GB, DE, PT, NL, BE) and IEEE 30-bus benchmarks |
 | **Parallel Simulation** | Multiprocessing support for large-scale sensitivity sweeps across heatwave years, load-growth rates, storage ratios, and thermal limits |
 
----
+--- -->
 
 ## 📁 Project Structure
 
 ```
 HeatAnalysis/
-│
-├── .github/workflows/deploy.yml  # GitHub Pages deployment
-├── .gitignore                    # Excludes data/, models/, .DS_Store, etc.
-├── LICENSE
-├── README.md
-├── requirements.txt
-│
-├── src/                          # Core source code (to be added)
-│   ├── TDOPF_eur.py              #   European TD-ACOPF pipeline
-│   ├── TDOPF_ieee.py             #   IEEE test-system TD-OPF analysis
-│   ├── data_config.py            #   Project-wide paths, constants, and parameters
-│   └── utils/                    #   Library modules
-│       ├── heat_flow_utils.py    #     IEEE 738 heat-balance & ampacity calculations
-│       ├── opf_pyomo_utils.py    #     ACOPF solver (Pyomo/IPOPT)
-│       ├── network_process_utils.py  # Network loading, segmentation, PyPSA→PyPower
-│       ├── demand_utils.py       #     BAIT demand model & SCEM calibration
-│       ├── heatwave_utils.py     #     Heatwave scenario generation & bias correction
-│       ├── country_network_filter.py # Country-level PyPSA network filtering
-│       └── plot_utils.py         #     Shared plotting and visualisation helpers
-│
-├── scripts/                      # Data-processing & calibration scripts
-│   ├── 0.process_weather_data.ipynb        # Process weather data
-│   ├── 1.test_creat_heatwaves.ipynb        # Visualise generated heatwave scenarios
-│   └── ... (more scripts to be added)
-│
-├── vis/                          # Result visualisation notebooks (to be added)
-│
-├── webpage/                      # Project website (GitHub Pages deploys this directory)
-│   ├── index.html
-│   ├── assets/
-│   ├── images/
-│   └── papers/                   # PDF papers (sole copy in repo)
-│
-├── data/                         # Input data (⚠ not tracked in git — local only)
-│   ├── EU/                       #   PyPSA-Eur network files & region shapes
-│   ├── era5/                     #   ERA5 reanalysis weather data
-│   ├── entsoe/                   #   ENTSO-E hourly demand data
-│   └── ieee_data/                #   IEEE 30-bus MATPOWER case files
-│
-└── models/                       # Intermediate & output data (⚠ not tracked in git)
-    ├── {country_code}/           #   Per-country simulation results & profiles
-    ├── demand_curve/             #   Calibrated demand-model parameters
-    ├── heatwave/                 #   Generated heatwave scenarios
-    └── IEEE30/                   #   IEEE 30-bus results
+├── TDOPF_eur.py / TDOPF_ieee.py   # TD-ACOPF entry points (European / IEEE)
+├── data_config.py                  # All paths, constants, and parameters
+├── utils/                          # Library modules (heat flow, OPF, demand, …)
+├── scripts/                        # Data download, calibration, profile building
+├── vis/                            # Result visualisation notebooks
+├── data/                           # Input data  
+└── models/                         # Outputs & intermediates 
 ```
 
 ---
 
-## 📊 Data Sources
+## 📊 Data Sources & Flow
 
-| Data | Description |
-|------|-------------|
-| [PyPSA-Eur](https://pypsa-eur.readthedocs.io/) | Open-source European transmission network model |
-| [ERA5](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-pressure-levels) | Historical hourly global climate reanalysis from ECMWF |
-| [C3S Energy](https://cds.climate.copernicus.eu/datasets/sis-energy-derived-projections) | Future climate projections for energy applications |
-| [ENTSO-E](https://www.entsoe.eu/data/power-stats/) | Historical hourly country-level power demand data |
-| [Atlite](https://github.com/PyPSA/atlite) | Weather-driven renewable generation model |
+| Source | Used for |
+|--------|----------|
+| [ERA5](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-pressure-levels) | Hourly weather reanalysis (temperature, wind, radiation) |
+| [EURO-CORDEX RCP 4.5](https://cds.climate.copernicus.eu/datasets/sis-energy-derived-projections) | Future climate projections for heatwave generation |
+| [ENTSO-E](https://www.entsoe.eu/data/power-stats/) | Historical hourly country-level electricity demand |
+| [PyPSA-Eur](https://pypsa-eur.readthedocs.io/) | European transmission network, bus regions, exclusion rasters |
+| [Atlite](https://github.com/PyPSA/atlite) | Weather-driven renewable capacity factor calculation |
+
+```
+ERA5 + RCP 4.5 + ENTSO-E + PyPSA-Eur
+          │
+          ├─► Demand calibration     ──► demand curves
+          ├─► Heatwave generation    ──► future weather scenarios
+          ├─► Renewable profiles     ──► solar / wind capacity factors
+          │
+          └─► TD-ACOPF  ──► congestion, load-shedding, thermal maps
+                              (TDOPF_eur.py / TDOPF_ieee.py)
+```
+
+> Full file-level inventory: [`DATA_INPUT_SUMMARY.md`](DATA_INPUT_SUMMARY.md)
 
 ---
+
 
 ## 🔄 Workflow
 
-The analysis pipeline follows **seven stages** from raw data to publication-quality figures:
+**Quick run** — 
 
-```
-┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐
-│ Stage 0  │───▶│ Stage 1  │───▶│ Stage 2  │───▶│ Stage 3  │───▶│ Stage 4  │───▶│ Stage 5  │───▶│ Stage 6  │
-│   Data   │    │ Weather  │    │  Demand  │    │ Heatwave │    │  Build   │    │ TD-ACOPF │    │  Result  │
-│ Download │    │ Process  │    │  Calib.  │    │ Scenario │    │ Profiles │    │  Solver  │    │   Vis.   │
-└──────────┘    └──────────┘    └──────────┘    └──────────┘    └──────────┘    └──────────┘    └──────────┘
+Simple benchmark without external data or preparation
+```bash
+python TDOPF_ieee.py         # IEEE 30-bus benchmark
 ```
 
-### Stage 0 — Data Acquisition
+## 🛠 Quick Start
 
-Download ERA5 reanalysis and climate projection data from the Copernicus Climate Data Store.
+**All data required to run the project** is available on Google Drive :
+
+> **[Download from Google Drive](https://drive.google.com/drive/folders/1SJmglPiEMTw--xggqzeiSjmKBCI17cnK)** (so you can skip Stages 0–4)
+>
+> The shared folder contains:
+> - **Weather data** — ERA5 hourly & daily reanalysis, RCP 4.5 climate projections, elevation grid
+> - **Simulation data** — pre-built heatwave scenarios and renewable capacity factors 
+> - **PyPSA-Eur data** — network snapshots, bus regions, exclusion rasters, and config
+
+After downloading:
+1. Set `EXTERNAL` in [`data_config.py`](data_config.py) to the folder (e.g., WeatherData) containing `era5/`, `rcp45/`, and `elevation.nc`.
+2. Copy the pre-built country folders (e.g. `ES/`, `FR/`, `GB/`, …) into `models/` — each contains `simu_data/` (demand & weather profiles) and `weather/` (renewable capacity factors) so you can run TD-ACOPF directly.
 
 ```bash
-# Interactive (notebook)
-jupyter notebook scripts/0.download_weather_data.ipynb
-
-# Or use the concurrent downloader
-python scripts/concurrent_download.py
-```
-
-### Stage 1 — Weather & Demand Processing
-
-Extract country-level weather slices, compute derived variables (humidity, wind components), and prepare ENTSO-E hourly demand time-series.
-
-```bash
-jupyter notebook scripts/1.process_weather_profile.ipynb
-```
-
-### Stage 2 — Demand-Model Calibration
-
-Calibrate the BAIT thermal-comfort demand model per country using SCEM optimisation, fitting temperature-demand relationships to historical ENTSO-E data.
-
-```bash
-python scripts/main_demand_calibration.py
-
-# Visualise results:
-jupyter notebook scripts/2.test_demand_calibration.ipynb
-```
-
-### Stage 3 — Heatwave Scenario Generation
-
-Construct future heatwave scenarios (2026-2030) by applying bias-corrected delta mapping from historical extreme events (2019, 2022, 2024) onto climate projections.
-
-```bash
-python scripts/main_heatwaves_generation.py
-
-# Visualise results:
-jupyter notebook scripts/3.test_creat_heatwaves.ipynb
-```
-
-### Stage 4 — Build Simulation Profiles
-
-Assemble simulation-ready inputs: weather profiles (temperature, wind, solar), demand profiles, and renewable capacity factors per bus and timestep.
-
-```bash
-python scripts/main_build_simulation_profile.py
-```
-
-### Stage 5 — Run TD-ACOPF
-
-Execute the temperature-dependent ACOPF analysis across countries, heatwave scenarios, and sensitivity parameters.
-
-```bash
-# European networks (single or multi-country)
-python src/TDOPF_eur.py
-
-# IEEE 30-bus benchmark
-python src/TDOPF_ieee.py
-```
-
-### Stage 6 — Result Visualisation
-
-Analyse and visualise simulation results using the dedicated notebooks in [`vis/`](vis/). These produce publication-quality figures for load-shedding maps, branch congestion, conductor temperature distributions, and cross-border flow analysis.
-
-```bash
-# Open any visualisation notebook, e.g.:
-jupyter notebook vis/2.eur_single_analysis.ipynb
-```
-
-| Notebook | Description |
-|----------|-------------|
-| [`1.Spain_grid_example.ipynb`](vis/1.Spain_grid_example.ipynb) | Illustrative grid overlay on geographic map |
-| [`2.eur_single_analysis.ipynb`](vis/2.eur_single_analysis.ipynb) | Single-country load-shedding, congestion, and thermal analysis |
-| [`3.eur_multi_analysis.ipynb`](vis/3.eur_multi_analysis.ipynb) | Cross-border flow and multi-country comparison |
-| [`4.grid_simu_vis.ipynb`](vis/4.grid_simu_vis.ipynb) | Spatial network-level simulation maps |
-| [`5.ieee_simu_vis.ipynb`](vis/5.ieee_simu_vis.ipynb) | IEEE 30-bus case study figures |
-
----
-
-## 🛠 Installation
-
-### Prerequisites
-
-| Requirement | Note |
-|-------------|------|
-| **Python** | >= 3.9 |
-| **[IPOPT](https://coin-or.github.io/Ipopt/)** | Non-linear solver required by Pyomo |
-| **[CDS API key](https://cds.climate.copernicus.eu/how-to-api)** | Only needed for data download (Stage 0) |
-
-### Quick Start
-
-```bash
-# 1. Clone the repository
+# 1. Clone & install
 git clone https://github.com/<your-username>/HeatAnalysis.git
 cd HeatAnalysis
-
-# 2. Create a virtual environment (recommended)
-conda create -n heatanalysis python=3.11
-conda activate heatanalysis
-
-# 3. Install Python dependencies
+conda create -n heatanalysis python=3.11 && conda activate heatanalysis
 pip install -r requirements.txt
 
-# 4. Install IPOPT solver (pick one)
+# 2. Install IPOPT solver (pick one)
 brew install ipopt                       # macOS
 sudo apt install coinor-libipopt-dev     # Ubuntu/Debian
 conda install -c conda-forge ipopt       # Conda (any OS)
+
+# 3. Run
+python TDOPF_eur.py          # European networks
+python TDOPF_ieee.py         # IEEE 30-bus benchmark
 ```
 
-### Data Setup
-
-1. Obtain a PyPSA-Eur base network (see [PyPSA-Eur docs](https://pypsa-eur.readthedocs.io/)) and place files under `data/EU/`.
-2. Download ENTSO-E hourly demand data from the [Transparency Platform](https://transparency.entsoe.eu/) into `data/entsoe/`.
-3. Configure local data paths in `src/data_config.py` to match your directory layout.
+> Detailed file inventory: [`DATA_INPUT_SUMMARY.md`](DATA_INPUT_SUMMARY.md) &
+> [`data_config.py`](data_config.py).
 
 ---
+
+
+**Full pipeline** — from raw data to figures:
+
+| Stage | What | Command |
+|:-----:|------|---------|
+| 0 | Download weather data | `jupyter notebook scripts/0.download_weather_data.ipynb` |
+| 1 | Process weather profiles | `jupyter notebook scripts/1.process_weather_profile.ipynb` |
+| 2 | Calibrate demand model | `python scripts/main_demand_calibration.py` |
+| 3 | Generate heatwave scenarios | `python scripts/main_heatwaves_generation.py` |
+| 4 | Build simulation profiles | `python scripts/main_build_simulation_profile.py` |
+| 5 | **Run TD-ACOPF** | `python TDOPF_eur.py` / `python TDOPF_ieee.py` |
+| 6 | Visualise results | Notebooks in [`vis/`](vis/) (single-country, multi-country, IEEE) |
+
+---
+
+
 
 <!-- ## ⚡ Analysis Modes
 
@@ -332,11 +241,10 @@ You are free to **share** and **adapt** the material for any purpose, provided y
 If you find HeatAnalysis helpful in your research, please consider citing:
 
 ```bibtex
-@software{heatanalysis2025,
-  title   = {HeatAnalysis: Temperature-Dependent Optimal Power Flow
-             under Heatwave Scenarios},
-  year    = {2025},
-  url     = {https://github.com/<your-username>/HeatAnalysis}
+@article{heatanalysis2025,
+  title   = {European Electricity Grids May Exhibit Heatwave-induced Capacity Bottlenecks},
+  author  = {Liang, Enming and Chen, Minghua and Keshav, Srinivasan},
+  year    = {2025}
 }
 ```
 
