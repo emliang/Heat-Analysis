@@ -206,69 +206,33 @@
 					</section>
 
 
-				<!-- Demos Section -->
-				<script src="assets/js/viewer.js"></script>
-				<script src="assets/demo_results/demo1.js"></script>
-				<script src="assets/demo_results/demo2.js"></script>
-				<script src="assets/demo_results/demo3.js"></script>
-				<script src="assets/demo_results/demo4.js"></script>
-				<script src="assets/demo_results/demo5.js"></script>
-					<section class="wrapper style1 align-center" id="demos">
-						<div class="inner">
-							<h2>Demos</h2>
-							<p class="major">Explore demonstrations showcasing key components of our methodology and results.</p>
-							<div class="items style1 medium onscroll-fade-in">
-
-								<section>
+			<!-- Demos Section -->
+				<section class="wrapper style1 align-center" id="demos">
+					<div class="inner">
+						<h2>Demos</h2>
+						<p class="major">Explore interactive notebooks showcasing key components of our methodology and results.</p>
+						<div class="items style1 medium onscroll-fade-in">
+							<section>
 								<span class="icon solid style2 major fa-temperature-high"></span>
 								<h3>Heatwave Generation</h3>
-								<div style="display: flex; justify-content: center; gap: 1.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem">
-								  <a href="https://github.com/emliang/Heat-Analysis/blob/main/scripts/3.test_creat_heatwaves.ipynb" class="button small">Code</a>
-									  <a onclick="showHeatwaveResults()" class="button small">Results</a>
-									</div>
-									<p>Bias-corrected delta mapping approach for projecting future heatwave scenarios from historical extreme events.</p>
-								</section>
-								<section>
+								<p>Bias-corrected delta mapping approach for projecting future heatwave scenarios from historical extreme events.</p>
+								<a href="https://github.com/emliang/Heat-Analysis/blob/main/scripts/3.test_creat_heatwaves.ipynb" class="button small">View Notebook</a>
+							</section>
+							<section>
 								<span class="icon solid style2 major fa-chart-line"></span>
 								<h3>Demand Calibration</h3>
-								<div style="display: flex; justify-content: center; gap: 1.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem">
-									<a href="https://github.com/emliang/Heat-Analysis/blob/main/scripts/2.test_demand_calibration.ipynb" class="button small">Code</a>
-										<a onclick="showDemandResults()" class="button small">Results</a>
-									</div>
-									<p>BAIT thermal-comfort demand model calibrated per country using SCEM optimisation against ENTSO-E data.</p>
-								</section>
-								<section>
+								<p>BAIT thermal-comfort demand model calibrated per country using SCEM optimisation. (methods are based on <a href="https://www.nature.com/articles/s41560-023-01341-5">Demand.ninja</a>).</p>
+								<a href="https://github.com/emliang/Heat-Analysis/blob/main/scripts/2.test_demand_calibration.ipynb" class="button small">View Notebook</a>
+							</section>
+							<section>
 								<span class="icon solid style2 major fa-balance-scale"></span>
-								<h3>Conductor Thermal Model</h3>
-								<div style="display: flex; justify-content: center; gap: 1.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem">
-									<a href="https://github.com/emliang/Heat-Analysis/blob/main/scripts/4.test_solve_heat_balance.ipynb" class="button small">Code</a>
-										<a onclick="showThermalResults()" class="button small">Results</a>
-									</div>
-									<p>IEEE 738-2012 heat-balance equation for computing steady-state conductor temperatures and dynamic line ratings.</p>
-								</section>
-
-								<!-- <section>
-									<span class="icon solid style2 major fa-cogs"></span>
-									<h3>TD-AC-OPF Solving</h3>
-									<div style="display: flex; justify-content: center; gap: 1.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem">
-										<a href="#" class="button small" onclick="event.preventDefault();">Code (TBD)</a>
-										<a onclick="showOPFResults()" class="button small">Results</a>
-									</div>
-									<p>Iterative temperature-dependent ACOPF algorithm using Pyomo modelling with IPOPT non-linear solver.</p>
-								</section>
-
-								<section>
-								<span class="icon solid style2 major fa-network-wired"></span>
-									<h3>IEEE Grid Analysis</h3>
-									<div style="display: flex; justify-content: center; gap: 1.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem">
-										<a href="#" class="button small" onclick="event.preventDefault();">Code (TBD)</a>
-										<a onclick="showIEEEResults()" class="button small">Results</a>
-									</div>
-									<p>Validation on the IEEE 30-bus test system with synthetic heatwave data to demonstrate the TD-ACOPF methodology.</p>
-								</section> -->
-							</div>
+								<h3>Thermal Models</h3>
+								<p>Conductor thermal models are based on the IEEE 738-2012 heat-balance equation. Generator derating curves are also included. </p>
+								<a href="https://github.com/emliang/Heat-Analysis/blob/main/scripts/4.test_solve_heat_balance.ipynb" class="button small">View Notebook</a>
+							</section>
 						</div>
-					</section>
+					</div>
+				</section>
 
 
 				<!-- European Grid Results -->
