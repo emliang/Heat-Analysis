@@ -130,7 +130,7 @@ ERA5 + RCP 4.5 + ENTSO-E + PyPSA-Eur
                               (TDOPF_eur.py / TDOPF_ieee.py)
 ```
 
-> Full file-level inventory: [`DATA_INPUT_SUMMARY.md`](DATA_INPUT_SUMMARY.md)
+> Full file-level inventory: [`DATA_INPUT_SUMMARY.md`](data/DATA_INPUT_SUMMARY.md)
 
 ---
 
@@ -177,7 +177,7 @@ conda install -c conda-forge ipopt       # Conda (any OS)
 python TDOPF_eur.py          # European networks
 ```
 
-> Detailed file inventory: [`DATA_INPUT_SUMMARY.md`](DATA_INPUT_SUMMARY.md) &
+> Detailed file inventory: [`DATA_INPUT_SUMMARY.md`](data/DATA_INPUT_SUMMARY.md) &
 > [`data_config.py`](data_config.py).
 
 ---

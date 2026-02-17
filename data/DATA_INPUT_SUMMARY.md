@@ -1,6 +1,6 @@
 # Data Input Summary
 
-File-level inventory of every data input consumed by the HeatAnalysis pipeline.  Hard-coded constants, calibration parameters, and sweep configurations live in [`data_config.py`](data_config.py) and are **not** repeated here.
+File-level inventory of every data input consumed by the HeatAnalysis pipeline.  Hard-coded constants, calibration parameters, and sweep configurations live in [`data_config.py`](../data_config.py) and are **not** repeated here.
 
 > All paths below are relative to the project root (`HeatAnalysis/`)
 > unless marked as external.
@@ -113,4 +113,4 @@ Produced by Stages 0–4; consumed by the TD-ACOPF solver. Pre-built versions ar
 
 *Paths are relative to `HeatAnalysis/` unless prefixed with `EXTERNAL`.
 Hard-coded constants (conductor specs, weather defaults, sweep parameters,
-analysis modes) are documented in [`data_config.py`](data_config.py).*
+analysis modes) are documented in [`data_config.py`](../data_config.py).*
