@@ -137,6 +137,20 @@ ERA5 + RCP 4.5 + ENTSO-E + PyPSA-Eur
 
 ## 🔄 Workflow
 
+
+Before you start, install dependencies:
+```bash
+pip install -r requirements.txt
+
+# IPOPT must be installed separately (not available via pip).
+# macOS:
+#   brew install ipopt
+# Ubuntu/Debian:
+#   sudo apt install coinor-libipopt-dev
+# Conda:
+#   conda install -c conda-forge ipopt
+```
+
 **Quick run** — 
 
 Simple benchmark without external data or preparation
@@ -184,6 +198,7 @@ python TDOPF_eur.py          # European networks
 
 
 **Full pipeline** — from raw data to figures:
+
 
 | Stage | What | Command |
 |:-----:|------|---------|

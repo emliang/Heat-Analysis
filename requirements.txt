@@ -3,38 +3,38 @@
 # =============================================================================
 
 # --- Core scientific computing ---
-numpy
-pandas
-scipy
-xarray
-netCDF4
+numpy==1.25.2
+pandas==2.0.3
+scipy==1.10.1
+xarray==2024.3.0
+netCDF4==1.6.4
 
 # --- Power-system modelling ---
-pypsa
-pypower
-pyomo
-atlite
+pypsa==0.34.0
+pypower==5.1.16
+pyomo==6.9.2
+atlite==0.4.1
 
 # --- Optimisation ---
-pypop7                  # SCEM calibration in demand_utils
+pypop7==0.0.81           # SCEM calibration in demand_utils
 
 # --- Geospatial ---
-geopandas
-cartopy
-shapely
+geopandas==0.13.2
+cartopy==0.22.0
+shapely==2.0.1
 
 # --- Plotting ---
-matplotlib
-seaborn
+matplotlib==3.10.3
+seaborn==0.12.2
 
 # --- Climate data access ---
-cdsapi                  # Copernicus CDS API (data download only)
+cdsapi==0.7.6           # Copernicus CDS API (data download only)
 
 # --- Utilities ---
-holidays
-pytz
-networkx
-pyyaml
+holidays==0.79
+pytz==2023.3
+networkx==3.1
+pyyaml==6.0
 
 # --- NOTE ---
 # IPOPT must be installed separately (not available via pip).
