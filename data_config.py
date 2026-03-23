@@ -124,8 +124,8 @@ def get_holiday_list(country_code, year):
 #   rcp45/rcp45_3hourly_summer_2019_2024.nc — RCP 4.5 historical baseline
 #   rcp45/rcp45_3hourly_summer_2025_2030.nc — RCP 4.5 future projections
 #   elevation.nc                            — Surface elevation grid
-# Adjust the EXTERNAL directory name as you like
-EXTERNAL = "/Volumes/T9"
+# Copy the `WeatherData/` folder from Google Drive into `data/` in this project.
+EXTERNAL = "data/WeatherData"
 WEATHER_DAILY = EXTERNAL + "/era5/"
 
 

@@ -40,11 +40,11 @@ Climate change is increasing the frequency, intensity, and duration of [**heatwa
 
 Understanding these compounding effects is essential for enhancing grid resilience. This framework provides a **quantitative, physics-based assessment** of heatwave impacts on European power systems, from projected weather scenarios all the way to optimal power flow analysis.
 
-<p align="center">
+<!-- <p align="center">
   <img src="webpage/images/heatwave.png" width="550" /><br>
   <em>European surface temperature during a major heatwave event.
   Credit: <a href="https://www.cpc.ncep.noaa.gov/">NOAA Climate Prediction Center</a></em>
-</p>
+</p> -->
 
 ---
 
@@ -167,13 +167,30 @@ python TDOPF_ieee.py         # IEEE 30-bus benchmark
 > The shared folder contains:
 > - **Weather data** — ERA5 hourly & daily reanalysis, RCP 4.5 climate projections, elevation grid
 > - **Simulation data** — pre-built heatwave scenarios and renewable capacity factors 
-> - **PyPSA-Eur data** — network snapshots, bus regions, exclusion rasters, and config
 > - **EU Gird data** - power grid data derived from pypsa-eur
+> - **PyPSA-Eur data** — config and data bundle (used only in grid and simulation data generation, not in main analysis)
+
 
 After downloading:
-1. Set `EXTERNAL` in [`data_config.py`](data_config.py) to the folder (e.g., WeatherData) containing `era5/`, `rcp45/`, and `elevation.nc`.
-2. Copy the pre-built country folders (e.g. `ES/`, `FR/`, `GB/`, …) into `models/` — each contains `simu_data/` (demand & weather profiles) and `weather/` (renewable capacity factors) 
-3. Copy the pre-built grid data (`networks/`) into `data/EU` as local data.
+1. Copy the `WeatherData/` folder from Google Drive into `data/` in this project.
+2. Copy the pre-built country folders (e.g. `ES/`, `FR/`, `GB/`, ... from `SimuData/` in google drive) into `models/`. 
+3. Copy `networks/` from `EUGrid` in google drive into `data/EU/`.
+
+Expected structure:
+```text
+HeatAnalysis/
+├── models/
+│   ├── ES/
+│   ├── FR/
+│   └── ...
+└── data/
+    ├── WeatherData/
+    │   ├── era5/
+    │   ├── rcp45/
+    │   └── elevation.nc
+    └── EU/
+        └── networks/
+```
 
 ```bash
 # 1. Clone & install
