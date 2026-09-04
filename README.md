@@ -229,6 +229,16 @@ python TDOPF_eur.py          # European networks
 
 ---
 
+## Publication figure source
+
+The [`figure_source/`](figure_source/) directory contains the frozen
+data-to-figure scripts used for the main, Extended Data and Supplementary
+figures in manuscript `NENERGY-24102996D`. Its README maps each submitted
+Source Data package to the corresponding plotting entry point and provides a
+single command for checking all main and Extended Data figure reproductions.
+
+---
+
 
 
 <!-- ## ⚡ Analysis Modes
