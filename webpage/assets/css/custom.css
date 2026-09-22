@@ -193,11 +193,11 @@ h3 {
 
 .hero-image {
   object-fit: cover;
-  object-position: left top;
+  object-position: right top;
 }
 
 .hero-shade {
-  background: rgba(10, 17, 24, 0.6);
+  background: linear-gradient(90deg, rgba(10, 17, 24, 0.65) 0%, rgba(10, 17, 24, 0.58) 60%, rgba(10, 17, 24, 0.25) 100%);
 }
 
 .hero-inner {
