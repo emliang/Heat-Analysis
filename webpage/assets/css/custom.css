@@ -130,12 +130,10 @@ h3 {
 }
 
 .brand-mark {
-  width: 22px;
-  height: 22px;
-  border: 3px solid #fff;
-  border-top-color: #ef7569;
-  border-right-color: #78b3bd;
-  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  object-fit: contain;
 }
 
 .site-header nav {
@@ -144,8 +142,7 @@ h3 {
   font-size: 0.88rem;
 }
 
-.site-header nav a,
-.header-link {
+.site-header nav a {
   opacity: 0.82;
 }
 
@@ -158,10 +155,15 @@ h3 {
 }
 
 .header-link {
+  display: inline-flex;
+  align-items: center;
   justify-self: end;
-  padding: 0.42rem 0.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.56);
-  background: rgba(255, 255, 255, 0.06);
+  min-height: 38px;
+  padding: 0.44rem 0.95rem;
+  border: 1px solid var(--heat);
+  border-radius: 3px;
+  background: var(--heat);
+  color: #fff;
   font-size: 0.88rem;
   font-weight: 750;
 }
@@ -197,7 +199,7 @@ h3 {
 }
 
 .hero-shade {
-  background: linear-gradient(90deg, rgba(10, 17, 24, 0.65) 0%, rgba(10, 17, 24, 0.58) 60%, rgba(10, 17, 24, 0.25) 100%);
+  background: linear-gradient(90deg, rgba(10, 17, 24, 0.65) 0%, rgba(10, 17, 24, 0.58) 60%, rgba(10, 17, 24, 0.08) 100%);
 }
 
 .hero-inner {
@@ -231,54 +233,11 @@ h3 {
 
 .hero-scope {
   max-width: 760px;
-  margin-bottom: 1.7rem;
+  margin-bottom: 1.2rem;
   padding-left: 0.95rem;
   border-left: 3px solid #ef7569;
   color: #eef2f3;
   font-size: 0.96rem;
-}
-
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-bottom: 1.4rem;
-}
-
-.button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 46px;
-  padding: 0.68rem 1.05rem;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  font-size: 0.88rem;
-  font-weight: 750;
-  text-decoration: none;
-}
-
-.button-primary {
-  background: var(--heat);
-  color: #fff;
-  box-shadow: 0 8px 24px rgba(9, 16, 23, 0.24);
-}
-
-.button-primary:hover,
-.button-primary:focus-visible {
-  background: var(--heat-dark);
-  color: #fff;
-}
-
-.button-secondary {
-  border-color: rgba(255, 255, 255, 0.68);
-  color: #fff;
-}
-
-.button-secondary:hover,
-.button-secondary:focus-visible {
-  border-color: #fff;
-  color: #fff;
 }
 
 .authors {
