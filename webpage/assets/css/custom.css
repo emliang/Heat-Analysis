@@ -193,7 +193,7 @@ h3 {
 
 .hero-image {
   object-fit: cover;
-  object-position: 55% center;
+  object-position: left top;
 }
 
 .hero-shade {
@@ -779,10 +779,6 @@ h3 {
   .hero {
     height: 82svh;
     min-height: 640px;
-  }
-
-  .hero-image {
-    object-position: 64% center;
   }
 
   .hero-inner {
