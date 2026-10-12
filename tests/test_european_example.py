@@ -16,6 +16,13 @@ from scripts.run_european_example import check_bundle, example_settings
 
 
 class EuropeanExampleTests(unittest.TestCase):
+    def test_repository_bundle_is_complete(self):
+        bundle = (Path(__file__).resolve().parents[1] / "data/examples" /
+                  "es_2026-06-23_13_2019-0")
+        manifest = check_bundle(bundle)
+        self.assertEqual(manifest["case"]["country"], "ES")
+        self.assertEqual(len(manifest["files"]), 10)
+
     def make_bundle(self, directory):
         bundle = Path(directory)
         case = {

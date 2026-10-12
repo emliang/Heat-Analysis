@@ -4,7 +4,7 @@
     <b>Heatwave Impact on European Electricity Grids:<br>Temperature-Dependent Optimal Power Flow Framework</b>
   </p>
   <p align="center">
-    <a href="#-quick-start"><img src="https://img.shields.io/badge/python-%3E%3D3.9-blue?logo=python&logoColor=white" alt="Python"></a>
+    <a href="#-quick-start"><img src="https://img.shields.io/badge/python-3.10-blue?logo=python&logoColor=white" alt="Python"></a>
     <a href="LICENSE"><img src="https://img.shields.io/badge/license-CC--BY--4.0-green" alt="License"></a>
     <a href="https://github.com/PyPSA/pypsa-eur"><img src="https://img.shields.io/badge/built%20on-PyPSA--Eur-orange" alt="PyPSA-Eur"></a>
     <a href="https://coin-or.github.io/Ipopt/"><img src="https://img.shields.io/badge/solver-IPOPT-red" alt="IPOPT"></a>
@@ -40,12 +40,6 @@ Climate change is increasing the frequency, intensity, and duration of [**heatwa
 
 Understanding these compounding effects is essential for enhancing grid resilience. This framework provides a **quantitative, physics-based assessment** of heatwave impacts on European power systems, from projected weather scenarios all the way to optimal power flow analysis.
 
-<!-- <p align="center">
-  <img src="webpage/images/heatwave.png" width="550" /><br>
-  <em>European surface temperature during a major heatwave event.
-  Credit: <a href="https://www.cpc.ncep.noaa.gov/">NOAA Climate Prediction Center</a></em>
-</p> -->
-
 ---
 
 ## 🔬 Methodology
@@ -79,25 +73,11 @@ The iterative TD-ACOPF solver alternates between the AC-OPF solution (which dete
 </p>
 
 ---
-<!-- 
-## ✨ Key Features
-
-| Feature | Description |
-|---------|-------------|
-| **IEEE 738 Heat-Balance Model** | Steady-state conductor temperature from convective/radiative cooling and solar/Joule heating, with Bisection/Newton solvers |
-| **Iterative TD-ACOPF** | electricity-temperature feedback loop updating network parameters at each OPF iteration until convergence |
-| **Pyomo / IPOPT Solver** | Full AC power flow with rectangular or polar voltage formulations, N-1 security constraints (AC & linearised LODF), DC lines, storage, and load-shedding |
-| **Generator Derating** | Weather-dependent capacity modeling for thermal, nuclear, and renewable generators |
-| **Heatwave Scenarios** | Bias-corrected future heatwave profiles from ERA5 reanalysis and RCP45 climate projections via delta mapping |
-| **Multi-Country Networks** | Supports PyPSA-Eur networks (ES, FR, IT, GB, DE, PT, NL, BE) and IEEE 30-bus benchmarks |
-| **Parallel Simulation** | Multiprocessing support for large-scale sensitivity sweeps across heatwave years, load-growth rates, storage ratios, and thermal limits |
-
---- -->
 
 ## 📁 Project Structure
 
 ```
-HeatAnalysis/
+Heat-Analysis/
 ├── TDOPF_eur.py / TDOPF_ieee.py   # TD-ACOPF entry points (European / IEEE)
 ├── data_config.py                  # All paths, constants, and parameters
 ├── utils/                          # Library modules (heat flow, OPF, demand, …)
@@ -116,7 +96,7 @@ HeatAnalysis/
 
 | Source | Used for |
 |--------|----------|
-| [ERA5](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-pressure-levels) | Hourly weather reanalysis (temperature, wind, radiation) |
+| [ERA5](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels) | Hourly weather reanalysis (temperature, wind, radiation) |
 | [EURO-CORDEX RCP 4.5](https://cds.climate.copernicus.eu/datasets/sis-energy-derived-projections) | Future climate projections for heatwave generation |
 | [ENTSO-E](https://www.entsoe.eu/data/power-stats/) | Historical hourly country-level electricity demand |
 | [PyPSA-Eur](https://pypsa-eur.readthedocs.io/) | European transmission network, bus regions, exclusion rasters |
@@ -183,13 +163,13 @@ The prepared-input one-hour runner checks a manifest and its file hashes, then
 runs the Spanish 2026-06-23 13:00 example in a separate output directory. It
 uses the represented `s_75` network, the `2019_0` historical heatwave anchor,
 1% annual base-demand growth, 80% initial storage state of charge and the
-two-update temperature-dependent OPF setting. The input bundle is not included
-in this repository; pass its local directory with `--bundle`. This is a
-workflow example, not an archive of the paper's results.
+two-update temperature-dependent OPF setting. The small input bundle is
+included in `data/examples/`, so this test needs no separate data download.
+It is a workflow example, not an archive of the paper's results.
 
 ```bash
-python scripts/run_european_example.py --bundle /path/to/es_2026-06-23_13_2019-0 --check-only
-python scripts/run_european_example.py --bundle /path/to/es_2026-06-23_13_2019-0 --output-dir /path/to/new-run-directory
+python scripts/run_european_example.py --bundle data/examples/es_2026-06-23_13_2019-0 --check-only
+python scripts/run_european_example.py --bundle data/examples/es_2026-06-23_13_2019-0 --output-dir models/runs/european_example
 ```
 
 The run writes `results.csv`, `run_summary.json`, a copy of the checked input
@@ -199,7 +179,8 @@ the PyPSA-Eur source checkout; generating new renewable profiles does.
 
 #### Full prepared-data experiments
 
-The prepared European inputs are available on Google Drive:
+The full prepared European inputs are available on Google Drive separately
+from the bundled one-hour test:
 
 > **[Download from Google Drive](https://drive.google.com/drive/folders/1SJmglPiEMTw--xggqzeiSjmKBCI17cnK)** (to skip the input-generation stages)
 >
@@ -252,6 +233,9 @@ Building new renewable profiles also requires a configured PyPSA-Eur checkout.
 
 **Full European pipeline** — from raw inputs to analysis:
 
+Notebook stages require Jupyter Notebook in the active environment
+(`python -m pip install notebook`); the IEEE check and prepared-input runners
+do not.
 
 | Stage | What | Command |
 |:-----:|------|---------|
@@ -260,7 +244,7 @@ Building new renewable profiles also requires a configured PyPSA-Eur checkout.
 | 2 | Calibrate demand model | `python scripts/main_demand_calibration.py` |
 | 3 | Build heatwave, demand and renewable simulation profiles | `python scripts/main_build_simulation_profile.py` |
 | 4 | Run European TD-ACOPF batch experiments | `python TDOPF_eur.py` |
-| 5 | Analyse saved results | Notebooks in [`vis/`](vis/) |
+| 5 | Analyse saved results | Open the notebooks in [`vis/`](vis/) |
 
 For optional visual inspection of generated weather conditions, run
 `python scripts/main_heatwaves_generation.py`. The publication figure-source
@@ -278,26 +262,6 @@ Source Data package to the corresponding plotting entry point and provides a
 single command for checking all main and Extended Data figure reproductions.
 
 ---
-
-
-
-<!-- ## ⚡ Analysis Modes
-
-The TD-ACOPF supports multiple analysis configurations controlled by a string tag:
-
-| Tag | Thermal Model | Derating | Segmented | Security | Iterations |
-|-----|:---:|:---:|:---:|:---:|:---:|
-| `base` | - | - | - | - | 1 |
-| `td_quad` | Quadratic | - | - | - | 1 |
-| `td_seg_derate_iter_2` | Iterative | Yes | Yes | - | 2 |
-| `td_seg_derate_iter_10` | Iterative | Yes | Yes | - | 10 |
-| `td_derate_iter_2` | Iterative | Yes | - | - | 2 |
-| `td_seg_iter_2` | Iterative | - | Yes | - | 2 |
-| `td_sin_seg_derate_iter_2` | Iterative (single) | Yes | Yes | - | 2 |
-| `base_fixsc` | - | - | - | Fixed (0.7) | 1 |
-| `base_seg_derate` | - | Yes | Yes | - | 1 |
-
---- -->
 
 ## 📚 References
 
