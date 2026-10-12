@@ -61,17 +61,40 @@ def _find_directory(name, max_levels=3):
 
 def get_local_data_path():
     """Return the path to the ``data/`` directory."""
+    configured = os.environ.get("HEATANALYSIS_LOCAL_DATA")
+    if configured:
+        path = os.path.abspath(configured)
+        if not os.path.isdir(path):
+            raise FileNotFoundError(f"HEATANALYSIS_LOCAL_DATA is not a directory: {path}")
+        return path
     return _find_directory("data", max_levels=2)
 
 
 def get_local_model_path():
     """Return the path to the ``models/`` directory."""
+    configured = os.environ.get("HEATANALYSIS_MODELS")
+    if configured:
+        path = os.path.abspath(configured)
+        if not os.path.isdir(path):
+            raise FileNotFoundError(f"HEATANALYSIS_MODELS is not a directory: {path}")
+        return path
     return _find_directory("models", max_levels=3)
 
 
-def get_pypsa_path():
-    """Return the path to the ``pypsa-eur/`` directory."""
-    return _find_directory("pypsa-eur", max_levels=3)
+def get_pypsa_path(required=True):
+    """Return the PyPSA-Eur source path, requiring it only when requested."""
+    configured = os.environ.get("HEATANALYSIS_PYPSA")
+    if configured:
+        path = os.path.abspath(configured)
+        if required and not os.path.isdir(path):
+            raise FileNotFoundError(f"HEATANALYSIS_PYPSA is not a directory: {path}")
+        return path
+    try:
+        return _find_directory("pypsa-eur", max_levels=3)
+    except FileNotFoundError:
+        if required:
+            raise
+        return os.path.join(os.path.dirname(os.path.abspath(__file__)), "pypsa-eur")
 
 
 def get_holiday_list(country_code, year):
@@ -155,7 +178,8 @@ WEATHER_DAILY = EXTERNAL + "/era5/"
 #   data/bundle/GEBCO_2014_2D.nc
 #       GEBCO bathymetry (max depth constraint for offshore wind).
 #
-PYPSA = get_pypsa_path()
+# A prepared-network OPF run does not read the PyPSA-Eur source checkout.
+PYPSA = get_pypsa_path(required=False)
 sys.path.append(PYPSA)
 RESOURCES = os.path.join(PYPSA, "resources")
 DATA = os.path.join(PYPSA, "data")

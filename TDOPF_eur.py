@@ -294,7 +294,7 @@ def prepare_network(network, regions, date, country_code,
     network_load_weather(network, regions, weather_cutout)
 
     # Demand
-    demand_path = (f'models/{country_code}/simu_data/'
+    demand_path = (f'{MODELS}/{country_code}/simu_data/'
                    f'future_demand_data_based_on_historical_hot_event_'
                    f'{heatwave_year}_{heatwave_index}.npy')
     load_demand = np.load(demand_path, allow_pickle=True).item()
@@ -338,7 +338,7 @@ def setup_heatwave_analysis(country_code, args, nbus,
     str
         Path to the results CSV file.
     """
-    record_path = os.path.join('models', f"{country_code}")
+    record_path = os.path.join(MODELS, f"{country_code}")
     os.makedirs(record_path, exist_ok=True)
     os.makedirs(os.path.join(record_path, 'ppc'), exist_ok=True)
 
@@ -563,7 +563,7 @@ def TDACOPF_eur(df, network, country_code, utc_timestamp, args,
     ppc_expr = pypsa_pypower(network, args)
 
     # Output directory
-    ppc_path = f'models/{country_code}/ppc/{utc_timestamp}'
+    ppc_path = f'{MODELS}/{country_code}/ppc/{utc_timestamp}'
     result_file = ppc_path + f'/{expr_id}_results.npy'
     os.makedirs(ppc_path, exist_ok=True)
 
@@ -808,7 +808,7 @@ def run_parallel_simulations(analysis_list, country_code, nbus, args,
     num_future_heat_event = 2
 
     futurel_hot_day_list = np.load(
-        f'models/{country_code}/simu_data/future_hot_dates.npy',
+        f'{MODELS}/{country_code}/simu_data/future_hot_dates.npy',
         allow_pickle=True)
     year_set = set(future_heatwave_year_list)
     month_set = set(future_heatwave_month_list)

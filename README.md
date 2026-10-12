@@ -176,6 +176,28 @@ IPOPT executable.
 
 ### European experiments
 
+The prepared-input one-hour runner checks a manifest and its file hashes, then
+runs the Spanish 2026-06-23 13:00 example in a separate output directory. It
+uses the represented `s_75` network, the `2019_0` historical heatwave anchor,
+1% annual base-demand growth, 80% initial storage state of charge and the
+two-update temperature-dependent OPF setting. The small input bundle remains
+local-only pending redistribution review. These commands apply to an authorised
+copy of that bundle; the example is not an archive of the paper's results.
+
+```bash
+pip install -r requirements.txt
+conda install -c conda-forge ipopt
+python scripts/run_european_example.py --bundle /path/to/es_2026-06-23_13_2019-0 --check-only
+python scripts/run_european_example.py --bundle /path/to/es_2026-06-23_13_2019-0 --output-dir /path/to/new-run-directory
+```
+
+The run writes `results.csv`, `run_summary.json`, a copy of the checked input
+manifest and the solver result file under the chosen directory. The output
+directory must not exist before the run. A prepared-network run does not need
+the PyPSA-Eur source checkout; generating new renewable profiles does.
+
+#### Full prepared-data experiments
+
 The prepared European inputs are available on Google Drive:
 
 > **[Download from Google Drive](https://drive.google.com/drive/folders/1SJmglPiEMTw--xggqzeiSjmKBCI17cnK)** (to skip the input-generation stages)
@@ -218,9 +240,9 @@ Heat-Analysis/
 ```
 
 For the European scripts, install the full `requirements.txt` in the activated
-environment. `TDOPF_eur.py` is currently a batch experiment entry point, not
-a one-scenario quick check. It still expects the configured PyPSA-Eur checkout
-and the prepared input paths described in the file inventory below.
+environment. `TDOPF_eur.py` remains the batch experiment entry point. It
+expects the prepared input paths described in the file inventory below.
+Building new renewable profiles also requires a configured PyPSA-Eur checkout.
 
 > Detailed file inventory: [`DATA_INPUT_SUMMARY.md`](data/DATA_INPUT_SUMMARY.md) &
 > [`data_config.py`](data_config.py).
