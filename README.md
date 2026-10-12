@@ -120,15 +120,20 @@ HeatAnalysis/
 | [Atlite](https://github.com/PyPSA/atlite) | Weather-driven renewable capacity factor calculation |
 
 ```
-ERA5 + RCP 4.5 + ENTSO-E + PyPSA-Eur
-          │
-          ├─► Demand calibration     ──► demand curves
-          ├─► Heatwave generation    ──► future weather scenarios
-          ├─► Renewable profiles     ──► solar / wind capacity factors
-          │
-          └─► TD-ACOPF  ──► congestion, load-shedding, thermal maps
-                              (TDOPF_eur.py / TDOPF_ieee.py)
+Historical weather + demand -> demand calibration -> demand curves
+Weather + demand curves + network -> simulation-ready hourly profiles
+                                       (main_build_simulation_profile.py)
+                                                   |
+                                                   v
+                                    European TD-ACOPF (TDOPF_eur.py)
+                                                   |
+                                                   v
+                                          Results and analysis (vis/)
 ```
+
+`TDOPF_ieee.py` uses the bundled IEEE 30-bus case independently of the
+European data pipeline. `scripts/main_heatwaves_generation.py` produces
+optional weather illustrations; it is not required to build simulation inputs.
 
 > Full file-level inventory: [`DATA_INPUT_SUMMARY.md`](data/DATA_INPUT_SUMMARY.md)
 
@@ -137,38 +142,46 @@ ERA5 + RCP 4.5 + ENTSO-E + PyPSA-Eur
 
 ## 🔄 Workflow
 
-
-Before you start, install dependencies:
-```bash
-pip install -r requirements.txt
-
-# IPOPT must be installed separately (not available via pip).
-# macOS:
-#   brew install ipopt
-# Ubuntu/Debian:
-#   sudo apt install coinor-libipopt-dev
-# Conda:
-#   conda install -c conda-forge ipopt
-```
-
-**Quick run** — 
-
-Simple benchmark without external data or preparation
-```bash
-python TDOPF_ieee.py         # IEEE 30-bus benchmark
-```
+The European workflow runs in this order: prepare weather, demand and network
+inputs; calibrate the demand model; build simulation-ready hourly profiles;
+run TD-ACOPF; then analyse the saved results. The prepared-input download below
+can replace the input-generation stages. The IEEE benchmark is a separate entry
+point and requires no European network or weather files.
 
 ## 🛠 Quick Start
 
-**All data required to run the project** is available on Google Drive :
+### IEEE 30-bus smoke check
 
-> **[Download from Google Drive](https://drive.google.com/drive/folders/1SJmglPiEMTw--xggqzeiSjmKBCI17cnK)** (so you can skip Stages 0–4)
+This check uses the case file included in the repository. It runs one load and
+weather setting in two modes without overwriting the full IEEE sweep output.
+
+```bash
+git clone https://github.com/emliang/Heat-Analysis.git
+cd Heat-Analysis
+conda create -n heatanalysis python=3.11
+conda activate heatanalysis
+pip install -r requirements-ieee.txt
+conda install -c conda-forge ipopt
+python TDOPF_ieee.py --smoke
+```
+
+The check writes `models/IEEE30/30_heatflow_smoke.csv` and individual result
+files under `models/IEEE30/record/heatflow_smoke/`. Running
+`python TDOPF_ieee.py` without `--smoke` retains the full 108-case IEEE sweep
+and writes to separate `heatflow_analysis` files. Both require an available
+IPOPT executable.
+
+### European experiments
+
+The prepared European inputs are available on Google Drive:
+
+> **[Download from Google Drive](https://drive.google.com/drive/folders/1SJmglPiEMTw--xggqzeiSjmKBCI17cnK)** (to skip the input-generation stages)
 >
 > The shared folder contains:
 > - **Weather data** — ERA5 hourly & daily reanalysis, RCP 4.5 climate projections, elevation grid
 > - **Simulation data** — pre-built heatwave scenarios and renewable capacity factors 
-> - **EU Gird data** - power grid data derived from pypsa-eur
-> - **PyPSA-Eur data** — config and data bundle (used only in grid and simulation data generation, not in main analysis)
+> - **EU grid data** — power-grid data derived from PyPSA-Eur
+> - **PyPSA-Eur data** — configuration and data bundle for grid and profile preparation
 
 
 After downloading:
@@ -178,7 +191,7 @@ After downloading:
 
 Expected structure:
 ```text
-HeatAnalysis/
+Heat-Analysis/
 ├── models/
 │   ├── ES/
 │   ├── FR/
@@ -192,21 +205,10 @@ HeatAnalysis/
         └── networks/
 ```
 
-```bash
-# 1. Clone & install
-git clone https://github.com/<your-username>/HeatAnalysis.git
-cd HeatAnalysis
-conda create -n heatanalysis python=3.11 && conda activate heatanalysis
-pip install -r requirements.txt
-
-# 2. Install IPOPT solver (pick one)
-brew install ipopt                       # macOS
-sudo apt install coinor-libipopt-dev     # Ubuntu/Debian
-conda install -c conda-forge ipopt       # Conda (any OS)
-
-# 3. Run
-python TDOPF_eur.py          # European networks
-```
+For the European scripts, install the full `requirements.txt` in the activated
+environment. `TDOPF_eur.py` is currently a batch experiment entry point, not
+a one-scenario quick check. It still expects the configured PyPSA-Eur checkout
+and the prepared input paths described in the file inventory below.
 
 > Detailed file inventory: [`DATA_INPUT_SUMMARY.md`](data/DATA_INPUT_SUMMARY.md) &
 > [`data_config.py`](data_config.py).
@@ -214,7 +216,7 @@ python TDOPF_eur.py          # European networks
 ---
 
 
-**Full pipeline** — from raw data to figures:
+**Full European pipeline** — from raw inputs to analysis:
 
 
 | Stage | What | Command |
@@ -222,10 +224,14 @@ python TDOPF_eur.py          # European networks
 | 0 | Download weather data | `jupyter notebook scripts/0.download_weather_data.ipynb` |
 | 1 | Process weather profiles | `jupyter notebook scripts/1.process_weather_profile.ipynb` |
 | 2 | Calibrate demand model | `python scripts/main_demand_calibration.py` |
-| 3 | Generate heatwave scenarios | `python scripts/main_heatwaves_generation.py` |
-| 4 | Build simulation profiles | `python scripts/main_build_simulation_profile.py` |
-| 5 | **Run TD-ACOPF** | `python TDOPF_eur.py` / `python TDOPF_ieee.py` |
-| 6 | Visualise results | Notebooks in [`vis/`](vis/) (single-country, multi-country, IEEE) |
+| 3 | Build heatwave, demand and renewable simulation profiles | `python scripts/main_build_simulation_profile.py` |
+| 4 | Run European TD-ACOPF batch experiments | `python TDOPF_eur.py` |
+| 5 | Analyse saved results | Notebooks in [`vis/`](vis/) |
+
+For optional visual inspection of generated weather conditions, run
+`python scripts/main_heatwaves_generation.py`. The publication figure-source
+workflow below starts from submitted figure data and is separate from these
+simulation steps.
 
 ---
 

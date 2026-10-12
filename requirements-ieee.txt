@@ -1,0 +1,7 @@
+# IEEE 30-bus benchmark only. Install the IPOPT executable separately.
+numpy==1.25.2
+pandas==2.0.3
+scipy==1.10.1
+networkx==3.1
+pypower==5.1.16
+pyomo==6.9.2

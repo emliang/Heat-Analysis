@@ -17,6 +17,7 @@ Usage:
     python TDOPF_ieee.py
 """
 
+import argparse
 import os
 import re
 import copy
@@ -26,19 +27,40 @@ import numpy as np
 import pandas as pd
 import networkx as nx
 from scipy.io import loadmat
-import matplotlib.pyplot as plt
 
 from pypower import idx_bus, idx_gen, idx_brch
 from pypower.api import ext2int
 
-from utils.opf_pyomo_utils import *
-from utils.heat_flow_utils import *
-from utils.network_process_utils import *
+from utils.opf_pyomo_utils import ACOPF
+from utils.heat_flow_utils import (
+    generator_derating,
+    heat_banlance_equation,
+    maximum_allowable_current,
+    td_resistance,
+)
+
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+LOCAL_DATA = os.path.abspath(os.environ.get(
+    'HEATANALYSIS_LOCAL_DATA', os.path.join(PROJECT_ROOT, 'data')))
+MODELS = os.path.abspath(os.environ.get(
+    'HEATANALYSIS_MODELS', os.path.join(PROJECT_ROOT, 'models')))
 
 
 # =============================================================================
 # Helper Functions — System Initialization
 # =============================================================================
+
+def identify_contingency(ppc):
+    """Select active branches outside a minimum spanning tree."""
+    graph = nx.Graph()
+    graph.add_weighted_edges_from([
+        (int(branch[0]), int(branch[1]), 1)
+        for branch in ppc['branch']
+        if branch[idx_brch.BR_STATUS] == 1
+    ])
+    tree = nx.minimum_spanning_tree(graph)
+    return list(set(graph.edges()) - set(tree.edges()))
+
 
 def initialize_base_values(ppc):
     """Extract and calculate per-unit base values from power system data.
@@ -380,7 +402,7 @@ def TDACOPF(exper_name, df, ppc, conductor, weather, load_ratio,
         DataFrame: Updated *df* with the new experiment row appended.
     """
     # --- Output directory -------------------------------------------------
-    record_path = f'models/IEEE30/record/{exper_name}/'
+    record_path = os.path.join(MODELS, 'IEEE30', 'record', exper_name)
     os.makedirs(record_path, exist_ok=True)
 
     # --- System base values -----------------------------------------------
@@ -494,8 +516,8 @@ def TDACOPF(exper_name, df, ppc, conductor, weather, load_ratio,
 # Script Entry Point
 # =============================================================================
 
-def main():
-    """Run the full TD-OPF experiment sweep on the IEEE 30-bus system.
+def main(smoke=False):
+    """Run the full sweep or a two-mode smoke check on the IEEE 30-bus system.
 
     Default conductor and weather parameters follow IEEE Std 738-2012
     (795 kcmil 26/7 Drake ACSR conductor).
@@ -529,7 +551,10 @@ def main():
 
     # --- Load IEEE 30-bus system ------------------------------------------
     nbus = 30
-    data = loadmat(f'data/ieee_data/casefiles_mat/case_{nbus}.mat')
+    data = loadmat(
+        os.path.join(LOCAL_DATA, 'ieee_data', 'casefiles_mat',
+                     f'case_{nbus}.mat')
+    )
     ppc_mat = data.get('mpc')
 
     ppc = {
@@ -570,9 +595,15 @@ def main():
         'base_fixsc',    # Fixed security-constrained
     ]
 
+    if smoke:
+        load_scenarios = [0.8]
+        weather_scenarios = [(0.61, 25)]
+        analysis_list = ['base', 'td_derate_iter_2']
+        sa_list = []
+
     # --- Run experiment sweep ---------------------------------------------
-    exper_name = 'heatflow_analysis'
-    df_path = f'models/IEEE{nbus}/{nbus}_{exper_name}.csv'
+    exper_name = 'heatflow_smoke' if smoke else 'heatflow_analysis'
+    df_path = os.path.join(MODELS, f'IEEE{nbus}', f'{nbus}_{exper_name}.csv')
     df = pd.DataFrame()
 
     for load in load_scenarios:
@@ -594,4 +625,7 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument('--smoke', action='store_true',
+                        help='Run one IEEE 30-bus setting in two modes')
+    main(smoke=parser.parse_args().smoke)
