@@ -4,7 +4,7 @@
     <b>Heatwave Impact on European Electricity Grids:<br>Temperature-Dependent Optimal Power Flow Framework</b>
   </p>
   <p align="center">
-    <a href="#-installation"><img src="https://img.shields.io/badge/python-%3E%3D3.9-blue?logo=python&logoColor=white" alt="Python"></a>
+    <a href="#-quick-start"><img src="https://img.shields.io/badge/python-%3E%3D3.9-blue?logo=python&logoColor=white" alt="Python"></a>
     <a href="LICENSE"><img src="https://img.shields.io/badge/license-CC--BY--4.0-green" alt="License"></a>
     <a href="https://github.com/PyPSA/pypsa-eur"><img src="https://img.shields.io/badge/built%20on-PyPSA--Eur-orange" alt="PyPSA-Eur"></a>
     <a href="https://coin-or.github.io/Ipopt/"><img src="https://img.shields.io/badge/solver-IPOPT-red" alt="IPOPT"></a>
@@ -68,7 +68,7 @@ The key methodological components are:
 | **Conductor Thermal Model** | IEEE Std 738-2012 heat-balance equation solved per line segment to obtain spatially-resolved conductor temperatures |
 | **Multi-Segment Modelling** | Transmission lines subdivided along the ERA5 grid to capture localised thermal hotspots |
 | **Generator Derating** | Temperature-dependent capacity reduction for conventional generators |
-| **Iterative TD-ACOPF** | Temperature-dependent AC optimal power flow with electricity-temperature feedback loop until convergence |
+| **Iterative TD-ACOPF** | Temperature-dependent AC optimal power flow with electricity-temperature feedback over the configured iterations |
 
 The iterative TD-ACOPF solver alternates between the AC-OPF solution (which determines branch currents) and the heat-balance equation (which determines conductor temperatures), updating network parameters at each step:
 
@@ -102,9 +102,12 @@ HeatAnalysis/
 ├── data_config.py                  # All paths, constants, and parameters
 ├── utils/                          # Library modules (heat flow, OPF, demand, …)
 ├── scripts/                        # Data download, calibration, profile building
+├── tests/                          # Entry-point checks
+├── figure_source/                  # Publication figure-data plotting scripts
+├── webpage/                        # Project website
 ├── vis/                            # Result visualisation notebooks
-├── data/                           # Input data  
-└── models/                         # Outputs & intermediates 
+├── data/                           # Included and separately prepared inputs
+└── models/                         # Prepared profiles and saved results
 ```
 
 ---
@@ -189,12 +192,19 @@ After downloading:
 2. Copy the pre-built country folders (e.g. `ES/`, `FR/`, `GB/`, ... from `SimuData/` in google drive) into `models/`. 
 3. Copy `networks/` from `EUGrid` in google drive into `data/EU/`.
 
+The European run also reads `data/EU/regions_onshore_base_s_75.geojson`,
+`data/EU/load_ratio_base_s_75.csv`, country profiles under `models/{CC}/`,
+and calibrated demand curves under `models/demand_curve/{CC}/`. Verify these
+paths against the [file inventory](data/DATA_INPUT_SUMMARY.md) before starting
+a batch; copying the network file alone is not sufficient.
+
 Expected structure:
 ```text
 Heat-Analysis/
 ├── models/
 │   ├── ES/
 │   ├── FR/
+│   ├── demand_curve/
 │   └── ...
 └── data/
     ├── WeatherData/
@@ -202,7 +212,9 @@ Heat-Analysis/
     │   ├── rcp45/
     │   └── elevation.nc
     └── EU/
-        └── networks/
+        ├── networks/
+        ├── regions_onshore_base_s_75.geojson
+        └── load_ratio_base_s_75.csv
 ```
 
 For the European scripts, install the full `requirements.txt` in the activated
@@ -287,15 +299,8 @@ You are free to **share** and **adapt** the material for any purpose, provided y
 
 ## ✨ Citation
 
-If you find HeatAnalysis helpful in your research, please consider citing:
-
-```bibtex
-@article{heatanalysis2025,
-  title   = {European Electricity Grids May Exhibit Heatwave-induced Capacity Bottlenecks},
-  author  = {Liang, Enming and Chen, Minghua and Keshav, Srinivasan},
-  year    = {2025}
-}
-```
+The manuscript's final bibliographic details are pending. The project page
+and repository will be updated with a verified citation after publication.
 
 ---
 
@@ -313,4 +318,4 @@ We welcome contributions from the community! Whether it's fixing a bug, improvin
 
 ## 📬 Contact
 
-If you have questions or encounter any issues, please [open an issue](https://github.com/<your-username>/HeatAnalysis/issues) on GitHub.
+If you have questions or encounter any issues, please [open an issue](https://github.com/emliang/Heat-Analysis/issues) on GitHub.
