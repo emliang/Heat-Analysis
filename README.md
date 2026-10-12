@@ -180,9 +180,9 @@ The prepared-input one-hour runner checks a manifest and its file hashes, then
 runs the Spanish 2026-06-23 13:00 example in a separate output directory. It
 uses the represented `s_75` network, the `2019_0` historical heatwave anchor,
 1% annual base-demand growth, 80% initial storage state of charge and the
-two-update temperature-dependent OPF setting. The small input bundle remains
-local-only pending redistribution review. These commands apply to an authorised
-copy of that bundle; the example is not an archive of the paper's results.
+two-update temperature-dependent OPF setting. The input bundle is not included
+in this repository; pass its local directory with `--bundle`. This is a
+workflow example, not an archive of the paper's results.
 
 ```bash
 pip install -r requirements.txt
