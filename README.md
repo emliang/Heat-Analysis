@@ -153,18 +153,21 @@ point and requires no European network or weather files.
 
 ## 🛠 Quick Start
 
+```bash
+git clone https://github.com/emliang/Heat-Analysis.git
+cd Heat-Analysis
+conda create -n heatanalysis python=3.10
+conda activate heatanalysis
+pip install -r requirements.txt
+conda install -c conda-forge ipopt
+```
+
 ### IEEE 30-bus smoke check
 
 This check uses the case file included in the repository. It runs one load and
 weather setting in two modes without overwriting the full IEEE sweep output.
 
 ```bash
-git clone https://github.com/emliang/Heat-Analysis.git
-cd Heat-Analysis
-conda create -n heatanalysis python=3.11
-conda activate heatanalysis
-pip install -r requirements-ieee.txt
-conda install -c conda-forge ipopt
 python TDOPF_ieee.py --smoke
 ```
 
@@ -185,8 +188,6 @@ in this repository; pass its local directory with `--bundle`. This is a
 workflow example, not an archive of the paper's results.
 
 ```bash
-pip install -r requirements.txt
-conda install -c conda-forge ipopt
 python scripts/run_european_example.py --bundle /path/to/es_2026-06-23_13_2019-0 --check-only
 python scripts/run_european_example.py --bundle /path/to/es_2026-06-23_13_2019-0 --output-dir /path/to/new-run-directory
 ```
@@ -239,8 +240,7 @@ Heat-Analysis/
         └── load_ratio_base_s_75.csv
 ```
 
-For the European scripts, install the full `requirements.txt` in the activated
-environment. `TDOPF_eur.py` remains the batch experiment entry point. It
+`TDOPF_eur.py` remains the batch experiment entry point. It
 expects the prepared input paths described in the file inventory below.
 Building new renewable profiles also requires a configured PyPSA-Eur checkout.
 

@@ -13,11 +13,11 @@ generation code remains in the repository root.
 
 ## Environment
 
-The verified figure environment uses Python 3.10. Install the figure-specific
-dependencies with:
+The figure environment uses Python 3.10. Install the repository dependencies
+from the repository root with:
 
 ```bash
-python -m pip install -r figure_source/requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 Arial was used for the submitted artwork when available. A metrically

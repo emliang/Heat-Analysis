@@ -3,7 +3,7 @@
 # =============================================================================
 
 # --- Core scientific computing ---
-numpy==1.25.2
+numpy==1.26.4
 pandas==2.0.3
 scipy==1.10.1
 xarray==2024.3.0
@@ -26,6 +26,7 @@ shapely==2.0.1
 # --- Plotting ---
 matplotlib==3.10.3
 seaborn==0.12.2
+Pillow==12.2.0
 
 # --- Climate data access ---
 cdsapi==0.7.6           # Copernicus CDS API (data download only)
