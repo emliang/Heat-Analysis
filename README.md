@@ -84,7 +84,8 @@ Heat-Analysis/
 ├── scripts/                        # Data download, calibration, profile building
 ├── tests/                          # Entry-point checks
 ├── webpage/                        # Project website
-├── vis/                            # Result notebooks and publication figure source
+├── vis/                            # Visual examples and publication figure source
+│   ├── demos/                      # Spain 2030 weather, grid inputs and one-hour solve
 │   └── figure_source/              # Publication figure-data plotting scripts
 ├── data/                           # Included and separately prepared inputs
 └── models/                         # Prepared profiles and saved results
@@ -111,7 +112,7 @@ Weather + demand curves + network -> simulation-ready hourly profiles
                                     European TD-ACOPF (TDOPF_eur.py)
                                                    |
                                                    v
-                                          Results and analysis (vis/)
+                                          Saved simulation results
 ```
 
 `TDOPF_ieee.py` uses the bundled IEEE 30-bus case independently of the
@@ -246,12 +247,12 @@ The IEEE check and prepared-input runners do not use Jupyter.
 | 2 | Calibrate demand model | `python scripts/main_demand_calibration.py` |
 | 3 | Build heatwave, demand and renewable simulation profiles | `python scripts/main_build_simulation_profile.py` |
 | 4 | Run European TD-ACOPF batch experiments | `python TDOPF_eur.py` |
-| 5 | Analyse saved results | See the input requirements in [`vis/README.md`](vis/README.md) |
 
 For optional visual inspection of generated weather conditions, run
 `python scripts/main_heatwaves_generation.py`. The publication figure-source
 workflow below starts from submitted figure data and is separate from these
-simulation steps.
+simulation steps. For a guided visual example, see the three
+[Spain 2030 notebooks](vis/demos/README.md).
 
 ---
 
