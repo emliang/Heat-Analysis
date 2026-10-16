@@ -4,3 +4,7 @@ __pycache__/
 .ipynb_checkpoints/
 .pytest_cache/
 models/runs/
+
+# Local smoke-check outputs; existing results and figures remain tracked.
+/models/IEEE30/30_heatflow_smoke.csv
+/models/IEEE30/record/heatflow_smoke/

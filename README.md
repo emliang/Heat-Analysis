@@ -79,7 +79,7 @@ The iterative TD-ACOPF solver alternates between the AC-OPF solution (which dete
 ```
 Heat-Analysis/
 ├── TDOPF_eur.py / TDOPF_ieee.py   # TD-ACOPF entry points (European / IEEE)
-├── data_config.py                  # All paths, constants, and parameters
+├── data_config.py                  # Shared paths and model defaults
 ├── utils/                          # Library modules (heat flow, OPF, demand, …)
 ├── scripts/                        # Data download, calibration, profile building
 ├── tests/                          # Entry-point checks
@@ -88,7 +88,7 @@ Heat-Analysis/
 │   ├── demos/                      # Spain 2030 weather, grid inputs and one-hour solve
 │   └── figure_source/              # Publication figure-data plotting scripts
 ├── data/                           # Included and separately prepared inputs
-└── models/                         # Prepared profiles and saved results
+└── models/                         # Prepared profiles, saved results and figures
 ```
 
 ---
@@ -157,6 +157,11 @@ files under `models/IEEE30/record/heatflow_smoke/`. Running
 `python TDOPF_ieee.py` without `--smoke` retains the full 108-case IEEE sweep
 and writes to separate `heatflow_analysis` files. Both require an available
 IPOPT executable.
+The repository retains prepared inputs, saved results and figures under
+`models/`. Smoke-check outputs and runs under `models/runs/` are ignored by Git.
+The full IEEE sweep writes to existing result paths; use `HEATANALYSIS_MODELS`
+to select a separate output directory when preserving the saved results.
+Publication figure data are supplied separately in `vis/figure_source/`.
 
 ### European experiments
 
@@ -253,6 +258,20 @@ For optional visual inspection of generated weather conditions, run
 workflow below starts from submitted figure data and is separate from these
 simulation steps. For a guided visual example, see the three
 [Spain 2030 notebooks](vis/demos/README.md).
+
+Shared paths and model defaults are defined in `data_config.py`. Country,
+year and experiment sweeps are set in the corresponding pipeline scripts and
+solver entry points; review those settings before starting a full batch.
+Generating new renewable profiles additionally requires
+`data/EU/country_shapes.geojson` and `data/EU/offshore_shapes.geojson` from
+PyPSA-Eur. These are not needed by the bundled one-hour example.
+
+The `scripts/2.test_demand_calibration.ipynb`,
+`scripts/3.test_creat_heatwaves.ipynb` and
+`scripts/4.test_solve_heat_balance.ipynb` notebooks are optional method checks,
+not additional pipeline stages or the recommended introductory notebooks.
+They are retained as method references, including for publication-data
+exporters; some require the full research inputs.
 
 ---
 
