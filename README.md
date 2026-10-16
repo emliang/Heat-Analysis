@@ -160,22 +160,25 @@ IPOPT executable.
 ### European experiments
 
 The prepared-input one-hour runner checks a manifest and its file hashes, then
-runs the Spanish 2026-06-23 13:00 example in a separate output directory. It
-uses the represented `s_75` network, the `2019_0` historical heatwave anchor,
+runs the Spanish 2030-07-24 13:00 example in a separate output directory. It
+uses the represented `s_75` network, the `2024_0` historical heatwave anchor,
 1% annual base-demand growth, 80% initial storage state of charge and the
 two-update temperature-dependent OPF setting. The small input bundle is
 included in `data/examples/`, so this test needs no separate data download.
 It is a workflow example, not an archive of the paper's results.
 
 ```bash
-python scripts/run_european_example.py --bundle data/examples/es_2026-06-23_13_2019-0 --check-only
-python scripts/run_european_example.py --bundle data/examples/es_2026-06-23_13_2019-0 --output-dir models/runs/european_example
+python scripts/run_european_example.py --bundle data/examples/es_2030-07-24_13_2024-0 --check-only
+python scripts/run_european_example.py --bundle data/examples/es_2030-07-24_13_2024-0 --output-dir models/runs/european_example_2030
 ```
 
 The run writes `results.csv`, `run_summary.json`, a copy of the checked input
 manifest and the solver result file under the chosen directory. The output
 directory must not exist before the run. A prepared-network run does not need
 the PyPSA-Eur source checkout; generating new renewable profiles does.
+The short [visual examples](vis/demos/README.md) use this same hour. The
+[website](https://emliang.github.io/Heat-Analysis/) provides an interactive
+view of its selected grid result without running the solver.
 
 #### Full prepared-data experiments
 

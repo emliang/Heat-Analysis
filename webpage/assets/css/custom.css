@@ -260,7 +260,8 @@ h3 {
 .framework-section,
 .findings-section,
 .notebooks-section,
-.context-section {
+.context-section,
+.explorer-section {
   padding: 6rem 0;
 }
 
@@ -453,6 +454,201 @@ h3 {
 
 .finding-grid article:nth-child(3) {
   border-top-color: var(--heat);
+}
+
+.explorer-section {
+  background: #f7f9f9;
+}
+
+.explorer-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 0.9rem;
+}
+
+.explorer-layers,
+.explorer-zoom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem 1.3rem;
+}
+
+.explorer-layers label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.86rem;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.explorer-layers input {
+  accent-color: var(--cool);
+  width: 16px;
+  height: 16px;
+}
+
+.explorer-zoom {
+  gap: 0.3rem;
+  flex-wrap: nowrap;
+}
+
+.explorer-zoom button {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.explorer-zoom button:hover,
+.explorer-zoom button:focus-visible {
+  border-color: var(--cool);
+  color: var(--cool);
+}
+
+.explorer-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 255px;
+  gap: 1.7rem;
+  align-items: start;
+}
+
+.explorer-map-area {
+  min-width: 0;
+}
+
+#grid-explorer-map {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1000 / 630;
+  border: 1px solid #bcc9ce;
+  background: #e5edf0;
+  touch-action: none;
+  cursor: grab;
+}
+
+#grid-explorer-map.is-dragging {
+  cursor: grabbing;
+}
+
+#grid-explorer-map .map-hit,
+#grid-explorer-map .map-marker {
+  cursor: pointer;
+}
+
+.map-loading {
+  fill: var(--muted);
+  font-size: 22px;
+}
+
+.explorer-legends {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin-top: 0.8rem;
+}
+
+.explorer-legend > span {
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 750;
+}
+
+.explorer-legend > div {
+  height: 10px;
+  margin: 0.35rem 0 0.1rem;
+  border: 1px solid rgba(0, 0, 0, 0.13);
+}
+
+.weather-scale {
+  background: linear-gradient(90deg, #3c5fc7, #a8c6f4, #f1efe9, #ee9f88, #b72c45);
+}
+
+.line-scale {
+  background: linear-gradient(90deg, #48a45f, #a9c64d, #e6c84c, #ee7239, #b62961, #872ed0);
+}
+
+.explorer-legend small {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.68rem;
+}
+
+.explorer-detail {
+  min-height: 360px;
+  padding-left: 1.2rem;
+  border-left: 2px solid var(--cool);
+}
+
+.explorer-detail h3 {
+  overflow-wrap: anywhere;
+}
+
+.explorer-detail > p:not(.eyebrow) {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.explorer-line-label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+
+.explorer-detail select {
+  width: 100%;
+  min-height: 38px;
+  padding: 0.35rem;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.85rem;
+}
+
+.explorer-detail dl {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 0.6rem;
+  margin: 1.5rem 0;
+  font-size: 0.82rem;
+}
+
+.explorer-detail dt,
+.explorer-detail dd {
+  margin: 0;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.explorer-detail dd {
+  font-weight: 750;
+  text-align: right;
+}
+
+.explorer-detail-note,
+.explorer-source {
+  font-size: 0.79rem !important;
+  line-height: 1.5;
+}
+
+.explorer-source {
+  max-width: 920px;
+  margin: 1.4rem 0 0;
+  color: var(--muted);
 }
 
 .scope-section {
@@ -721,6 +917,15 @@ h3 {
   .notebook-grid article {
     min-height: 230px;
   }
+
+  .explorer-layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .explorer-detail {
+    min-height: 0;
+  }
 }
 
 @media (max-width: 600px) {
@@ -773,6 +978,7 @@ h3 {
   .framework-section,
   .findings-section,
   .notebooks-section,
+  .explorer-section,
   .context-section,
   .method-section,
   .scope-section {
@@ -814,6 +1020,18 @@ h3 {
   .research-figure figcaption {
     margin-right: 1rem;
     margin-left: 1rem;
+  }
+
+  .explorer-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .explorer-layers {
+    gap: 0.55rem 1rem;
+  }
+
+  .explorer-legend > span {
+    font-size: 0.72rem;
   }
 
   .footer-layout,

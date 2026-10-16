@@ -5,18 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Explore how HEAT-Analysis connects extreme-weather fields with electricity use, power-plant output and transmission-line heating across European grid representations.">
   <title>HEAT-Analysis | Heatwave-induced capacity bottlenecks in European electricity grids</title>
-  <link rel="stylesheet" href="assets/css/custom.css?v=20260923-7">
+  <link rel="icon" type="image/png" href="images/heat-analysis-heat-front.png">
+  <link rel="stylesheet" href="assets/css/custom.css?v=20261016-1">
+  <script src="assets/js/grid-explorer.js?v=20261016-1" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
     <a class="brand" href="#top" aria-label="HEAT-Analysis home">
-      <img class="brand-mark" src="images/heat-analysis-mark.png" alt="" width="40" height="40">
+      <img class="brand-mark" src="images/heat-analysis-heat-front.png" alt="" width="40" height="40">
       HEAT-Analysis
     </a>
     <nav aria-label="Primary navigation">
       <a href="#framework">Framework</a>
+      <a href="#explorer">Explorer</a>
       <a href="#findings">Findings</a>
       <a href="#notebooks">Notebooks</a>
       <a href="#scope">Scope</a>
@@ -162,12 +165,59 @@
       </div>
     </section>
 
+    <section class="explorer-section" id="explorer" aria-labelledby="explorer-title">
+      <div class="page-width">
+        <div class="section-intro wide">
+          <p class="eyebrow dark">Explore one solved hour</p>
+          <h2 id="explorer-title">A closer look at the Spanish grid</h2>
+          <p>To see how these steps come together, explore one projected heatwave hour in the represented Spanish grid: 13:00 on 24 July 2030. The map displays the saved weather and grid result for that case.</p>
+        </div>
+        <div class="explorer-toolbar">
+          <div class="explorer-layers" role="group" aria-label="Map layers">
+            <label><input id="layer-weather" type="checkbox" checked> Air temperature</label>
+            <label><input id="layer-lines" type="checkbox" checked> Line temperature</label>
+            <label><input id="layer-shedding" type="checkbox" checked> Load shedding</label>
+          </div>
+          <div class="explorer-zoom" role="group" aria-label="Map zoom">
+            <button id="map-zoom-in" type="button" aria-label="Zoom in" title="Zoom in">+</button>
+            <button id="map-zoom-out" type="button" aria-label="Zoom out" title="Zoom out">−</button>
+            <button id="map-zoom-reset" type="button" aria-label="Reset map view" title="Reset map view">↺</button>
+          </div>
+        </div>
+        <div class="explorer-layout">
+          <div class="explorer-map-area">
+            <svg id="grid-explorer-map" viewBox="0 0 1000 630" role="img" aria-label="Interactive map of weather, line temperatures and modelled load shedding in the Spanish grid">
+              <text x="500" y="315" text-anchor="middle" class="map-loading">Loading map...</text>
+            </svg>
+            <div class="explorer-legends" aria-label="Map colour scales">
+              <div id="weather-legend" class="explorer-legend">
+                <span>Air temperature</span><div class="weather-scale" aria-hidden="true"></div><small>20°C <span>50°C</span></small>
+              </div>
+              <div id="line-legend" class="explorer-legend">
+                <span>Line temperature</span><div class="line-scale" aria-hidden="true"></div><small>30°C <span>90°C</span></small>
+              </div>
+            </div>
+          </div>
+          <aside class="explorer-detail" aria-live="polite">
+            <p class="eyebrow dark">Selected result</p>
+            <h3 id="explorer-detail-title">24 July 2030, 13:00</h3>
+            <p id="explorer-detail-description">Select a line or the yellow marker to inspect the saved result.</p>
+            <label class="explorer-line-label" for="explorer-line-picker">Inspect a line</label>
+            <select id="explorer-line-picker"><option value="">Select a line</option></select>
+            <dl id="explorer-detail-values"></dl>
+            <p class="explorer-detail-note">The yellow marker identifies a represented bus with displayed load shedding. Small numerical values elsewhere are omitted from the map.</p>
+          </aside>
+        </div>
+        <p class="explorer-source">Illustrative 2030 snapshot under the represented grid configuration; not a forecast of an outage. Values match <a href="https://github.com/emliang/Heat-Analysis/tree/main/vis/figure_source/data">Extended Data Fig. 2 Source Data</a>. The <a href="https://github.com/emliang/Heat-Analysis/tree/main/vis/demos">worked example</a> shows the corresponding inputs and solve.</p>
+      </div>
+    </section>
+
     <section class="findings-section" id="findings" aria-labelledby="findings-title">
       <div class="page-width">
         <div class="section-intro wide">
           <p class="eyebrow dark">What the simulations show</p>
           <h2 id="findings-title">Heatwave stress varies across represented grids</h2>
-          <p>For each of eight country-level grid representations, the analysis covers 480 projected heatwave hours. Differences in weather, network structure, generation, demand and storage lead to different operational responses.</p>
+          <p>Beyond this Spanish example, the analysis evaluates 480 projected heatwave hours for each of eight country-level grid representations. Differences in weather, network structure, generation, demand and storage lead to different operational responses.</p>
         </div>
         <figure class="research-figure results-figure">
           <a href="images/represented-grid-results.png" target="_blank" rel="noreferrer" title="Open the full-size results figure">
@@ -197,26 +247,26 @@
         <div class="section-intro wide">
           <p class="eyebrow dark">Reproducible examples</p>
           <h2 id="notebooks-title">Explore the modelling components</h2>
-          <p>The repository provides worked examples for readers who want to inspect the main weather and engineering calculations separately.</p>
+          <p>Three short examples follow the same Spanish 2030 heatwave hour, from weather inputs through grid operation. The final notebook runs a single OPF using the bundled inputs.</p>
         </div>
         <div class="notebook-grid">
           <article>
             <p class="notebook-type">Notebook 01</p>
-            <h3>Heatwave generation</h3>
-            <p>See how selected historical heat-event patterns are combined with future reference climate fields.</p>
-            <a href="https://github.com/emliang/Heat-Analysis/blob/main/scripts/3.test_creat_heatwaves.ipynb">View on GitHub <span aria-hidden="true">&rarr;</span></a>
+            <h3>Projected heatwave weather</h3>
+            <p>Inspect hourly air temperature, wind and sunlight across the selected 2030 day.</p>
+            <a href="https://github.com/emliang/Heat-Analysis/blob/main/vis/demos/01_heatwave_weather.ipynb">View on GitHub <span aria-hidden="true">&rarr;</span></a>
           </article>
           <article>
             <p class="notebook-type">Notebook 02</p>
-            <h3>Demand calibration</h3>
-            <p>Follow the calibration of temperature-dependent electricity demand using the Demand.ninja approach.</p>
-            <a href="https://github.com/emliang/Heat-Analysis/blob/main/scripts/2.test_demand_calibration.ipynb">View on GitHub <span aria-hidden="true">&rarr;</span></a>
+            <h3>Weather to grid inputs</h3>
+            <p>See the modelled demand profile, generator availability and weather-dependent line limits.</p>
+            <a href="https://github.com/emliang/Heat-Analysis/blob/main/vis/demos/02_weather_to_grid.ipynb">View on GitHub <span aria-hidden="true">&rarr;</span></a>
           </article>
           <article>
             <p class="notebook-type">Notebook 03</p>
-            <h3>Thermal models</h3>
-            <p>Inspect conductor heat-balance calculations and the temperature response assigned to different generator types.</p>
-            <a href="https://github.com/emliang/Heat-Analysis/blob/main/scripts/4.test_solve_heat_balance.ipynb">View on GitHub <span aria-hidden="true">&rarr;</span></a>
+            <h3>One solved grid hour</h3>
+            <p>Run one temperature-dependent OPF and compare its result with the saved map.</p>
+            <a href="https://github.com/emliang/Heat-Analysis/blob/main/vis/demos/03_solve_and_explore.ipynb">View on GitHub <span aria-hidden="true">&rarr;</span></a>
           </article>
         </div>
       </div>

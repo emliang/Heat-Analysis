@@ -18,9 +18,11 @@ from scripts.run_european_example import check_bundle, example_settings
 class EuropeanExampleTests(unittest.TestCase):
     def test_repository_bundle_is_complete(self):
         bundle = (Path(__file__).resolve().parents[1] / "data/examples" /
-                  "es_2026-06-23_13_2019-0")
+                  "es_2030-07-24_13_2024-0")
         manifest = check_bundle(bundle)
         self.assertEqual(manifest["case"]["country"], "ES")
+        self.assertEqual(manifest["case"]["timestamp"], "2030-07-24T13:00:00")
+        self.assertEqual(manifest["network_components"]["stores"], 0)
         self.assertEqual(len(manifest["files"]), 10)
 
     def make_bundle(self, directory):
@@ -28,8 +30,8 @@ class EuropeanExampleTests(unittest.TestCase):
         case = {
             "analysis_mode": "td_seg_derate_iter_2",
             "country": "ES",
-            "timestamp": "2026-06-23T13:00:00",
-            "historical_year": 2019,
+            "timestamp": "2030-07-24T13:00:00",
+            "historical_year": 2024,
             "historical_event_index": 0,
             "network_ratio": 75,
             "load_growth_rate": 1.01,
@@ -41,13 +43,13 @@ class EuropeanExampleTests(unittest.TestCase):
             Path("data/EU/regions_onshore_base_s_75.geojson"),
             Path("data/EU/load_ratio_base_s_75.csv"),
             Path("models/ES/simu_data/") /
-            "future_weather_data_based_on_historical_hot_event_2019_0.nc",
+            "future_weather_data_based_on_historical_hot_event_2024_0.nc",
             Path("models/ES/simu_data/") /
-            "future_demand_data_based_on_historical_hot_event_2019_0.npy",
+            "future_demand_data_based_on_historical_hot_event_2024_0.npy",
             Path("models/demand_curve/ES/ES_[2015, 2024]_demand_curve.npy"),
         ]
         paths.extend(
-            Path("models/ES/weather") / f"2019_0_{tech}_profile_s_75.nc"
+            Path("models/ES/weather") / f"2024_0_{tech}_profile_s_75.nc"
             for tech in ("solar", "onwind", "offwind-ac", "offwind-dc")
         )
         files = []
@@ -69,7 +71,7 @@ class EuropeanExampleTests(unittest.TestCase):
     def test_bundle_checks_selected_hour(self):
         with tempfile.TemporaryDirectory() as directory:
             bundle, _ = self.make_bundle(directory)
-            hour = np.datetime64("2026-06-23T13:00:00", "ns")
+            hour = np.datetime64("2030-07-24T13:00:00", "ns")
             dataset = xr.Dataset(coords={"time": [hour]})
             with patch("scripts.run_european_example.xr.open_dataset",
                        return_value=dataset):

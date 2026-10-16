@@ -1,0 +1,97 @@
+{
+  "case": {
+    "analysis_mode": "td_seg_derate_iter_2",
+    "country": "ES",
+    "historical_event_index": 0,
+    "historical_year": 2024,
+    "load_growth_rate": 1.01,
+    "max_temperature": 90,
+    "network_ratio": 75,
+    "storage_ratio": 0.8,
+    "timestamp": "2030-07-24T13:00:00"
+  },
+  "files": [
+    {
+      "bytes": 707464,
+      "path": "data/EU/networks/base_s_75_elec.nc",
+      "sha256": "799208657d380bd748639ecf716e68eb63e80e69b797dc72ac74c63fba3d9a78",
+      "source": "data/EU/networks/base_s_75_elec.nc",
+      "source_sha256": "8542230d1d7019828766717cba1b1c9673017a8bd438ee9ce0a81597ae9a32ff"
+    },
+    {
+      "bytes": 4137195,
+      "path": "data/EU/regions_onshore_base_s_75.geojson",
+      "sha256": "cd8bec92d049e792591c389e4665cdb80a52fe10abb14ff0a1f753f4b6de95bf",
+      "source": "data/EU/regions_onshore_base_s_75.geojson",
+      "source_sha256": "cd8bec92d049e792591c389e4665cdb80a52fe10abb14ff0a1f753f4b6de95bf"
+    },
+    {
+      "bytes": 310688,
+      "path": "data/EU/load_ratio_base_s_75.csv",
+      "sha256": "2f5cabdeef47c498cf88801a32db02f1a2e34e7d67f9c16f8547a4067dd4a9fc",
+      "source": "data/EU/load_ratio_base_s_75.csv",
+      "source_sha256": "2f5cabdeef47c498cf88801a32db02f1a2e34e7d67f9c16f8547a4067dd4a9fc"
+    },
+    {
+      "bytes": 100083,
+      "path": "models/ES/simu_data/future_weather_data_based_on_historical_hot_event_2024_0.nc",
+      "sha256": "b1f20b72766f4b35cc13ec1deb67290706b3fe595c94661111419f53b5d77296",
+      "source": "models/ES/simu_data/future_weather_data_based_on_historical_hot_event_2024_0.nc",
+      "source_sha256": "2413609513b87d3d96354daa97ea55db5e304fad308a78a80cbcc7f92044f8e4"
+    },
+    {
+      "bytes": 1715,
+      "path": "models/ES/simu_data/future_demand_data_based_on_historical_hot_event_2024_0.npy",
+      "sha256": "50cfaddb8958a91d9ab83b46c35139d67c9b4b1f3822c16232decf1dc2651c11",
+      "source": "models/ES/simu_data/future_demand_data_based_on_historical_hot_event_2024_0.npy",
+      "source_sha256": "50cfaddb8958a91d9ab83b46c35139d67c9b4b1f3822c16232decf1dc2651c11"
+    },
+    {
+      "bytes": 1905,
+      "path": "models/demand_curve/ES/ES_[2015, 2024]_demand_curve.npy",
+      "sha256": "6dfe9ca4d9f2a298d1759966b1718a646cf9a654cecd6d2c4ad4a468db1a2c25",
+      "source": "models/demand_curve/ES/ES_[2015, 2024]_demand_curve.npy",
+      "source_sha256": "6dfe9ca4d9f2a298d1759966b1718a646cf9a654cecd6d2c4ad4a468db1a2c25"
+    },
+    {
+      "bytes": 43627,
+      "path": "models/ES/weather/2024_0_solar_profile_s_75.nc",
+      "sha256": "094f97cef696ba82add9cc570c0618797f8bd5bc55f4e6e845ab411aa686e770",
+      "source": "models/ES/weather/2024_0_solar_profile_s_75.nc",
+      "source_sha256": "7e104c856160454365f6e8c17548eade4af87877a4a47951d32ade0a4b70c269"
+    },
+    {
+      "bytes": 43627,
+      "path": "models/ES/weather/2024_0_onwind_profile_s_75.nc",
+      "sha256": "692ccf2c4c4e8528aedab53f3c57f0f75ce3a29d10ee63b667af63c2e239ca35",
+      "source": "models/ES/weather/2024_0_onwind_profile_s_75.nc",
+      "source_sha256": "aa755bcbf642c4e1120ef8974f7656ed982859f73f263099873b130bd7259d2b"
+    },
+    {
+      "bytes": 26243,
+      "path": "models/ES/weather/2024_0_offwind-ac_profile_s_75.nc",
+      "sha256": "3eeb780035c90dae92d473babc9ad999dbe4675b2dba07575345921d50074367",
+      "source": "models/ES/weather/2024_0_offwind-ac_profile_s_75.nc",
+      "source_sha256": "68c0784e100a78d51dcc5b58cf919a8e0a778cfb8455cbcf17d0db978f387cb1"
+    },
+    {
+      "bytes": 26243,
+      "path": "models/ES/weather/2024_0_offwind-dc_profile_s_75.nc",
+      "sha256": "13f33ffdccc7f0f56fe86be8f97192bc3e4e28fa87e0f87b2d65021d53f3ee76",
+      "source": "models/ES/weather/2024_0_offwind-dc_profile_s_75.nc",
+      "source_sha256": "790623bd41e09b07ed8e317a70c3d1ffa259795890e606b2f454af624c5dd212"
+    }
+  ],
+  "network_components": {
+    "buses": 281,
+    "generators": 442,
+    "lines": 442,
+    "links": 1,
+    "storage_units": 75,
+    "stores": 0
+  },
+  "network_reference_snapshots": 31,
+  "purpose": "local prepared-input example; not a paper-result archive",
+  "reference_snapshot_id": "ES-2030",
+  "schema_version": 1
+}

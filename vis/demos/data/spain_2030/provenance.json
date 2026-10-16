@@ -1,0 +1,9 @@
+{
+  "example_input_manifest_sha256": "9c5e169889671a4d6ff0666b032de967b60cb843cc7b9c582ab2298ced6b07a1",
+  "example_result_sha256": "b4c127ee17aa5253618447f593f0395b5d191f929f288c28f02283052a92aeab",
+  "published_result_sha256": "206dd3f3da3ad2944e7f101543526a8e060faf74d0c2a5dfed7a96247f0ff6fd",
+  "published_source_zip_sha256": "171705f1fda82aa2a4a1bb76b89f79b8cfd430eb9f6a1b3c21d71823206f873e",
+  "max_line_temperature_difference_c": 0.0002640948601850823,
+  "max_load_shedding_difference_mw": 9.65343083247916e-11,
+  "web_data_sha256": "d9a168554b201585135045b9b72718243ed4ec0bc07c726f794b0822bb703b55"
+}
