@@ -20,6 +20,7 @@ pypop7==0.0.81           # SCEM calibration in demand_utils
 
 # --- Geospatial ---
 geopandas==0.13.2
+Fiona==1.9.6
 cartopy==0.22.0
 shapely==2.0.1
 

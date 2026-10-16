@@ -558,8 +558,8 @@ def main(smoke=False):
     ppc_mat = data.get('mpc')
 
     ppc = {
-        'version': int(ppc_mat['version'][0, 0]),
-        'baseMVA': float(ppc_mat['baseMVA'][0, 0]),
+        'version': int(ppc_mat['version'][0, 0].item()),
+        'baseMVA': float(ppc_mat['baseMVA'][0, 0].item()),
         'bus': ppc_mat['bus'][0, 0],
         'gen': ppc_mat['gen'][0, 0],
         'branch': ppc_mat['branch'][0, 0],
