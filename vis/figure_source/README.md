@@ -7,9 +7,9 @@ Data and Supplementary figures accompanying:
 
 Manuscript reference: `NENERGY-24102996D`.
 
-The scripts read the frozen Source Data or Supplementary Data packages. They do
-not rerun the power-flow simulations. The simulation, calibration and scenario
-generation code remains in the repository root.
+The scripts read the frozen Source Data or Supplementary Data packages in
+`data/`. They do not rerun the power-flow simulations. The simulation,
+calibration and scenario generation code remains in the repository root.
 
 ## Environment
 
@@ -27,13 +27,14 @@ on first use.
 
 ## Source Data for main and Extended Data figures
 
-Obtain the nine `Source_Data_*.zip` files supplied with the article and place
-them in one directory. The complete set can then be checked with:
+The nine `Source_Data_*.zip` files supplied with the article are included in
+`data/`. From the repository root, check the complete set with:
 
 ```bash
-python figure_source/verify_source_data_reproduction.py \
-  --source-data-dir /path/to/source-data-zips
+python vis/figure_source/verify_source_data_reproduction.py
 ```
+
+Use `--source-data-dir` only to check a different copy of these packages.
 
 The validation extracts each package into a temporary directory and runs the
 corresponding plotting command using only the packaged data and this public
@@ -61,10 +62,10 @@ article.
 
 ## Supplementary figures
 
-The public copies of the Supplementary plotting entry points and their compact
-model definitions are in `code/`. The same files are bundled with the submitted
-Supplementary Data packages, whose `README.txt` files provide the package-
-specific commands. Shared heat-flow functions are in `utils/`.
+The ten `Supplementary_Data_*.zip` files are also included in `data/`. Their
+`README.txt` files provide package-specific commands. The public copies of
+the Supplementary plotting entry points and their compact model definitions
+are in `code/`; shared heat-flow functions are in `utils/`.
 
 The source-data exporters used to derive the compact figure tables from the
 frozen simulation records are retained in `code/exporters/`. These exporters

@@ -83,9 +83,9 @@ Heat-Analysis/
 ├── utils/                          # Library modules (heat flow, OPF, demand, …)
 ├── scripts/                        # Data download, calibration, profile building
 ├── tests/                          # Entry-point checks
-├── figure_source/                  # Publication figure-data plotting scripts
 ├── webpage/                        # Project website
-├── vis/                            # Result visualisation notebooks
+├── vis/                            # Result notebooks and publication figure source
+│   └── figure_source/              # Publication figure-data plotting scripts
 ├── data/                           # Included and separately prepared inputs
 └── models/                         # Prepared profiles and saved results
 ```
@@ -233,9 +233,8 @@ Building new renewable profiles also requires a configured PyPSA-Eur checkout.
 
 **Full European pipeline** — from raw inputs to analysis:
 
-Notebook stages require Jupyter Notebook in the active environment
-(`python -m pip install notebook`); the IEEE check and prepared-input runners
-do not.
+Notebook stages use Jupyter Notebook, included in `requirements.txt`.
+The IEEE check and prepared-input runners do not use Jupyter.
 
 | Stage | What | Command |
 |:-----:|------|---------|
@@ -244,7 +243,7 @@ do not.
 | 2 | Calibrate demand model | `python scripts/main_demand_calibration.py` |
 | 3 | Build heatwave, demand and renewable simulation profiles | `python scripts/main_build_simulation_profile.py` |
 | 4 | Run European TD-ACOPF batch experiments | `python TDOPF_eur.py` |
-| 5 | Analyse saved results | Open the notebooks in [`vis/`](vis/) |
+| 5 | Analyse saved results | See the input requirements in [`vis/README.md`](vis/README.md) |
 
 For optional visual inspection of generated weather conditions, run
 `python scripts/main_heatwaves_generation.py`. The publication figure-source
@@ -255,11 +254,11 @@ simulation steps.
 
 ## Publication figure source
 
-The [`figure_source/`](figure_source/) directory contains the frozen
-data-to-figure scripts used for the main, Extended Data and Supplementary
-figures in manuscript `NENERGY-24102996D`. Its README maps each submitted
-Source Data package to the corresponding plotting entry point and provides a
-single command for checking all main and Extended Data figure reproductions.
+The [`vis/figure_source/`](vis/figure_source/) directory contains the frozen
+data-to-figure scripts and the accompanying Source Data and Supplementary Data
+ZIPs for manuscript `NENERGY-24102996D`. No separate data download is needed.
+Its README maps each package to the plotting entry point and provides a single
+command for checking all main and Extended Data figure reproductions.
 
 ---
 

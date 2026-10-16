@@ -28,6 +28,10 @@ matplotlib==3.10.3
 seaborn==0.12.2
 Pillow==12.2.0
 
+# --- Notebooks ---
+notebook>=7,<8
+ipykernel>=6,<8
+
 # --- Climate data access ---
 cdsapi==0.7.6           # Copernicus CDS API (data download only)
 

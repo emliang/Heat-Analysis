@@ -88,12 +88,15 @@ def expand(arguments: tuple[str, ...], *, root: Path, data: Path, out: Path) -> 
 
 
 def main() -> int:
+    root = Path(__file__).resolve().parent
     parser = argparse.ArgumentParser()
-    parser.add_argument("--source-data-dir", type=Path, required=True)
+    parser.add_argument(
+        "--source-data-dir", type=Path, default=root / "data",
+        help="directory containing Source Data ZIPs (default: bundled data)",
+    )
     parser.add_argument("--output-dir", type=Path)
     args = parser.parse_args()
 
-    root = Path(__file__).resolve().parent
     source_data_dir = args.source_data_dir.resolve()
     missing = [name for name, *_ in FIGURE_JOBS if not (source_data_dir / name).is_file()]
     if missing:
