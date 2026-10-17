@@ -468,6 +468,27 @@ h3 {
   margin-bottom: 0.9rem;
 }
 
+.explorer-views { display: flex; flex-wrap: wrap; gap: 0; margin-bottom: 1rem; }
+.explorer-views button, #explorer-overview {
+  font: inherit; font-size: 0.85rem; font-weight: 700; cursor: pointer;
+  padding: 0.65rem 0.85rem; border: 1px solid var(--line); background: #fff; color: var(--ink);
+}
+.explorer-views button[aria-pressed="true"] { background: #236b70; color: #fff; border-color: #236b70; }
+.explorer-views button:focus-visible, #explorer-overview:focus-visible { outline: 2px solid #b73431; outline-offset: 2px; }
+.explorer-detail select { margin-bottom: 0.8rem; }
+#explorer-overview { margin-top: 0.2rem; }
+.explorer-detail dd { overflow-wrap: anywhere; }
+#grid-explorer-map .map-node { cursor: pointer; }
+#grid-explorer-map .map-node.is-selected { stroke: #b73431; stroke-width: 3; }
+.map-capacity { cursor: pointer; }
+.map-capacity.is-selected > circle:last-child { stroke: #192a35; stroke-width: 3; }
+#capacity-legend { grid-column: 1 / -1; font-size: 0.78rem; }
+#capacity-legend small { display: block; color: var(--muted); }
+.capacity-key { display: flex; flex-wrap: wrap; gap: 0.5rem 1.2rem; margin: 0.4rem 0; }
+.capacity-key span { display: inline-flex; align-items: center; gap: 0.35rem; }
+.capacity-key i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
+.capacity-key i.line-key { width: 24px; height: 3px; border-radius: 0; }
+
 .explorer-layers,
 .explorer-zoom {
   display: flex;
@@ -491,6 +512,11 @@ h3 {
   width: 16px;
   height: 16px;
 }
+
+.explorer-layers [hidden], .explorer-detail [hidden] { display: none; }
+#weather-field { font: inherit; max-width: 100%; padding: 0.4rem; border: 1px solid var(--line); border-radius: 3px; background: #fff; color: var(--ink); }
+.weather-cell { cursor: crosshair; }
+.weather-cell.is-selected { stroke: #182d3a; stroke-width: 2; vector-effect: non-scaling-stroke; }
 
 .explorer-zoom {
   gap: 0.3rem;

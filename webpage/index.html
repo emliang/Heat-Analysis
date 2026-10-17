@@ -6,8 +6,8 @@
   <meta name="description" content="Explore how HEAT-Analysis connects extreme-weather fields with electricity use, power-plant output and transmission-line heating across European grid representations.">
   <title>HEAT-Analysis | Heatwave-induced capacity bottlenecks in European electricity grids</title>
   <link rel="icon" type="image/png" href="images/heat-analysis-heat-front.png">
-  <link rel="stylesheet" href="assets/css/custom.css?v=20261016-1">
-  <script src="assets/js/grid-explorer.js?v=20261016-1" defer></script>
+  <link rel="stylesheet" href="assets/css/custom.css?v=20261017-3">
+  <script src="assets/js/grid-explorer.js?v=20261017-3" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -172,10 +172,23 @@
           <h2 id="explorer-title">A closer look at the Spanish grid</h2>
           <p>To see how these steps come together, explore one projected heatwave hour in the represented Spanish grid: 13:00 on 24 July 2030. The map displays the saved weather and grid result for that case.</p>
         </div>
+        <div class="explorer-views" role="group" aria-label="Explorer view">
+          <button type="button" data-grid-view="grid" aria-pressed="false">Grid configuration</button>
+          <button type="button" data-grid-view="heat" aria-pressed="false">Heatwave conditions</button>
+          <button type="button" data-grid-view="solved" aria-pressed="true">Solved operation</button>
+        </div>
         <div class="explorer-toolbar">
           <div class="explorer-layers" role="group" aria-label="Map layers">
-            <label><input id="layer-weather" type="checkbox" checked> Air temperature</label>
-            <label><input id="layer-lines" type="checkbox" checked> Line temperature</label>
+            <label><input id="layer-weather" type="checkbox" checked> Weather</label>
+            <label id="weather-field-control" hidden>Field
+              <select id="weather-field" aria-label="Weather field">
+                <option value="temperature_c">Air temperature</option>
+                <option value="wind_speed_m_s">Wind speed</option>
+                <option value="solar_irradiance_w_m2">Solar irradiance</option>
+              </select>
+            </label>
+            <label><input id="layer-lines" type="checkbox" checked> Lines</label>
+            <label><input id="layer-nodes" type="checkbox" checked> Nodes</label>
             <label><input id="layer-shedding" type="checkbox" checked> Load shedding</label>
           </div>
           <div class="explorer-zoom" role="group" aria-label="Map zoom">
@@ -190,8 +203,17 @@
               <text x="500" y="315" text-anchor="middle" class="map-loading">Loading map...</text>
             </svg>
             <div class="explorer-legends" aria-label="Map colour scales">
+              <div id="capacity-legend" hidden>
+                <strong>Installed capacity mix</strong>
+                <div class="capacity-key"><span><i style="background:#ffd21f"></i>Renewable</span><span><i style="background:#c23b3b"></i>Conventional</span><span><i style="background:#1f78b4"></i>Storage</span></div>
+                <small>Larger pies indicate greater installed capacity (MW), not dispatched output.</small>
+                <div class="capacity-key"><span><i class="line-key" style="background:#059aa6"></i>AC lines</span><span><i class="line-key" style="background:#a0008b"></i>DC links</span></div>
+                <small>Thicker AC lines indicate greater nominal capacity (MVA).</small>
+              </div>
+              <div id="network-legend" class="explorer-legend"><span>Network connections</span><small>Nodes and connecting lines</small></div>
+              <div id="demand-legend" class="explorer-legend"><span>Node demand (MW)</span><small>Circle area proportional to demand</small></div>
               <div id="weather-legend" class="explorer-legend">
-                <span>Air temperature</span><div class="weather-scale" aria-hidden="true"></div><small>20°C <span>50°C</span></small>
+                <span id="weather-legend-title">Air temperature</span><div id="weather-scale" class="weather-scale" aria-hidden="true"></div><small><span id="weather-min">20°C</span><span id="weather-max">50°C</span></small>
               </div>
               <div id="line-legend" class="explorer-legend">
                 <span>Line temperature</span><div class="line-scale" aria-hidden="true"></div><small>30°C <span>90°C</span></small>
@@ -199,16 +221,19 @@
             </div>
           </div>
           <aside class="explorer-detail" aria-live="polite">
-            <p class="eyebrow dark">Selected result</p>
+            <p class="eyebrow dark">Snapshot details</p>
             <h3 id="explorer-detail-title">24 July 2030, 13:00</h3>
-            <p id="explorer-detail-description">Select a line or the yellow marker to inspect the saved result.</p>
+            <p id="explorer-detail-description">Spain 2030</p>
             <label class="explorer-line-label" for="explorer-line-picker">Inspect a line</label>
             <select id="explorer-line-picker"><option value="">Select a line</option></select>
+            <label class="explorer-line-label" for="explorer-node-picker">Inspect a node</label>
+            <select id="explorer-node-picker"><option value="">Select a node</option></select>
+            <button id="explorer-overview" type="button">Snapshot overview</button>
             <dl id="explorer-detail-values"></dl>
-            <p class="explorer-detail-note">The yellow marker identifies a represented bus with displayed load shedding. Small numerical values elsewhere are omitted from the map.</p>
+            <p class="explorer-detail-note">Connections represent the modelled network, not physical line routes. Yellow triangles mark displayed load shedding; small numerical values are omitted from the map.</p>
           </aside>
         </div>
-        <p class="explorer-source">Illustrative 2030 snapshot under the represented grid configuration; not a forecast of an outage. Values match <a href="https://github.com/emliang/Heat-Analysis/tree/main/vis/figure_source/data">Extended Data Fig. 2 Source Data</a>. The <a href="https://github.com/emliang/Heat-Analysis/tree/main/vis/demos">worked example</a> shows the corresponding inputs and solve.</p>
+        <p class="explorer-source">Illustrative 2030 snapshot under the represented grid configuration; not a forecast of an outage. Weather fields come from the bundled <a href="https://github.com/emliang/Heat-Analysis/tree/main/vis/demos">Spain 2030 worked example</a>. Solved results match Extended Data Fig. 2 Source Data, and installed capacities come from the SI Spanish grid example in the <a href="https://github.com/emliang/Heat-Analysis/tree/main/vis/figure_source/data">figure source packages</a>.</p>
       </div>
     </section>
 

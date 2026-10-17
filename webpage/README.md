@@ -18,6 +18,16 @@ example. `scripts/export_spain_2030_vis.py` prepares the companion notebook
 and website data from checked example results and publication Source Data;
 see its `--help` options before regenerating these files.
 
+The Grid configuration view uses the SI installed-capacity mix and nominal
+line capacities, exported from the bundled Supplementary Data by
+`python scripts/export_web_grid_configuration.py`. This export verifies the
+bus coordinates and network IDs against the Spain 2030 map and does not run OPF.
+
+`python scripts/export_web_weather.py` exports the same day's 13:00 weather
+from `vis/demos/data/spain_2030/weather_day.nc` for the temperature, 10-m wind
+speed and solar-irradiance layers. It checks every temperature against the
+existing map before exporting; it does not run the solver.
+
 GitHub Pages deployment is configured in
 [deploy.yml](../.github/workflows/deploy.yml). The `images/` directory also
 contains illustrations used by the repository README, so those assets should
