@@ -173,7 +173,8 @@ def network_load_demand(network, date, country_code, load_demand, args):
             demand_curve['weekday_cooling_hour_ratio'], (-1))
         # Apply base-load growth
         growth = (args['load_growth_rate']
-                  ** max(date.year - BASELINE_YEAR, 0) - 1)
+                  ** max(date.year - BASELINE_YEAR, 0) - 1
+                  if args.get('load_growth', True) else 0)
         daily_grown = daily_load[i] + demand_curve['Pb'] * growth
         hourly = daily_grown * hour_ratio[date.hour] * 1e3 * 24
 
@@ -286,6 +287,12 @@ def prepare_network(network, regions, date, country_code,
     pypsa.Network
         Fully prepared network ready for OPF.
     """
+    for mode in ('heatwave_mode', 'renewable_mode'):
+        if not args.get(mode, True):
+            raise ValueError(
+                f'{mode}=False is not supported by the prepared European '
+                'heatwave inputs; use True.')
+
     # Weather
     weather_path = (MODELS + f'/{country_code}/simu_data/'
                     f'future_weather_data_based_on_historical_hot_event_'
@@ -754,6 +761,13 @@ def run_single_simulation(params):
     (tdpf_analysis, fut_date, country_code, nbus, args,
      conductor, weather, his_heatwave_year, his_heatwave_index) = params
 
+    # Keep per-scenario settings independent of earlier modes and runs.
+    conductor = conductor.copy()
+    weather = weather.copy()
+    if 'td_sin' in tdpf_analysis:
+        conductor['convective_correction'] = 1
+        conductor['radiactive_correction'] = 1
+
     network, regions = load_network_EU(country_code, RATIO)
     network = prepare_network(
         network, regions, fut_date, country_code,
@@ -766,6 +780,11 @@ def run_single_simulation(params):
                f'load_growth_{args["load_growth_rate"]}_'
                f'thermal_{args["max_temperature"]}')
     expr_id = f'{base_id}_{para_id}'
+    # Preserve existing default filenames while distinguishing disabled modes.
+    if not args.get('storage_mode', True):
+        expr_id += '_storage_off'
+    if not args.get('load_growth', True):
+        expr_id += '_load_growth_off'
 
     temp_df = pd.DataFrame(columns=['exper_id'])
     temp_df = TDACOPF_eur(
@@ -820,6 +839,12 @@ def run_parallel_simulations(analysis_list, country_code, nbus, args,
             if cnt[ym] < num_future_heat_event:
                 hot_days.append(d)
                 cnt[ym] += 1
+    if not hot_days:
+        raise ValueError(
+            f'No matching heatwave dates for {country_code} in '
+            f'{MODELS}/{country_code}/simu_data/future_hot_dates.npy. '
+            f'Expected years {future_heatwave_year_list} and '
+            f'months {future_heatwave_month_list}.')
     future_hot_date_list = [
         datetime(d.year, d.month, d.day, h)
         for d in hot_days
@@ -829,10 +854,6 @@ def run_parallel_simulations(analysis_list, country_code, nbus, args,
     all_results = []
 
     for tdpf_analysis in analysis_list:
-        if 'td_sin' in tdpf_analysis:
-            conductor['convective_correction'] = 1
-            conductor['radiactive_correction'] = 1
-
         param_list = []
         for his_year in historical_heatwave_year_list:
             for his_idx in range(num_his_heat_event):
@@ -944,7 +965,8 @@ def main(country_code='ES'):
     # --- Load network ---
     # network, _ = load_network_EU(country_code, RATIO)
     # nbus = network.buses.shape[0]
-    nbus = country_bus[country_code]
+    country_key = tuple(country_code) if isinstance(country_code, list) else country_code
+    nbus = country_bus[country_key]
 
     if isinstance(country_code, list):
         # ---- Multi-country: load-growth sensitivity ----
@@ -1022,5 +1044,5 @@ if __name__ == "__main__":
 
     # Multi-country (cross-border) runs
     # for country_list in [['ES', 'PT'], ['ES', 'FR'], ['FR', 'ES'],
-    #                      ['FR', 'IT'], ['FR', 'GB'], ['FR', 'DE']]:
+    #                      ['FR', 'IT'], ['FR', 'GB']]:
     #     main(country_list)
