@@ -959,6 +959,9 @@ class PypsaPypower:
             fbus = self.network.buses.index.tolist().index(fbus_name)
             tbus = self.network.buses.index.tolist().index(tbus_name)
             efficiency = links.loc[dcline_name, 'efficiency']
+            # Approximate link efficiency by reducing transfer limits.
+            # Terminal injections remain equal and opposite; flow-dependent
+            # transmission losses are not explicitly represented.
             p_nom = (links.loc[dcline_name, 'p_nom']
                      / phase_factor * efficiency)
             Pmin = links.loc[dcline_name, 'p_min_pu'] * p_nom
@@ -991,6 +994,9 @@ class PypsaPypower:
             bus_name = storage.loc[st_name, 'bus']
             bus_idx = self.network.buses.index.tolist().index(bus_name)
             eff_disp = storage.loc[st_name, 'efficiency_dispatch']
+            # Each hour is an independent operating snapshot. Scale available
+            # discharge power by the initial storage-charge setting and discharge
+            # efficiency, without carrying storage-energy changes between hours.
             p_nom = (storage.loc[st_name, 'p_nom']
                      / phase_factor * self.args['storage_ratio'])
             Pmin = storage.loc[st_name, 'p_min_pu'] * p_nom * eff_disp

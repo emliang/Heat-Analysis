@@ -416,7 +416,9 @@ def bias_correction(variable_list, weather_his_heatwave,
     if not isinstance(variable_list, list):
         variable_list = [variable_list]
 
-    # Empirical guard-rails to prevent extreme artefacts
+    # Limit extreme values introduced by the weather transformation using
+    # configured bounds. These are modelling settings, not universal
+    # physical limits.
     CONSTRAINTS = {
         'temperature': {'bias': (-15, 15),   'final': (-10 + TK, 50 + TK)},
         'influx':      {'bias': (-250, 250), 'final': (0, 950)},
@@ -424,6 +426,8 @@ def bias_correction(variable_list, weather_his_heatwave,
         'wnd100m':     {'bias': (-1, 1),     'final': (0, 50)},
     }
 
+    # Smooth the historical-to-reference differences spatially to reduce
+    # abrupt local variations before applying them to the future fields.
     for variable in variable_list:
         his_hw = weather_his_heatwave[variable].values
         his_bl = weather_his_baseline[variable].values
@@ -443,7 +447,7 @@ def bias_correction(variable_list, weather_his_heatwave,
             smoothed_bias = apply_smoothing(bias, kernel_size=spatial_kernel)
             fut_heatwave = fut_bl * np.exp(smoothed_bias)
 
-        # Physical value clipping
+        # Apply the configured bounds to the resulting field.
         fut_heatwave = np.clip(fut_heatwave, *CONSTRAINTS[variable]['final'])
         weather_future[variable].values = fut_heatwave
 

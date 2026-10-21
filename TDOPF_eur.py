@@ -170,15 +170,21 @@ def network_load_demand(network, date, country_code, load_demand, args):
 
     for i, country in enumerate(country_list):
         demand_curve = load_demand_profile(country)
+        # Use the calibrated weekday cooling profile to represent peak-demand
+        # conditions during heatwaves. Apply this profile consistently across
+        # simulated dates rather than switching to a weekend profile.
         hour_ratio = np.reshape(
             demand_curve['weekday_cooling_hour_ratio'], (-1))
-        # Apply base-load growth
+        # Apply compound annual growth to base demand only, retaining the
+        # weather-dependent demand component calculated for each scenario.
         growth = (args['load_growth_rate']
                   ** max(date.year - BASELINE_YEAR, 0) - 1
                   if args.get('load_growth', True) else 0)
         daily_grown = daily_load[i] + demand_curve['Pb'] * growth
         hourly = daily_grown * hour_ratio[date.hour] * 1e3 * 24
 
+        # Allocate national hourly demand using the represented bus-load shares,
+        # normalised within each country to preserve its total demand.
         mask = (network.buses.country.values == country)
         lr = network.buses.loc[mask, 'load_ratio']
         lr = lr / lr.sum()
@@ -227,7 +233,9 @@ def network_load_renewable(network, solar_profile, onwind_profile,
             network.generators.loc[gen_id, 'p_max_pu'] = (
                 offwind_dc_profile.sel(bus=bus_id).profile.data)
         elif gen_id in network.generators_t['p_max_pu'].columns:
-            # Use the PyPSA historical mean where no weather-driven profile matches.
+            # Where no matching weather-driven profile is available, use historical
+            # monthly-hourly mean availability derived from PyPSA to retain the
+            # represented generator. This limits available output, not dispatch.
             if gen_id not in historical_profile or not np.isfinite(historical_profile[gen_id]):
                 raise ValueError(f'Missing historical availability for generator {gen_id}')
             network.generators.loc[gen_id, 'p_max_pu'] = historical_profile[gen_id]
@@ -600,6 +608,8 @@ def TDACOPF_eur(df, network, country_code, utc_timestamp, args,
         result, network, weather, conductor, ppc_expr['baseI'])
     np.save(result_file, result, allow_pickle=True)
 
+    # Summarise weather using arithmetic means across represented buses,
+    # rather than national area-weighted or population-weighted averages.
     # Build result row
     result_row = {
         'TDPF_solver': tdpf_analysis,
@@ -695,10 +705,13 @@ def ACOPF_analysis_eur(country_code, network, args, ppc_expr,
     result_row['solver_status'] = result['solver_status']
     # Total three-phase load in GW
     result_row['load'] = np.sum(Pd) * baseMva * 3 / 1000
+    # Report total load shedding as a percentage of total demand.
+    # The legacy "node_load_shedding" field name does not denote a node count.
     result_row['node_load_shedding'] = (
         np.sum(slack_p_eq) / np.sum(Pd) * 100)
 
-    # Load-shedding node counts at various thresholds
+    # Apply per-unit thresholds when counting buses with load shedding,
+    # distinguishing different magnitudes of unmet demand.
     result_row['node_mis_match_0001_num'] = int(
         np.sum(slack_p_eq >= 0.001))
     result_row['node_mis_match_001_num'] = int(

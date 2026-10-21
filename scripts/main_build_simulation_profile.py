@@ -241,7 +241,9 @@ def calculate_future_demand(his_era5_slice, fut_heatwave, regions,
     demand : float
         Estimated daily peak demand [GW].
     """
-    # Aggregate to bus-level averages
+    # Future weather inputs do not provide humidity, so retain it from the
+    # historical heatwave. Use the constructed future fields for temperature,
+    # wind and irradiance.
     his_humidity = aggregate_regional_data(
         his_era5_slice, regions, variables=['humidity'])['humidity'].data
     fut_temperature = aggregate_regional_data(
@@ -647,7 +649,9 @@ def generate_single_renewable_profile(technology, weather_cutout_path,
         potential.rename("potential"),
     ])
 
-    # Filter by minimum capacity factor and p_nom_max
+    # Filter out buses below the configured resource thresholds.
+    # Generators without a matching profile use historical availability
+    # when the simulation inputs are loaded.
     ds = ds.sel(bus=(
         (ds["profile"].mean("time") > params.get("min_p_max_pu", 0.0))
         & (ds["p_nom_max"] > params.get("min_p_nom_max", 0.0))

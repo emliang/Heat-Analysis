@@ -454,6 +454,10 @@ class ACOPF:
             else:
                 self.model.PDC[i].fix(0.0)
 
+        # Represent storage as an active-power supply. Reactive-power support
+        # is omitted because device-specific capability data are unavailable;
+        # it can be added when those parameters are provided.
+        # Charging is not represented in this single-snapshot formulation.
         for i in range(self.nstorage):
             if storage[i, 1] == 1:
                 self.model.PS[i].lb = 0
