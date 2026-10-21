@@ -6,7 +6,7 @@
   <meta name="description" content="Explore how HEAT-Analysis connects extreme-weather fields with electricity use, power-plant output and transmission-line heating across European grid representations.">
   <title>HEAT-Analysis | Heatwave-induced capacity bottlenecks in European electricity grids</title>
   <link rel="icon" type="image/png" href="images/heat-analysis-heat-front.png">
-  <link rel="stylesheet" href="assets/css/custom.css?v=20261017-3">
+  <link rel="stylesheet" href="assets/css/custom.css?v=20261022-2">
   <script src="assets/js/grid-explorer.js?v=20261017-3" defer></script>
 </head>
 <body>
@@ -19,10 +19,11 @@
     </a>
     <nav aria-label="Primary navigation">
       <a href="#framework">Framework</a>
-      <a href="#explorer">Explorer</a>
       <a href="#findings">Findings</a>
+      <a href="#comparison">Comparison</a>
+      <a href="#explorer">Explorer</a>
+      <a href="#scope">Interpretation</a>
       <a href="#notebooks">Notebooks</a>
-      <a href="#scope">Scope</a>
     </nav>
     <a class="header-link header-code" href="https://github.com/emliang/Heat-Analysis" target="_blank" rel="noreferrer">View code</a>
   </header>
@@ -33,7 +34,7 @@
       <div class="hero-shade" aria-hidden="true"></div>
       <div class="hero-inner page-width">
         <h1>Heatwave-induced capacity bottlenecks in European electricity grids</h1>
-        <p class="hero-summary">HEAT-Analysis brings together three ways that extreme heat can affect a power grid: rising electricity use, changing power-plant output and hotter transmission lines. The combined model shows when these pressures may make electricity harder to deliver.</p>
+        <p class="hero-summary">Extreme heat can increase electricity demand, change power-plant output and limit how much power transmission lines can carry. HEAT-Analysis examines how these effects interact and where they create bottlenecks in European grid models.</p>
         <p class="hero-scope">The study estimates near-term stress in grid models built from public data, rather than predicting outages in individual countries.</p>
         <p class="authors">Enming Liang &middot; Minghua Chen &middot; Srinivasan Keshav</p>
       </div>
@@ -47,7 +48,7 @@
             <p class="eyebrow dark">Why this matters</p>
             <h2 id="context-title">Europe is entering a hotter operating environment</h2>
           </div>
-          <p>Europe's recent climate record shows that severe heat is becoming a more important condition for infrastructure planning. Its consequences are already visible in environmental and public-health indicators.</p>
+          <p>Recent European heatwaves have brought widespread heat stress and a substantial health burden. Electricity networks must also operate through these conditions.</p>
         </div>
         <div class="context-stats">
           <article>
@@ -69,7 +70,7 @@
             <a href="https://www.nature.com/articles/s41591-023-02419-z" target="_blank" rel="noreferrer">Nature Medicine study</a>
           </article>
         </div>
-        <p class="context-bridge">Together, these trends raise an important question for electricity systems: how does grid operation change when heat simultaneously raises demand, shifts generation and reduces transmission capacity?</p>
+        <p class="context-bridge">For electricity systems, heat can raise demand just as generation and transmission capacity become constrained.</p>
       </div>
     </section>
 
@@ -78,7 +79,7 @@
         <div class="section-intro">
           <p class="eyebrow dark">The problem</p>
           <h2 id="pressure-title">Why heat needs a whole-system view</h2>
-          <p>These three effects interact through the network. Considering them together reveals how a constraint in one part of the system can change the ability of the whole grid to deliver power.</p>
+          <p>Electricity supply depends on both available generation and the network's ability to deliver it. A heat-related constraint on a transmission line can therefore matter even when power is available elsewhere.</p>
         </div>
         <div class="pressure-grid">
           <article>
@@ -114,7 +115,7 @@
         <div class="section-intro wide">
           <p class="eyebrow dark">The framework</p>
           <h2 id="framework-title">Turning weather fields into a grid stress test</h2>
-          <p>The framework brings these effects together to test how the represented grid can meet demand during each projected heatwave hour.</p>
+          <p>For each projected heatwave hour, the model tests whether the represented grid can meet demand under the corresponding weather conditions.</p>
         </div>
         <figure class="research-figure framework-figure">
           <a class="desktop-framework" href="images/heatwave-aware-grid-framework.png" target="_blank" rel="noreferrer" title="Open the full-size framework figure">
@@ -165,12 +166,60 @@
       </div>
     </section>
 
+    <section class="findings-section" id="findings" aria-labelledby="findings-title">
+      <div class="page-width">
+        <div class="section-intro wide">
+          <p class="eyebrow dark">What the simulations show</p>
+          <h2 id="findings-title">Heatwave stress varies across represented grids</h2>
+          <p>Applying the framework to eight country-level grid representations reveals different patterns of stress. Each is evaluated over 480 projected heatwave hours, accounting for differences in weather, network structure, generation, demand and storage.</p>
+        </div>
+        <figure class="research-figure results-figure">
+          <a href="images/represented-grid-results.png" target="_blank" rel="noreferrer" title="Open the full-size results figure">
+            <img src="images/represented-grid-results.png" alt="Distributions of heatwave temperature, load shedding and available line capacity across represented European grid configurations">
+          </a>
+          <figcaption>The distributions show how air temperature, unmet demand and transmission-line conditions vary across the eight public-data grid representations. Supporting statistics and line counts accompany the paper in the Source Data.</figcaption>
+        </figure>
+        <div class="finding-grid">
+          <article>
+            <h3>Different grids, different bottlenecks</h3>
+            <p>The represented French, Spanish and Italian systems show higher load-shedding risk. The German and UK models, together with several northern counterparts, remain less affected under the tested conditions.</p>
+          </article>
+          <article>
+            <h3>Interconnection helps unevenly</h3>
+            <p>Links to neighbouring systems provide relief only when those systems retain spare power and the connecting routes can deliver it to the constrained area.</p>
+          </article>
+          <article>
+            <h3>Demand growth increases stress</h3>
+            <p>In the Spanish analysis, higher base demand increases load shedding. The storage comparison varies only the initial charge of the represented fleet; future storage locations and capacity could produce different outcomes.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="comparison-section" id="comparison" aria-labelledby="comparison-title">
+      <div class="page-width">
+        <div class="section-intro wide">
+          <p class="eyebrow dark">Spain: comparing methods</p>
+          <h2 id="comparison-title">Why the modelling approach matters</h2>
+          <p>The differences between grids raise a further question: how much does the choice of model affect the bottlenecks we identify? The Spanish case compares four approaches using the same 480 projected heatwave hours.</p>
+        </div>
+        <p class="comparison-copy">AC-OPF uses fixed transmission limits, while Quad-OPF approximates their temperature dependence. Iter-OPF is the study's two-update method; TD-OPF continues the temperature-dependent calculation until the results stabilise, providing a convergence reference.</p>
+        <figure class="research-figure results-figure">
+          <a href="images/spain-opf-comparison.png" target="_blank" rel="noreferrer" title="Open the full-size Spain method comparison">
+            <img src="images/spain-opf-comparison.png" alt="Four OPF methods compared in Spain: available line capacity, conductor temperature, load shedding and solver running time" width="2000" height="1067" loading="lazy">
+          </a>
+          <figcaption>Paper Fig. 3. Panels a and b summarise 442 lines across 480 heatwave hours; panels c and d summarise the 480 hourly scenarios. Boxes show the middle 50% of observations, whiskers extend to observations within 1.5 times the interquartile range, and red points mark means. Half-violins show the distributions. <a href="https://github.com/emliang/Heat-Analysis/blob/main/vis/figure_source/data/Source_Data_Fig_3.zip">Source data</a>.</figcaption>
+        </figure>
+        <p class="comparison-copy">In this comparison, AC-OPF and Quad-OPF yield less load shedding but allow some lines to exceed the modelled 90&deg;C thermal limit. Iter-OPF captures the additional constraints and closely matches the TD-OPF reference, with a shorter running time. The important difference lies in local thermal bottlenecks, even though average line temperatures are similar.</p>
+      </div>
+    </section>
+
     <section class="explorer-section" id="explorer" aria-labelledby="explorer-title">
       <div class="page-width">
         <div class="section-intro wide">
           <p class="eyebrow dark">Explore one solved hour</p>
           <h2 id="explorer-title">A closer look at the Spanish grid</h2>
-          <p>To see how these steps come together, explore one projected heatwave hour in the represented Spanish grid: 13:00 on 24 July 2030. The map displays the saved weather and grid result for that case.</p>
+          <p>The comparison above summarises many heatwave hours. Here, one saved example brings the weather and network into view: 13:00 on 24 July 2030 in the represented Spanish grid.</p>
         </div>
         <div class="explorer-views" role="group" aria-label="Explorer view">
           <button type="button" data-grid-view="grid" aria-pressed="false">Grid configuration</button>
@@ -237,32 +286,15 @@
       </div>
     </section>
 
-    <section class="findings-section" id="findings" aria-labelledby="findings-title">
-      <div class="page-width">
-        <div class="section-intro wide">
-          <p class="eyebrow dark">What the simulations show</p>
-          <h2 id="findings-title">Heatwave stress varies across represented grids</h2>
-          <p>Beyond this Spanish example, the analysis evaluates 480 projected heatwave hours for each of eight country-level grid representations. Differences in weather, network structure, generation, demand and storage lead to different operational responses.</p>
+    <section class="scope-section" id="scope" aria-labelledby="scope-title">
+      <div class="page-width scope-layout">
+        <div>
+          <p class="eyebrow dark">What the results mean</p>
+          <h2 id="scope-title">Interpreting the results</h2>
         </div>
-        <figure class="research-figure results-figure">
-          <a href="images/represented-grid-results.png" target="_blank" rel="noreferrer" title="Open the full-size results figure">
-            <img src="images/represented-grid-results.png" alt="Distributions of heatwave temperature, load shedding and available line capacity across represented European grid configurations">
-          </a>
-          <figcaption>The distributions show how air temperature, unmet demand and transmission-line conditions vary across the eight public-data grid representations. Supporting statistics and line counts accompany the paper in the Source Data.</figcaption>
-        </figure>
-        <div class="finding-grid">
-          <article>
-            <h3>Different grids, different bottlenecks</h3>
-            <p>The represented French, Spanish and Italian systems show higher load-shedding risk. The German and UK models, together with several northern counterparts, remain less affected under the tested conditions.</p>
-          </article>
-          <article>
-            <h3>Interconnection helps unevenly</h3>
-            <p>Links to neighbouring systems provide relief only when those systems retain spare power and the connecting routes can deliver it to the constrained area.</p>
-          </article>
-          <article>
-            <h3>Demand growth increases stress</h3>
-            <p>In the Spanish analysis, higher base demand increases load shedding. The storage comparison varies only the initial charge of the represented fleet; future storage locations and capacity could produce different outcomes.</p>
-          </article>
+        <div class="scope-copy">
+          <p>Load shedding marks demand that the model cannot serve under the specified weather, infrastructure and operating constraints. Its location and extent help identify bottlenecks and explain how heat affects power delivery. These are conditional stress-test results, not predictions of national outages.</p>
+          <p>Network upgrades, new generation and storage, and operational measures could change the results. With more detailed grid and cost data, the framework could compare adaptation options such as demand response, transmission reinforcement, targeted storage and cross-border support.</p>
         </div>
       </div>
     </section>
@@ -297,18 +329,6 @@
       </div>
     </section>
 
-    <section class="scope-section" id="scope" aria-labelledby="scope-title">
-      <div class="page-width scope-layout">
-        <div>
-          <p class="eyebrow dark">Scope and limitations</p>
-          <h2 id="scope-title">Stress signals, not outage predictions</h2>
-        </div>
-        <div class="scope-copy">
-          <p>The analysis shows where modelled near-term heatwaves place stress on grid configurations built from public data. These results are intended to support further assessment, rather than forecast load shedding in individual countries.</p>
-          <p>Future network expansion, generation investment, storage deployment and operator decisions could change the estimates. A next step would be to combine this stress test with detailed grid and cost data to compare demand response, transmission reinforcement, targeted storage and cross-border support under different climate and infrastructure pathways.</p>
-        </div>
-      </div>
-    </section>
   </main>
 
   <footer class="site-footer">

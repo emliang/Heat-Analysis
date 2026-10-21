@@ -61,12 +61,13 @@ h3 {
 }
 
 h1 {
-  max-width: 900px;
+  max-width: 850px;
   margin-bottom: 1.25rem;
   color: #fff;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 4.25rem;
+  font-size: 3.3rem;
   font-weight: 700;
+  text-wrap: balance;
 }
 
 h2 {
@@ -177,9 +178,11 @@ h3 {
 
 .hero {
   position: relative;
-  height: 82svh;
-  min-height: 630px;
-  max-height: 760px;
+  width: 100%;
+  scroll-margin-top: 66px;
+  aspect-ratio: 1672 / 941;
+  min-height: 540px;
+  max-height: calc(100svh - 110px);
   overflow: hidden;
   background: var(--night);
   color: #fff;
@@ -209,7 +212,18 @@ h3 {
   flex-direction: column;
   justify-content: center;
   height: 100%;
-  padding: 3.5rem 0 4.5rem;
+  padding: 2.5rem 0 3.5rem;
+}
+
+@media (min-width: 901px) {
+  .hero {
+    max-height: min(960px, calc(100svh - 110px));
+  }
+
+  .hero-inner {
+    width: min(850px, 86%);
+    margin-inline: 7% 0;
+  }
 }
 
 .eyebrow {
@@ -225,14 +239,14 @@ h3 {
 }
 
 .hero-summary {
-  max-width: 760px;
-  margin-bottom: 1.1rem;
-  font-size: 1.24rem;
+  max-width: 680px;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
   line-height: 1.55;
 }
 
 .hero-scope {
-  max-width: 760px;
+  max-width: 680px;
   margin-bottom: 1.2rem;
   padding-left: 0.95rem;
   border-left: 3px solid #ef7569;
@@ -257,6 +271,7 @@ h3 {
 }
 
 .pressure-section,
+.comparison-section,
 .framework-section,
 .findings-section,
 .notebooks-section,
@@ -275,15 +290,30 @@ h3 {
 }
 
 .pressure-section .section-intro,
-.framework-section .section-intro {
+.framework-section .section-intro,
+.findings-section .section-intro {
   max-width: none;
+}
+
+.comparison-section {
+  background: var(--soft);
+}
+
+.comparison-copy {
+  max-width: 900px;
+}
+
+.comparison-section .research-figure + .comparison-copy {
+  margin-top: 1.5rem;
+  margin-bottom: 0;
 }
 
 .pressure-section .section-intro > p:last-child {
   max-width: 760px;
 }
 
-.framework-section .section-intro > p:last-child {
+.framework-section .section-intro > p:last-child,
+.findings-section .section-intro > p:last-child {
   max-width: 900px;
 }
 
@@ -389,13 +419,18 @@ h3 {
   line-height: 1.55;
 }
 
+.research-figure figcaption a {
+  display: inline;
+  background: none;
+  border: 0;
+}
+
 .method-section {
   padding: 5.5rem 0;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
 
-.method-layout,
 .scope-layout {
   display: grid;
   grid-template-columns: 0.78fr 1.22fr;
@@ -403,7 +438,20 @@ h3 {
   align-items: start;
 }
 
+.method-layout {
+  display: grid;
+  gap: 2rem;
+}
+
+.method-lead h2 {
+  margin-bottom: 0;
+  text-wrap: balance;
+}
+
 .method-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -411,14 +459,10 @@ h3 {
 
 .method-steps li {
   display: grid;
-  grid-template-columns: 42px 1fr;
+  grid-template-columns: 24px minmax(0, 1fr);
   gap: 1rem;
   padding: 1.6rem 0;
   border-top: 1px solid var(--line);
-}
-
-.method-steps li:last-child {
-  border-bottom: 1px solid var(--line);
 }
 
 .method-steps li > span {
@@ -736,20 +780,26 @@ h3 {
 
 .context-heading {
   display: grid;
-  grid-template-columns: 0.78fr 1.22fr;
-  gap: 6rem;
-  align-items: end;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.4rem;
   margin-bottom: 3.2rem;
 }
 
 .context-heading h2 {
   margin-bottom: 0;
+  text-wrap: balance;
 }
 
 .context-heading > p {
+  max-width: 900px;
   margin-bottom: 0.2rem;
   color: var(--muted);
   font-size: 1.04rem;
+}
+
+#findings-title {
+  text-wrap: balance;
+  margin-bottom: 1.2rem;
 }
 
 .context-stats {
@@ -925,6 +975,11 @@ h3 {
     gap: 2rem;
   }
 
+  .method-steps {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
   .context-stats {
     gap: 1.8rem;
   }
@@ -981,12 +1036,26 @@ h3 {
   }
 
   .hero {
-    height: 82svh;
-    min-height: 640px;
+    aspect-ratio: auto;
+    min-height: 0;
+    max-height: none;
+  }
+
+  .hero-image {
+    object-position: right top;
+  }
+
+  .hero-shade {
+    background: linear-gradient(180deg, transparent 0%, rgba(10, 17, 24, 0.12) 20%, rgba(10, 17, 24, 0.82) 42%, rgba(10, 17, 24, 0.88) 100%);
+  }
+
+  .hero h1 {
+    font-size: 2rem;
   }
 
   .hero-inner {
-    padding: 2.5rem 0 4rem;
+    height: auto;
+    padding: 13rem 0 4.5rem;
   }
 
   .hero-summary {
@@ -1082,8 +1151,7 @@ h3 {
 
   .hero-inner {
     height: auto;
-    min-height: 640px;
-    padding: 1.5rem 0 5.75rem;
+    padding: 13rem 0 5.75rem;
   }
 
   .hero-summary {
