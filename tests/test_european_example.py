@@ -23,7 +23,7 @@ class EuropeanExampleTests(unittest.TestCase):
         self.assertEqual(manifest["case"]["country"], "ES")
         self.assertEqual(manifest["case"]["timestamp"], "2030-07-24T13:00:00")
         self.assertEqual(manifest["network_components"]["stores"], 0)
-        self.assertEqual(len(manifest["files"]), 10)
+        self.assertEqual(len(manifest["files"]), 11)
 
     def make_bundle(self, directory):
         bundle = Path(directory)
@@ -52,6 +52,7 @@ class EuropeanExampleTests(unittest.TestCase):
             Path("models/ES/weather") / f"2024_0_{tech}_profile_s_75.nc"
             for tech in ("solar", "onwind", "offwind-ac", "offwind-dc")
         )
+        paths.append(Path("data/EU/networks/historical_p_max_pu_s_75.nc"))
         files = []
         for path in paths:
             target = bundle / path
@@ -72,7 +73,10 @@ class EuropeanExampleTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             bundle, _ = self.make_bundle(directory)
             hour = np.datetime64("2030-07-24T13:00:00", "ns")
-            dataset = xr.Dataset(coords={"time": [hour]})
+            dataset = xr.Dataset(
+                {"p_max_pu": (("month", "hour", "generator"), [[[0.5]]])},
+                coords={"time": [hour], "month": [7], "hour": [13],
+                        "generator": ["test-generator"]})
             with patch("scripts.run_european_example.xr.open_dataset",
                        return_value=dataset):
                 self.assertEqual(check_bundle(bundle)["case"]["country"],

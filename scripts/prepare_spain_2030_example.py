@@ -16,11 +16,13 @@ import xarray as xr
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from utils.country_network_filter import filter_network_by_countries
+from utils.renewable_history import export_historical_availability
 
 
 TIMESTAMP = "2030-07-24T13:00:00"
 ANCHOR = "2024_0"
 NETWORK = "data/EU/networks/base_s_75_elec.nc"
+HISTORY = "data/EU/networks/historical_p_max_pu_s_75.nc"
 REGIONS = "data/EU/regions_onshore_base_s_75.geojson"
 LOAD_RATIOS = "data/EU/load_ratio_base_s_75.csv"
 WEATHER = f"models/ES/simu_data/future_weather_data_based_on_historical_hot_event_{ANCHOR}.nc"
@@ -73,6 +75,13 @@ def prepare(source_root, destination):
                 if len(reference_hours) != 31:
                     raise ValueError("Expected all July 13:00 reference hours")
                 network.set_snapshots(reference_hours)
+                history = export_historical_availability(
+                    network, staging / HISTORY, source)
+                files.append({
+                    "bytes": history.stat().st_size, "path": HISTORY,
+                    "sha256": digest(history), "source": NETWORK,
+                    "source_sha256": digest(source),
+                })
                 reference_snapshots = len(network.snapshots)
                 components = {
                     "buses": len(network.buses),

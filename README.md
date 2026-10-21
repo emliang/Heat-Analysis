@@ -103,6 +103,28 @@ Heat-Analysis/
 | [PyPSA-Eur](https://pypsa-eur.readthedocs.io/) | European transmission network, bus regions, exclusion rasters |
 | [Atlite](https://github.com/PyPSA/atlite) | Weather-driven renewable capacity factor calculation |
 
+Historical mean availability derived from the PyPSA network is used where
+matching future weather-driven renewable profiles are unavailable. The values
+are averaged by month and hour and stored separately in
+`data/EU/networks/historical_p_max_pu_s_{ratio}.nc`. They represent `p_max_pu`
+(available output per unit of nominal capacity), not actual dispatched generation.
+Matching Atlite profiles take precedence; missing or invalid input files still
+raise an error rather than silently selecting a different input.
+
+The bundled s_75 file contains the 72 month-hour combinations present in the
+source network; the Spain example includes only its July 13:00 historical means.
+Unrepresented months or hours are not extrapolated. For another network,
+generate the file once from that network's original time series:
+
+```bash
+python scripts/prepare_renewable_history.py \
+  --network data/EU/networks/base_s_75_elec.nc \
+  --output data/EU/networks/historical_p_max_pu_s_75.nc
+```
+
+Regenerate this file if the source network changes. The simulation reads it once
+per process and looks up each requested month and hour without recomputing means.
+
 ```
 Historical weather + demand -> demand calibration -> demand curves
 Weather + demand curves + network -> simulation-ready hourly profiles

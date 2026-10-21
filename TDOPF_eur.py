@@ -46,6 +46,7 @@ import xarray as xr
 from data_config import *  # noqa: F403
 from utils.heat_flow_utils import *  # noqa: F403
 from utils.heatwave_utils import aggregate_regional_data
+from utils.renewable_history import historical_availability
 from utils.network_process_utils import *  # noqa: F403
 from utils.opf_pyomo_utils import *  # noqa: F403
 
@@ -190,7 +191,8 @@ def network_load_demand(network, date, country_code, load_demand, args):
 
 
 def network_load_renewable(network, solar_profile, onwind_profile,
-                           offwind_ac_profile, offwind_dc_profile):
+                           offwind_ac_profile, offwind_dc_profile,
+                           historical_profile):
     """Update generator ``p_max_pu`` from weather-driven profiles.
 
     Parameters
@@ -198,18 +200,14 @@ def network_load_renewable(network, solar_profile, onwind_profile,
     network : pypsa.Network
     solar_profile, onwind_profile : xr.Dataset
     offwind_ac_profile, offwind_dc_profile : xr.Dataset
+    historical_profile : pd.Series
+        Historical mean p_max_pu derived from the PyPSA network for the selected
+        month and hour, used where no matching weather-driven profile is available.
 
     Returns
     -------
     pypsa.Network
     """
-    net_month = pd.to_datetime(
-        network.generators_t['p_max_pu'].index).month
-    prof_month = pd.to_datetime(solar_profile.time.values).month
-    net_hour = pd.to_datetime(
-        network.generators_t['p_max_pu'].index).hour
-    prof_hour = pd.to_datetime(solar_profile.time.values).hour
-
     for gen_id in network.generators.index:
         gen = network.generators.loc[gen_id]
         bus_id = gen['bus']
@@ -229,12 +227,10 @@ def network_load_renewable(network, solar_profile, onwind_profile,
             network.generators.loc[gen_id, 'p_max_pu'] = (
                 offwind_dc_profile.sel(bus=bus_id).profile.data)
         elif gen_id in network.generators_t['p_max_pu'].columns:
-            # Fall back to historical monthly-hourly average
-            network.generators.loc[gen_id, 'p_max_pu'] = (
-                network.generators_t['p_max_pu'].loc[
-                    (net_month == prof_month) & (net_hour == prof_hour),
-                    gen_id,
-                ].mean())
+            # Use the PyPSA historical mean where no weather-driven profile matches.
+            if gen_id not in historical_profile or not np.isfinite(historical_profile[gen_id]):
+                raise ValueError(f'Missing historical availability for generator {gen_id}')
+            network.generators.loc[gen_id, 'p_max_pu'] = historical_profile[gen_id]
 
     return network
 
@@ -321,7 +317,9 @@ def prepare_network(network, regions, date, country_code,
     offwind_dc = xr.open_dataset(
         f'{wp}/{hw}_offwind-dc_profile_s_{ratio}.nc').sel(time=date)
     network = network_load_renewable(
-        network, solar, onwind, offwind_ac, offwind_dc)
+        network, solar, onwind, offwind_ac, offwind_dc,
+        historical_availability(
+            f'{LOCAL_DATA}/EU/networks/historical_p_max_pu_s_{ratio}.nc', date))
 
     # Generator derating
     network = network_load_derating(network)

@@ -42,6 +42,7 @@ def check_bundle(bundle):
     anchor = f"{case['historical_year']}_{case['historical_event_index']}"
     expected = {
         "data/EU/networks/base_s_75_elec.nc",
+        "data/EU/networks/historical_p_max_pu_s_75.nc",
         "data/EU/regions_onshore_base_s_75.geojson",
         "data/EU/load_ratio_base_s_75.csv",
         f"models/ES/simu_data/future_weather_data_based_on_historical_hot_event_{anchor}.nc",
@@ -76,6 +77,9 @@ def check_bundle(bundle):
         with xr.open_dataset(path) as dataset:
             if timestamp not in dataset.time.values:
                 raise ValueError(f"Selected hour missing from {path}")
+    from utils.renewable_history import historical_availability
+    historical_availability(
+        bundle / "data/EU/networks/historical_p_max_pu_s_75.nc", case["timestamp"])
     return manifest
 
 
