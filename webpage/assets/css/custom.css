@@ -320,6 +320,24 @@ main section[id] { scroll-margin-top: 90px; }
   font-size: 0.96rem;
 }
 
+.publication-link {
+  margin: 0.65rem 0 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.publication-link a { color: #fff; text-underline-offset: 4px; }
+
+.publication-citation {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+
+.publication-citation p { max-width: 920px; }
+.publication-citation a { color: #c3def5; text-underline-offset: 3px; }
+
 .authors {
   margin-bottom: 0;
   color: #dce3e6;

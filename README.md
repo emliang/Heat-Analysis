@@ -13,6 +13,7 @@
   </p>
   <p align="center">
     <a href="https://emliang.github.io/Heat-Analysis/">Project Page</a> &nbsp;|&nbsp;
+    <a href="https://www.nature.com/articles/s41560-026-02151-1">Nature Energy Paper</a> &nbsp;|&nbsp;
     <a href="#-background">Background</a> &nbsp;|&nbsp;
     <a href="#-methodology">Methodology</a> &nbsp;|&nbsp;
     <a href="#-data-sources--flow">Data</a> &nbsp;|&nbsp;
@@ -329,8 +330,20 @@ You are free to **share** and **adapt** the material for any purpose, provided y
 
 ## ✨ Citation
 
-The manuscript's final bibliographic details are pending. The project page
-and repository will be updated with a verified citation after publication.
+Liang, E., Chen, M. & Keshav, S. **Heatwave-induced capacity bottlenecks in European electricity grids.** *Nature Energy* (2026). https://doi.org/10.1038/s41560-026-02151-1
+
+Published 22 October 2026. [Read the article](https://www.nature.com/articles/s41560-026-02151-1) · [Download BibTeX](webpage/citation.bib).
+
+```bibtex
+@article{liang2026heatwave,
+  title = {Heatwave-induced capacity bottlenecks in European electricity grids},
+  author = {Liang, Enming and Chen, Minghua and Keshav, Srinivasan},
+  journal = {Nature Energy},
+  year = {2026},
+  doi = {10.1038/s41560-026-02151-1},
+  url = {https://www.nature.com/articles/s41560-026-02151-1}
+}
+```
 
 ---
 
