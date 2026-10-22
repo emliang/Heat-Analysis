@@ -6,7 +6,7 @@
   <meta name="description" content="Explore how HEAT-Analysis connects extreme-weather fields with electricity use, power-plant output and transmission-line heating across European grid representations.">
   <title>HEAT-Analysis | Heatwave-induced capacity bottlenecks in European electricity grids</title>
   <link rel="icon" type="image/png" href="images/heat-analysis-heat-front.png">
-  <link rel="stylesheet" href="assets/css/custom.css?v=20261022-5">
+  <link rel="stylesheet" href="assets/css/custom.css?v=20261022-10">
   <script src="assets/js/navigation.js?v=20261022-1" defer></script>
   <script src="assets/js/grid-explorer.js?v=20261017-3" defer></script>
 </head>
@@ -36,10 +36,9 @@
       <div class="hero-shade" aria-hidden="true"></div>
       <div class="hero-inner page-width">
         <h1>Heatwave-induced capacity bottlenecks in European electricity grids</h1>
-        <p class="hero-summary">Extreme heat can increase electricity demand, change power-plant output and limit how much power transmission lines can carry. HEAT-Analysis examines how these effects interact and where they create bottlenecks in European grid models.</p>
-        <p class="hero-scope">The study estimates near-term stress in grid models built from public data, rather than predicting outages in individual countries.</p>
+        <p class="hero-summary">Extreme heat can increase electricity demand, change power-plant output and limit how much power transmission lines can carry. HEAT-Analysis brings these effects together in grid models built from public data to examine where projected heatwaves could expose bottlenecks under the represented infrastructure configurations.</p>
         <p class="authors">Enming Liang &middot; Minghua Chen &middot; Srinivasan Keshav</p>
-        <p class="publication-link"><a href="https://www.nature.com/articles/s41560-026-02151-1" target="_blank" rel="noreferrer">Read the paper in <em>Nature Energy</em> &rarr;</a></p>
+        <p class="publication-link"><a href="https://www.nature.com/articles/s41560-026-02151-1" target="_blank" rel="noreferrer"><span><em>Nature Energy</em> &middot; 2026</span><span>Read the paper &rarr;</span></a></p>
       </div>
       <p class="hero-credit">AI-generated editorial illustration, shown for context rather than as a record of an outage.</p>
     </section>
@@ -181,16 +180,16 @@
         </figure>
         <div class="finding-grid">
           <article>
-            <h3>Different grids, different bottlenecks</h3>
-            <p>The represented French, Spanish and Italian systems show higher load-shedding risk. The German and UK models, together with several northern counterparts, remain less affected under the tested conditions.</p>
+            <h3>Heat exposure varies across grids</h3>
+            <p>The temperature distributions show that the represented grids experience different heat conditions across the projected scenarios.</p>
           </article>
           <article>
-            <h3>Interconnection helps unevenly</h3>
-            <p>Links to neighbouring systems provide relief only when those systems retain spare power and the connecting routes can deliver it to the constrained area.</p>
+            <h3>Unmet demand is unevenly distributed</h3>
+            <p>The French, Spanish and Italian grid models show greater load shedding, while several other represented systems remain less affected under the tested conditions.</p>
           </article>
           <article>
-            <h3>Demand growth increases stress</h3>
-            <p>In the Spanish analysis, higher base demand increases load shedding. The storage comparison varies only the initial charge of the represented fleet; future storage locations and capacity could produce different outcomes.</p>
+            <h3>Transmission capacity responds differently</h3>
+            <p>The available line-capacity distributions vary across grids, reflecting differences in weather exposure and the represented transmission networks.</p>
           </article>
         </div>
       </div>
@@ -293,8 +292,18 @@
           <h2 id="scope-title">Interpreting the results</h2>
         </div>
         <div class="scope-copy">
-          <p>Load shedding marks demand that the model cannot serve under the specified weather, infrastructure and operating constraints. Its location and extent help identify bottlenecks and explain how heat affects power delivery. These are conditional stress-test results, not predictions of national outages.</p>
-          <p>Network upgrades, new generation and storage, and operational measures could change the results. With more detailed grid and cost data, the framework could compare adaptation options such as demand response, transmission reinforcement, targeted storage and cross-border support.</p>
+          <div class="interpretation-row">
+            <h3>What the results show</h3>
+            <p>Heat can constrain electricity supply through demand, generation and transmission at the same time. Considering these effects together reveals local bottlenecks that simpler grid models can miss, while cross-border connections provide relief only where neighbouring systems and connecting lines retain spare capacity.</p>
+          </div>
+          <div class="interpretation-row">
+            <h3>Scope and limitations</h3>
+            <p>The findings describe the represented grids under the tested heatwave conditions, not predictions of national outages. They depend on the public-data infrastructure baseline and the climate, demand and operational assumptions. Future investment and changes in grid operation could alter these outcomes.</p>
+          </div>
+          <div class="interpretation-row">
+            <h3>Future directions</h3>
+            <p>More detailed grid and cost data would support comparisons of adaptation options, including demand response, transmission reinforcement, targeted storage and cross-border support. Alternative climate scenarios and multi-period modelling could extend the assessment to other weather conditions and storage operation over time.</p>
+          </div>
         </div>
       </div>
     </section>
