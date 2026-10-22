@@ -6,7 +6,8 @@
   <meta name="description" content="Explore how HEAT-Analysis connects extreme-weather fields with electricity use, power-plant output and transmission-line heating across European grid representations.">
   <title>HEAT-Analysis | Heatwave-induced capacity bottlenecks in European electricity grids</title>
   <link rel="icon" type="image/png" href="images/heat-analysis-heat-front.png">
-  <link rel="stylesheet" href="assets/css/custom.css?v=20261022-2">
+  <link rel="stylesheet" href="assets/css/custom.css?v=20261022-4">
+  <script src="assets/js/navigation.js?v=20261022-1" defer></script>
   <script src="assets/js/grid-explorer.js?v=20261017-3" defer></script>
 </head>
 <body>
@@ -17,7 +18,7 @@
       <img class="brand-mark" src="images/heat-analysis-heat-front.png" alt="" width="40" height="40">
       HEAT-Analysis
     </a>
-    <nav aria-label="Primary navigation">
+    <nav id="primary-navigation" aria-label="Primary navigation">
       <a href="#framework">Framework</a>
       <a href="#findings">Findings</a>
       <a href="#comparison">Comparison</a>
@@ -26,6 +27,7 @@
       <a href="#notebooks">Notebooks</a>
     </nav>
     <a class="header-link header-code" href="https://github.com/emliang/Heat-Analysis" target="_blank" rel="noreferrer">View code</a>
+    <button class="nav-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation" title="Open navigation"><span aria-hidden="true">☰</span></button>
   </header>
 
   <main id="main">
@@ -118,14 +120,11 @@
           <p>For each projected heatwave hour, the model tests whether the represented grid can meet demand under the corresponding weather conditions.</p>
         </div>
         <figure class="research-figure framework-figure">
-          <a class="desktop-framework" href="images/heatwave-aware-grid-framework.png" target="_blank" rel="noreferrer" title="Open the full-size framework figure">
-            <img src="images/heatwave-aware-grid-framework.png" alt="Research framework linking heatwaves to demand, generation, transmission thermal limits, storage and power-flow analysis" width="2126" height="1683">
-          </a>
-          <div class="mobile-framework" aria-label="Framework figure panels">
-            <a href="images/heatwave-aware-grid-framework.png" target="_blank" rel="noreferrer" title="Open the full-size framework figure">
-              <img src="images/heatwave-framework-panel-a.png" alt="Framework panel a linking heatwaves to demand, generation, transmission thermal limits, storage and power grids" width="2126" height="1015">
+          <div class="framework-panels" aria-label="Framework figure panels">
+            <a href="images/framework_update_2025.png" target="_blank" rel="noreferrer" title="Open the full-size framework overview">
+              <img src="images/framework_update_2025.png" alt="Framework linking heatwaves to demand, generation, transmission thermal limits, storage and power grids" width="2488" height="1073">
             </a>
-            <a href="images/heatwave-aware-grid-framework.png" target="_blank" rel="noreferrer" title="Open the full-size framework figure">
+            <a href="images/heatwave-framework-panel-b.png" target="_blank" rel="noreferrer" title="Open the full-size OPF analysis">
               <img src="images/heatwave-framework-panel-b.png" alt="Framework panel b showing the two-update temperature-dependent optimal power-flow analysis" width="2126" height="668">
             </a>
           </div>
@@ -344,7 +343,7 @@
       </div>
     </div>
     <div class="page-width credit-line">
-      <p>Framework icons adapted from <a href="https://tabler.io/icons">Tabler Icons</a> and <a href="https://phosphoricons.com/">Phosphor Icons</a> under the MIT licence. Pressure illustrations generated with GPT Image.</p>
+      <p>Pressure illustrations generated with GPT Image.</p>
       <p>Original site template derived from <a href="https://html5up.net/">HTML5 UP</a>.</p>
     </div>
   </footer>
