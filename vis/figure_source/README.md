@@ -5,6 +5,8 @@ Data and Supplementary figures accompanying:
 
 > Heatwave-induced capacity bottlenecks in European electricity grids
 
+Published in *Nature Energy* (2026): https://doi.org/10.1038/s41560-026-02151-1.
+
 Manuscript reference: `NENERGY-24102996D`.
 
 The scripts read the frozen Source Data or Supplementary Data packages in

@@ -205,6 +205,10 @@ The run writes `results.csv`, `run_summary.json`, a copy of the checked input
 manifest and the solver result file under the chosen directory. The output
 directory must not exist before the run. A prepared-network run does not need
 the PyPSA-Eur source checkout; generating new renewable profiles does.
+European result CSVs retain `gen_cost` as the single-phase equivalent generation
+cost and include `gen_cost_total` for the three-phase total (using the configured
+phase factor). Both are hourly generation costs in the input cost currency,
+excluding load-shedding penalties.
 The short [visual examples](vis/demos/README.md) use this same hour. The
 [website](https://emliang.github.io/Heat-Analysis/) provides an interactive
 view of its selected grid result without running the solver.
@@ -255,6 +259,10 @@ Heat-Analysis/
 
 `TDOPF_eur.py` remains the batch experiment entry point. It
 expects the prepared input paths described in the file inventory below.
+By default, it runs Spain's demand-growth, thermal-limit and model-comparison
+sweeps, not all countries. Repeating a batch with the same settings overwrites
+its existing CSV and solver-result files; preserve any results you need before
+rerunning.
 Building new renewable profiles also requires a configured PyPSA-Eur checkout.
 
 > Detailed file inventory: [`DATA_INPUT_SUMMARY.md`](data/DATA_INPUT_SUMMARY.md) &
@@ -302,7 +310,8 @@ exporters; some require the full research inputs.
 
 The [`vis/figure_source/`](vis/figure_source/) directory contains the frozen
 data-to-figure scripts and the accompanying Source Data and Supplementary Data
-ZIPs for manuscript `NENERGY-24102996D`. No separate data download is needed.
+ZIPs accompanying the [published article](https://doi.org/10.1038/s41560-026-02151-1)
+(manuscript `NENERGY-24102996D`). No separate data download is needed.
 Its README maps each package to the plotting entry point and provides a single
 command for checking all main and Extended Data figure reproductions.
 

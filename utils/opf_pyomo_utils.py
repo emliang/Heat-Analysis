@@ -1,6 +1,6 @@
 """AC Optimal Power Flow (ACOPF) solver built on Pyomo / IPOPT.
 
-This module implements a full-featured ACOPF with support for:
+The solver supports:
 
 - **Rectangular or polar** voltage formulations
 - **Temperature-dependent** line ratings (quadratic heat-balance
@@ -14,25 +14,8 @@ The ``ACOPF`` class builds a Pyomo ``ConcreteModel``, adds variables,
 constraints, and an objective, then solves with IPOPT and returns a
 results dictionary.
 
-Section index
--------------
-1. Sparse-Matrix Helpers
-2. ACOPF Class
-   2a. Constructor & data preparation
-   2b. Variable creation
-   2c. Base-case constraints
-   2d. Quadratic thermal approximation
-   2e. Contingency (N-1) constraints
-   2f. Objective function
-   2g. Model assembly & solver interface
-   2h. Results processing
-3. Post-Processing Utilities
-4. Test Entry Point
 """
 
-# ---------------------------------------------------------------------------
-# Imports
-# ---------------------------------------------------------------------------
 import os
 import sys
 from collections import defaultdict
@@ -1072,6 +1055,9 @@ def process_optimization_results(model, ppc, Ybus, Yf, Yt, fbus, tbus,
     dict
         Keys include ``PG``, ``QG``, ``VM``, ``VA``, ``PDC``, ``PS``,
         ``LS``, ``S_pu``, ``I_pu``, ``obj``, violation arrays, etc.
+        Powers and currents are per unit on the input case's bases;
+        voltage angles are in radians. ``obj`` is hourly generation cost,
+        excluding LS penalties, not the complete optimisation objective.
     """
     bus = ppc["bus"]
     gen = ppc['gen']
@@ -1132,7 +1118,7 @@ def process_optimization_results(model, ppc, Ybus, Yf, Yt, fbus, tbus,
         'PG_capacity': gen[:, idx_gen.PMAX] / baseMVA,
         'ST_capacity': (storage[:, 3] / baseMVA if len(storage) > 0
                         else np.array([0])),
-        'QD': bus[:, idx_bus.PD] / baseMVA,
+        'QD': bus[:, idx_bus.QD] / baseMVA,
         'Pex': None,
         'PG': PG, 'QG': QG, 'VM': VM, 'VA': VA,
         'PDC': PDC, 'PS': PS, 'LS': LS,
@@ -1144,6 +1130,12 @@ def calculate_power_injections(gen_mask, dcf_mask, dct_mask,
                                storage_mask, PG, QG, PDC, PS,
                                bus, baseMVA):
     """Compute real and reactive power injections at each bus.
+
+    Load shedding is intentionally excluded. For a successfully solved model,
+    the resulting active-power mismatch magnitude represents load shedding
+    relative to the original demand; the reactive mismatch represents the
+    associated reactive-demand reduction, up to numerical solver tolerance.
+    These are not residuals of the power-balance constraints including LS.
 
     Returns
     -------
@@ -1180,12 +1172,14 @@ def calculate_power_flows(V, Ybus, Yf, Yt, fbus, tbus):
 
 def calculate_violations(bus_real_inj, bus_imag_inj, bus_flow,
                          S, I, branch, baseMVA, BaseI):
-    """Compute power-balance and flow-limit violations.
+    """Compute original-demand mismatches and flow-limit exceedances.
 
     Returns
     -------
     eq_vio, p_eq_vio, q_eq_vio : np.ndarray
-        Absolute mismatch (complex, real, reactive).
+        Mismatch magnitudes (complex, real, reactive), in per unit, before
+        accounting for LS. For a successful solve, the real component
+        represents load shedding, up to numerical solver tolerance.
     ineq_vio_s : np.ndarray
         Apparent-power violation above RATE_A.
     ineq_vio_i : np.ndarray
@@ -1203,7 +1197,11 @@ def calculate_violations(bus_real_inj, bus_imag_inj, bus_flow,
 
 
 def calculate_objective(PG, gencost, baseMVA, ngen):
-    """Total generation cost [$/h].
+    """Generation cost per hour on the input case's power basis.
+
+    Currency follows the input marginal costs. Load-shedding penalties are
+    excluded. European cases use single-phase equivalent powers; their total
+    generation cost is restored using the phase factor in the European output.
 
     Returns
     -------

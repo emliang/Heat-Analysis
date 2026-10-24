@@ -1,7 +1,7 @@
 """
 Temperature-Dependent Optimal Power Flow (TD-OPF) for IEEE Test Systems.
 
-This module implements thermal-dependent AC Optimal Power Flow analysis
+This module implements temperature-dependent AC optimal power flow analysis
 for IEEE bus systems (e.g., IEEE 30-bus). It supports multiple analysis
 modes including:
     - Base AC-OPF (no thermal effects)
@@ -13,8 +13,9 @@ modes including:
 The thermal model follows IEEE Std 738-2012 for overhead conductor
 heat balance and dynamic line rating calculations.
 
-Usage:
-    python TDOPF_ieee.py
+Usage from the repository root:
+    python TDOPF_ieee.py --smoke   # One setting in two modes
+    python TDOPF_ieee.py           # Full 108-case sweep
 """
 
 import argparse

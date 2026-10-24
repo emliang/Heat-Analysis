@@ -4,15 +4,6 @@ Project-wide configuration and constants.
 This module centralises paths, look-up tables, physical constants, and
 calibration parameters used across the TD-OPF analysis pipeline.
 
-Sections
---------
-1. Path resolution helpers
-2. Directory constants
-3. Country metadata
-4. Physical constants & colour palette
-5. Network clustering defaults
-6. Demand-model calibration parameters
-7. IEEE conductor defaults
 """
 
 import os
@@ -137,7 +128,8 @@ def get_holiday_list(country_code, year):
 # 2. Directory Constants
 # =============================================================================
 
-# These files (ERA5 hourly reanalysis, RCP 4.5 projections, elevation) are too large to include in the repository.  Download them FIRST and point. EXTERNAL to the directory where they are stored.
+# Full ERA5, RCP 4.5 and elevation inputs are downloaded separately.
+# Set EXTERNAL to their location, or use the directory layout below.
 # Download link (Google Drive):
 #   https://drive.google.com/drive/folders/1SJmglPiEMTw--xggqzeiSjmKBCI17cnK
 #

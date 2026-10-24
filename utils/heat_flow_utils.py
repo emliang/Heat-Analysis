@@ -498,8 +498,11 @@ def post_process_results(result, network, weather, conductor, BaseI):
     Returns
     -------
     dict
-        Updated *result* with ``'con_temp'``, ``'inom'``, ``'Imax'``,
-        ``'capacity_drop'``, and ``'BaseI'`` fields added.
+        Updated *result* with segment temperatures ``con_temp`` in degrees
+        Celsius, per-circuit bundle currents ``inom`` and ``Imax`` in A,
+        available-current ratio ``capacity_drop``, and ``BaseI`` in kA.
+        Temperatures use current per conductor, obtained by dividing the
+        branch current by the parallel-circuit and bundle-conductor counts.
     """
     num_parallel = network.lines['num_parallel'].values.copy()
     num_parallel[num_parallel == 0] = 1

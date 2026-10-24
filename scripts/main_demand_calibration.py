@@ -19,7 +19,7 @@ Pipeline
 
 Usage
 -----
-    python test_demand_calibration.py
+    python scripts/main_demand_calibration.py
 """
 
 # ---------------------------------------------------------------------------

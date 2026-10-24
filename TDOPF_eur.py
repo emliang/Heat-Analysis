@@ -17,19 +17,8 @@ PyPSA-Eur networks under projected heatwave scenarios.  The pipeline is:
 Simulation sweeps (sensitivity / model comparison) are orchestrated by
 :func:`main`, which can run in sequential or parallel mode.
 
-Section index
--------------
-1. Network Data Loading (weather, demand, renewables, derating)
-2. Simulation Setup
-3. Iterative TD-ACOPF Solver
-4. Single-Timestep Driver & Post-Processing
-5. Parallel / Batch Orchestration
-6. Entry Point & Parameter Sweeps
 """
 
-# ---------------------------------------------------------------------------
-# Imports
-# ---------------------------------------------------------------------------
 import copy
 import multiprocessing as mp
 import os
@@ -456,9 +445,10 @@ def run_td_acopf_eur(ppc, base_result, contingency, tdpf_analysis,
     Returns
     -------
     ppc : dict
-        Updated PyPower case (resistance modified).
+        PyPower case with resistance updated from the final current-derived
+        conductor temperature. This update follows the final OPF solve.
     result : dict
-        Final OPF solution.
+        Final OPF solution, computed with the resistance used in that solve.
     """
     num_parallel = ppc['branch'][:, -3].copy()
     num_parallel[num_parallel == 0] = 1
@@ -512,6 +502,7 @@ def run_td_acopf_eur(ppc, base_result, contingency, tdpf_analysis,
             quad_con=quad_con, td_cons=tem_cons,
             conductor=conductor, weather=weather,
             angle_cons=False, qlim=True,
+            reactive_demand_ratio='auto',
         )
         result = instance.solve()
 
@@ -590,6 +581,7 @@ def TDACOPF_eur(df, network, country_code, utc_timestamp, args,
         instance = ACOPF(
             ppc_expr, safe_margin=safe_margin,
             fix_sc=fixsc, qlim=True,
+            reactive_demand_ratio='auto',
         )
         result = instance.solve()
     elif 'td' in tdpf_analysis:
@@ -642,9 +634,10 @@ def ACOPF_analysis_eur(country_code, network, args, ppc_expr,
                        conductor, result, result_row, utc_timestamp):
     """Compute summary metrics from a solved ACOPF and update *result_row*.
 
-    Metrics include load shedding counts at multiple thresholds,
-    branch flow / temperature ratios, conductor temperature statistics,
-    generation cost, and capacity-drop statistics.
+    Metrics include load shedding as a percentage of demand, bus counts at
+    load-shedding thresholds, branch flow and temperature statistics, and
+    available-capacity ratios. Generation costs are recorded on both the
+    single-phase equivalent and total-system bases.
 
     Parameters
     ----------
@@ -730,7 +723,10 @@ def ACOPF_analysis_eur(country_code, network, args, ppc_expr,
         np.sum(branch_temp) / np.sum(Branch_status))
     result_row['tem_con_max'] = np.max(seg_temp)
     result_row['run_time'] = result['runtime']
+    # Retain the single-phase equivalent generation cost for compatibility.
+    # Both fields exclude load-shedding penalties; totals use the phase factor.
     result_row['gen_cost'] = cost
+    result_row['gen_cost_total'] = cost * args['phase_factor']
     result_row['capacity_drop_min'] = capacity_drop.min()
     result_row['capacity_drop_max'] = capacity_drop.max()
     result_row['capacity_drop_mean'] = capacity_drop.mean()
@@ -932,7 +928,7 @@ def main(country_code='ES'):
         'heatwave_mode': True,
         'storage_mode': True,
         'DLR_mode': False,
-        'load_growth': True,             # base-load growth to 2050
+        'load_growth': True,             # base-demand growth for the selected future year
         'reactive_demand_ratio': 0.15,
         'reactive_gen_upper': 0.8,
         'reactive_gen_lower': -0.8,

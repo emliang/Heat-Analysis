@@ -1,7 +1,6 @@
 """Network loading, filtering, segmentation, and PyPSA → PyPower conversion.
 
-This module provides the complete pipeline for preparing a power-system
-model for ACOPF analysis:
+This module prepares network data for ACOPF analysis:
 
 1. **Network loading** — read a PyPSA-Eur network, filter by country,
    attach population / load ratios, and apply line segmentation.
@@ -17,21 +16,8 @@ model for ACOPF analysis:
    a PyPower ``ppc`` dict (buses, generators, branches, DC lines,
    storage) from a PyPSA ``Network``.
 
-Section index
--------------
-1. Regional Data Helpers
-2. Load-Ratio Assignment
-3. Network Loading
-4. Generator Merging
-5. Line Segmentation
-6. Timezone & Graph Utilities
-7. PyPower Cleanup
-8. PyPSA → PyPower Converter
 """
 
-# ---------------------------------------------------------------------------
-# Imports
-# ---------------------------------------------------------------------------
 import os
 
 import geopandas as gpd
@@ -743,6 +729,11 @@ def remove_isolated_elements(ppc):
 
 class PypsaPypower:
     """Convert a PyPSA ``Network`` into a PyPower ``ppc`` case dict.
+
+    Powers are divided by ``phase_factor`` and bus voltages by its square
+    root. With the European setting of 3, the case uses single-phase
+    equivalent MW/Mvar and phase-to-neutral kV. ``baseI`` is in kA;
+    branch impedances and admittances are stored in per unit.
 
     Parameters
     ----------
