@@ -114,16 +114,8 @@ raise an error rather than silently selecting a different input.
 
 The bundled s_75 file contains the 72 month-hour combinations present in the
 source network; the Spain example includes only its July 13:00 historical means.
-Unrepresented months or hours are not extrapolated. For another network,
-generate the file once from that network's original time series:
-
-```bash
-python scripts/prepare_renewable_history.py \
-  --network data/EU/networks/base_s_75_elec.nc \
-  --output data/EU/networks/historical_p_max_pu_s_75.nc
-```
-
-Regenerate this file if the source network changes. The simulation reads it once
+Unrepresented months or hours are not extrapolated. Other network configurations
+require matching prepared availability data. The simulation reads it once
 per process and looks up each requested month and hour without recomputing means.
 
 ```
