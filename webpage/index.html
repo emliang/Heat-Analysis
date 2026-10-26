@@ -8,6 +8,8 @@
   <link rel="icon" type="image/png" href="images/heat-analysis-heat-front.png">
   <link rel="stylesheet" href="assets/css/custom.css?v=20261022-10">
   <script src="assets/js/navigation.js?v=20261022-1" defer></script>
+  <link rel="stylesheet" href="assets/css/model-details.css?v=20261026-1">
+  <script src="assets/js/model-details.js?v=20261026-1" defer></script>
   <script src="assets/js/grid-explorer.js?v=20261017-3" defer></script>
 </head>
 <body>
@@ -76,7 +78,7 @@
       </div>
     </section>
 
-    <section class="pressure-section" aria-labelledby="pressure-title">
+    <section class="pressure-section" id="mechanisms" aria-labelledby="pressure-title">
       <div class="page-width">
         <div class="section-intro">
           <p class="eyebrow dark">The problem</p>
@@ -91,6 +93,7 @@
             </div>
             <h3>Cooling demand grows</h3>
             <p>More air conditioning increases the amount of electricity that must reach homes and businesses.</p>
+            <button class="model-open" type="button" data-model="demand" aria-controls="model-details" aria-expanded="false">Explore demand <span aria-hidden="true">&#8599;</span></button>
           </article>
           <article>
             <div class="pressure-top">
@@ -99,6 +102,7 @@
             </div>
             <h3>Available generation changes</h3>
             <p>Some thermal power plants lose available output as the air warms, while wind and solar production respond to the accompanying weather.</p>
+            <button class="model-open" type="button" data-model="supply" aria-controls="model-details" aria-expanded="false">Explore supply <span aria-hidden="true">&#8599;</span></button>
           </article>
           <article>
             <div class="pressure-top">
@@ -107,7 +111,67 @@
             </div>
             <h3>Line capacity responds to weather</h3>
             <p>Air temperature, sunshine and wind alter conductor heating and therefore the current that a route can carry within the modelled temperature limit.</p>
+            <button class="model-open" type="button" data-model="transmission" aria-controls="model-details" aria-expanded="false">Explore transmission <span aria-hidden="true">&#8599;</span></button>
           </article>
+        </div>
+        <div id="model-details" class="model-details" hidden>
+          <div class="model-toolbar">
+            <div role="tablist" aria-label="Modelling mechanisms">
+              <button id="model-tab-demand" role="tab" type="button" aria-controls="model-demand" aria-selected="true" data-model="demand">Demand</button>
+              <button id="model-tab-supply" role="tab" type="button" aria-controls="model-supply" aria-selected="false" tabindex="-1" data-model="supply">Supply</button>
+              <button id="model-tab-transmission" role="tab" type="button" aria-controls="model-transmission" aria-selected="false" tabindex="-1" data-model="transmission">Transmission</button>
+            </div>
+            <button class="model-close" type="button" aria-label="Close model details" title="Close model details">&#215;</button>
+          </div>
+          <div id="model-demand" class="model-panel" role="tabpanel" aria-labelledby="model-tab-demand">
+            <p class="eyebrow dark">Weather to demand</p>
+            <h3>From daily demand to an hourly load</h3>
+            <div class="model-layout">
+              <figure>
+                <a href="images/models/demand.png" target="_blank" rel="noreferrer" aria-label="Open Spain demand calibration at full size"><img src="images/models/demand.png" alt="Observed Spanish daily demand and fitted weekday and weekend curves against building-adjusted internal temperature" width="1320" height="920"></a>
+                <figcaption>Spain's calibrated demand relationship. Points are historical observations; lines show the fitted model. BAIT combines air temperature, humidity, wind and sunshine.</figcaption>
+              </figure>
+              <div class="model-copy">
+                <p>Cooling demand rises as conditions become hotter. We calibrate each country's response using historical electricity use and weather, separating base demand from heating, cooling and workday effects.</p>
+                <p>The daily estimate is converted to an hourly profile using historical demand ratios from hot days. Future growth changes the base-demand component, while the calibrated weather response is retained.</p>
+                <details><summary>Model details</summary><p class="model-equation">Daily demand = base demand + heating + cooling + workday effect</p><p>Heating and cooling terms respond to BAIT below and above their respective thresholds. The reference model's separate annual trend term is not used.</p><p class="model-equation">P<sub>base</sub>(y) = P<sub>base</sub>(2025) (1 + g)<sup>y &minus; 2025</sup></p><p>The baseline uses 1% annual compound growth; sensitivity cases use up to 3%. Growth applies only to base demand.</p></details>
+                <aside class="model-references" aria-label="Demand model reference"><h4>Key reference</h4><ul><li><a href="https://doi.org/10.1038/s41560-023-01341-5" target="_blank" rel="noreferrer">Staffell et al. (2023)</a><span>A global model of hourly space heating and cooling demand at multiple spatial scales. <em>Nature Energy.</em></span></li></ul></aside>
+              </div>
+            </div>
+          </div>
+          <div id="model-supply" class="model-panel" role="tabpanel" aria-labelledby="model-tab-supply" hidden>
+            <p class="eyebrow dark">Weather to available power</p>
+            <h3>Available output changes with the weather</h3>
+            <div class="model-layout">
+              <figure>
+                <a href="images/models/supply.png" target="_blank" rel="noreferrer" aria-label="Open generator derating curves at full size"><img src="images/models/supply.png" alt="Temperature-dependent derating relationships for open-cycle and combined-cycle gas turbines, nuclear generators and copper windings" width="1320" height="920"></a>
+                <figcaption>Generator derating relationships used in the study. Available capacity is capped at nominal capacity. The copper-winding relationship applies above 40 &deg;C.</figcaption>
+              </figure>
+              <div class="model-copy">
+                <p>Higher temperatures can reduce the output available from conventional generators. The model uses different relationships for different technologies; their coefficients can be replaced when plant-specific data are available.</p>
+                <p>Wind and solar availability follow the accompanying weather through Atlite profiles. These limits describe how much power could be produced, not how much the grid ultimately dispatches.</p>
+                <details><summary>Model details</summary><p class="model-equation">Available output = nominal capacity &times; availability factor &times; temperature derating</p><p>Availability and derating are applied according to generator type. Where matching future weather-driven profiles are unavailable, historical mean availability derived from PyPSA is used. The OPF then chooses generation within these limits.</p><p>OCGT: open-cycle gas turbine. CCGT: combined-cycle gas turbine.</p></details>
+                <aside class="model-references" aria-label="Supply model references"><h4>Key references</h4><ul><li><a href="https://doi.org/10.1016/j.apenergy.2016.08.188" target="_blank" rel="noreferrer">Ke et al. (2016)</a><span>Quantifying impacts of heat waves on power grid operation. <em>Applied Energy.</em></span></li><li><a href="https://doi.org/10.21105/joss.03294" target="_blank" rel="noreferrer">Hofmann et al. (2021)</a><span>Atlite: a lightweight Python package for calculating renewable power potentials and time series. <em>JOSS.</em></span></li></ul></aside>
+              </div>
+            </div>
+          </div>
+          <div id="model-transmission" class="model-panel" role="tabpanel" aria-labelledby="model-tab-transmission" hidden>
+            <p class="eyebrow dark">Weather to line capacity</p>
+            <h3>How weather changes a line's capacity</h3>
+            <div class="model-layout">
+              <figure>
+                <a href="images/models/transmission.png" target="_blank" rel="noreferrer" aria-label="Open conductor heat-balance plot at full size"><img src="images/models/transmission.png" alt="Conductor temperature against air temperature and bundle current, with a 90 degree thermal-limit curve and nominal-current line" width="1320" height="920"></a>
+                <figcaption>Baseline corrected four-conductor bundle, with 0.61 m/s wind at 50 m and 900 W/m&sup2; solar irradiance. Colours show conductor temperature; the curves show thermal and nominal-current limits.</figcaption>
+              </figure>
+              <div class="model-copy">
+                <p>Current and sunlight heat a conductor, while convection and radiation remove heat. Wind, air temperature and sunshine therefore change the current it can carry without exceeding its temperature limit.</p>
+                <p>We calculate this balance along individual line segments. Local weather conditions determine the thermal current limit, which is also capped at the line's nominal rating.</p>
+                <details><summary>Model details</summary><p class="model-equation">Convection + radiation = solar heating + electrical heating</p><p>Electrical heating depends on current squared and temperature-dependent resistance. The baseline bundle model applies a factor of 0.8 to convective and radiative cooling. This is a simulation choice, assessed alongside alternative conductor settings, and can be replaced with line-specific information.</p><p>The OPF and heat-balance calculations exchange current and temperature to update line resistance.</p></details>
+                <aside class="model-references" aria-label="Transmission model references"><h4>Key references</h4><ul><li><a href="https://doi.org/10.1109/IEEESTD.2013.6692858" target="_blank" rel="noreferrer">IEEE Std 738-2012</a><span>IEEE standard for calculating the current-temperature relationship of bare overhead conductors.</span></li><li><a href="https://doi.org/10.1016/j.epsr.2024.110308" target="_blank" rel="noreferrer">Yang et al. (2024)</a><span>Thermal analysis for multi-conductor bundle in high voltage overhead transmission lines under the effect of strong wind. <em>Electric Power Systems Research.</em></span></li></ul></aside>
+              </div>
+            </div>
+          </div>
+          <div class="model-footer"><p>These models provide the demand, available generation and transmission limits used in the grid calculation.</p><a href="https://www.nature.com/articles/s41560-026-02151-1" target="_blank" rel="noreferrer">Read the paper &rarr;</a></div>
         </div>
       </div>
     </section>
