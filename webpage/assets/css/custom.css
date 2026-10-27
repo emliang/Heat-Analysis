@@ -314,6 +314,9 @@ main section[id] { scroll-margin-top: 90px; }
 }
 
 .publication-link {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.5rem;
   margin: 0.65rem 0 0;
   font-size: 0.95rem;
   font-weight: 700;

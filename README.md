@@ -14,6 +14,7 @@
   <p align="center">
     <a href="https://emliang.github.io/Heat-Analysis/">Project Page</a> &nbsp;|&nbsp;
     <a href="https://www.nature.com/articles/s41560-026-02151-1">Nature Energy Paper</a> &nbsp;|&nbsp;
+    <a href="https://communities.springernature.com/posts/what-happens-to-the-power-grid-in-a-heatwave-7c1975ef-7fac-4ff2-afac-7323d6f20790">Behind the Paper</a> &nbsp;|&nbsp;
     <a href="#-background">Background</a> &nbsp;|&nbsp;
     <a href="#-methodology">Methodology</a> &nbsp;|&nbsp;
     <a href="#-data-sources--flow">Data</a> &nbsp;|&nbsp;
