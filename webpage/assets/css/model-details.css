@@ -1,4 +1,24 @@
 .pressure-grid article { display: flex; flex-direction: column; }
+.framework-flow { display: grid; gap: 2.5rem; }
+.framework-step { min-width: 0; }
+.framework-step + .framework-step { border-top: 1px solid var(--line); padding-top: 2rem; }
+.framework-step h3 { display: flex; align-items: baseline; gap: .85rem; font-size: 1.6rem; line-height: 1.3; margin: 0 0 1.2rem; }
+.framework-letter { flex: 0 0 auto; color: var(--heat); font-size: 1.25rem; font-weight: 700; }
+.framework-step .research-figure { margin: 0 0 1.2rem; }
+.framework-step > p, .framework-step details { max-width: 900px; color: var(--muted); }
+.framework-step details { border-top: 1px solid var(--line); padding-top: .85rem; }
+.framework-step summary { color: var(--ink); font-weight: 600; cursor: pointer; }
+.framework-step details p { margin: .85rem 0 0; }
+.framework-step .workflow-subtitle { margin: 1.5rem 0 .5rem; color: var(--ink); font-size: 1.1rem; }
+.framework-step .weather-generation-figure { margin: 1.25rem 0; }
+@media (max-width: 900px) {
+  .framework-step h3 { font-size: 1.4rem; }
+}
+@media (max-width: 600px) {
+  .framework-step .research-figure { width: 100%; margin-left: 0; }
+  .framework-step .research-figure > a { overflow-x: auto; }
+  .framework-step .research-figure img { display: block; min-width: 680px; max-width: none; }
+}
 .model-open { display: flex; justify-content: space-between; gap: 1rem; width: 100%; margin-top: auto; padding: 1.25rem 0 0; border: 0; background: none; color: var(--heat); font: inherit; font-weight: 700; text-align: left; cursor: pointer; }
 .model-open span { font-size: 1.3rem; }
 .pressure-grid article:nth-child(2) .model-open { color: var(--cool); }

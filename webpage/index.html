@@ -22,9 +22,9 @@
     </a>
     <nav id="primary-navigation" aria-label="Primary navigation">
       <a href="#framework">Framework</a>
-      <a href="#findings">Findings</a>
-      <a href="#comparison">Comparison</a>
       <a href="#explorer">Explorer</a>
+      <a href="#comparison">Comparison</a>
+      <a href="#findings">Findings</a>
       <a href="#scope">Interpretation</a>
       <a href="#notebooks">Notebooks</a>
     </nav>
@@ -183,106 +183,50 @@
           <h2 id="framework-title">Turning weather fields into a grid stress test</h2>
           <p>For each projected heatwave hour, the model tests whether the represented grid can meet demand under the corresponding weather conditions.</p>
         </div>
-        <figure class="research-figure framework-figure">
-          <div class="framework-panels" aria-label="Framework figure panels">
+        <div class="framework-flow">
+          <section class="framework-step" aria-labelledby="workflow-title">
+            <h3 id="workflow-title"><span class="framework-letter">a</span> From weather scenarios to grid operation</h3>
+            <figure class="research-figure">
             <a href="images/framework_update_2025.png" target="_blank" rel="noreferrer" title="Open the full-size framework overview">
               <img src="images/framework_update_2025.png" alt="Framework linking heatwaves to demand, generation, transmission thermal limits, storage and power grids" width="2488" height="1073">
             </a>
+            </figure>
+            <p>For each projected heatwave hour, we combine the weather-dependent inputs with the represented network, generation and storage configuration. We solve an independent grid-operation problem to determine generation, power flows and any unmet demand within the modelled operating limits.</p>
+            <details><summary>Workflow details</summary>
+              <h4 class="workflow-subtitle">Constructing future heatwave weather</h4>
+              <p>We start with selected ERA5 heat events from 2019, 2022 and 2024. For temperature, we take the difference between each historical heatwave and its reference weather, then add that difference to bias-corrected C3S/CORDEX reference conditions for 2026&ndash;2030 under RCP 4.5. This carries the historical event's hourly and spatial temperature pattern into a future climate setting. Changes in solar irradiance and wind speed are also transferred to their future reference conditions.</p>
+              <figure class="research-figure weather-generation-figure">
+                <a href="images/heatwave-generation.png" target="_blank" rel="noreferrer" title="Open the full-size heatwave generation example">
+                  <img src="images/heatwave-generation.png" alt="Spanish temperature example comparing historical reference and heatwave conditions with future reference and generated heatwave conditions, through hourly curves and maps; three regional plots show alternative generated heatwave profiles" width="2000" height="1312" loading="lazy">
+                </a>
+                <figcaption>Temperature example from the paper: hourly profiles (a), spatial patterns (b), and generated heatwave profiles in three regions (c). These illustrate scenario construction, not forecasts for a particular future day.</figcaption>
+              </figure>
+              <p>The scenarios depend on the historical events and reference climate data; they do not predict how future heatwave dynamics will change. Other climate models or weather scenarios can also supply inputs to the grid analysis.</p>
+              <h4 class="workflow-subtitle">From weather to an hourly grid calculation</h4>
+              <p>Each hour is analysed independently, with a specified initial storage charge rather than a charging and discharging schedule across hours. The weather-dependent inputs feed into an alternating-current optimal power flow (AC-OPF) calculation. Demand that cannot be met within the operating constraints is recorded as load shedding. The <a href="#explorer">Spain example</a> shows one set of inputs and its solved network state.</p>
+            </details>
+          </section>
+          <section class="framework-step" aria-labelledby="algorithm-title">
+            <h3 id="algorithm-title"><span class="framework-letter">b</span> Solving the electrical&ndash;thermal feedback</h3>
+            <figure class="research-figure">
             <a href="images/heatwave-framework-panel-b.png" target="_blank" rel="noreferrer" title="Open the full-size OPF analysis">
               <img src="images/heatwave-framework-panel-b.png" alt="Framework panel b showing the two-update temperature-dependent optimal power-flow analysis" width="2126" height="668">
             </a>
-          </div>
-          <figcaption>The European analysis uses two exchanges between power flow and line temperature. Compared with a calculation continued until the results stabilise, this faster treatment gives average errors below 1% for both load-shedding and line-temperature metrics.</figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <section class="method-section" aria-labelledby="method-title">
-      <div class="page-width method-layout">
-        <div class="method-lead">
-          <p class="eyebrow dark">Method in brief</p>
-          <h2 id="method-title">From extreme weather to network response</h2>
-        </div>
-        <ol class="method-steps">
-          <li>
-            <span>1</span>
-            <div>
-              <h3>Construct future heatwave weather</h3>
-              <p>The hourly patterns of selected ERA5 heat events from 2019, 2022 and 2024 are transferred to bias-corrected C3S/CORDEX climate baselines for 2026&ndash;2030 under RCP 4.5.</p>
-            </div>
-          </li>
-          <li>
-            <span>2</span>
-            <div>
-              <h3>Translate weather into grid inputs</h3>
-              <p>Each weather realisation determines electricity demand, renewable production, temperature-related generator availability and heating along individual line segments.</p>
-            </div>
-          </li>
-          <li>
-            <span>3</span>
-            <div>
-              <h3>Solve grid operation</h3>
-              <p>An alternating-current optimisation balances generation and power delivery within the represented operating and thermal limits. Demand that cannot be met is recorded as load shedding.</p>
-            </div>
-          </li>
-        </ol>
-      </div>
-    </section>
-
-    <section class="findings-section" id="findings" aria-labelledby="findings-title">
-      <div class="page-width">
-        <div class="section-intro wide">
-          <p class="eyebrow dark">What the simulations show</p>
-          <h2 id="findings-title">Heatwave stress varies across represented grids</h2>
-          <p>Applying the framework to eight country-level grid representations reveals different patterns of stress. Each is evaluated over 480 projected heatwave hours, accounting for differences in weather, network structure, generation, demand and storage.</p>
-        </div>
-        <figure class="research-figure results-figure">
-          <a href="images/represented-grid-results.png" target="_blank" rel="noreferrer" title="Open the full-size results figure">
-            <img src="images/represented-grid-results.png" alt="Distributions of heatwave temperature, load shedding and available line capacity across represented European grid configurations">
-          </a>
-          <figcaption>The distributions show how air temperature, unmet demand and transmission-line conditions vary across the eight public-data grid representations. Supporting statistics and line counts accompany the paper in the Source Data.</figcaption>
-        </figure>
-        <div class="finding-grid">
-          <article>
-            <h3>Heat exposure varies across grids</h3>
-            <p>The temperature distributions show that the represented grids experience different heat conditions across the projected scenarios.</p>
-          </article>
-          <article>
-            <h3>Unmet demand is unevenly distributed</h3>
-            <p>The French, Spanish and Italian grid models show greater load shedding, while several other represented systems remain less affected under the tested conditions.</p>
-          </article>
-          <article>
-            <h3>Transmission capacity responds differently</h3>
-            <p>The available line-capacity distributions vary across grids, reflecting differences in weather exposure and the represented transmission networks.</p>
-          </article>
+            </figure>
+            <p>Power flows and conductor temperatures depend on one another. We alternate between solving grid operation at fixed temperatures and updating segment temperatures and line resistances using the resulting currents. Separating these calculations retains their feedback while reducing the cost of analysing many heatwave scenarios.</p>
+            <details><summary>Algorithm details</summary><p>Electrical heating depends on the current, while conductor temperature affects resistance and the resulting power flows. Each temperature update therefore feeds back into the next grid-operation calculation.</p><p>The European analysis uses two updates. Compared with the same procedure continued until the results stabilise, this gives average errors below 1% for both load-shedding and line-temperature metrics. The <a href="#comparison">Spanish method comparison</a> shows the differences in results and running time.</p></details>
+          </section>
         </div>
       </div>
     </section>
 
-    <section class="comparison-section" id="comparison" aria-labelledby="comparison-title">
-      <div class="page-width">
-        <div class="section-intro wide">
-          <p class="eyebrow dark">Spain: comparing methods</p>
-          <h2 id="comparison-title">Why the modelling approach matters</h2>
-          <p>The differences between grids raise a further question: how much does the choice of model affect the bottlenecks we identify? The Spanish case compares four approaches using the same 480 projected heatwave hours.</p>
-        </div>
-        <p class="comparison-copy">AC-OPF uses fixed transmission limits, while Quad-OPF approximates their temperature dependence. Iter-OPF is the study's two-update method; TD-OPF continues the temperature-dependent calculation until the results stabilise, providing a convergence reference.</p>
-        <figure class="research-figure results-figure">
-          <a href="images/spain-opf-comparison.png" target="_blank" rel="noreferrer" title="Open the full-size Spain method comparison">
-            <img src="images/spain-opf-comparison.png" alt="Four OPF methods compared in Spain: available line capacity, conductor temperature, load shedding and solver running time" width="2000" height="1067" loading="lazy">
-          </a>
-          <figcaption>Paper Fig. 3. Panels a and b summarise 442 lines across 480 heatwave hours; panels c and d summarise the 480 hourly scenarios. Boxes show the middle 50% of observations, whiskers extend to observations within 1.5 times the interquartile range, and red points mark means. Half-violins show the distributions. <a href="https://github.com/emliang/Heat-Analysis/blob/main/vis/figure_source/data/Source_Data_Fig_3.zip">Source data</a>.</figcaption>
-        </figure>
-        <p class="comparison-copy">In this comparison, AC-OPF and Quad-OPF yield less load shedding but allow some lines to exceed the modelled 90&deg;C thermal limit. Iter-OPF captures the additional constraints and closely matches the TD-OPF reference, with a shorter running time. The important difference lies in local thermal bottlenecks, even though average line temperatures are similar.</p>
-      </div>
-    </section>
 
     <section class="explorer-section" id="explorer" aria-labelledby="explorer-title">
       <div class="page-width">
         <div class="section-intro wide">
           <p class="eyebrow dark">Explore one solved hour</p>
           <h2 id="explorer-title">A closer look at the Spanish grid</h2>
-          <p>The comparison above summarises many heatwave hours. Here, one saved example brings the weather and network into view: 13:00 on 24 July 2030 in the represented Spanish grid.</p>
+          <p>Start with one projected heatwave hour: 13:00 on 24 July 2030 in the represented Spanish grid. The map brings together the network configuration, weather conditions and solved grid operation.</p>
         </div>
         <div class="explorer-views" role="group" aria-label="Explorer view">
           <button type="button" data-grid-view="grid" aria-pressed="false">Grid configuration</button>
@@ -346,6 +290,54 @@
           </aside>
         </div>
         <p class="explorer-source">Illustrative 2030 snapshot under the represented grid configuration; not a forecast of an outage. Weather fields come from the bundled <a href="https://github.com/emliang/Heat-Analysis/tree/main/vis/demos">Spain 2030 worked example</a>. Solved results match Extended Data Fig. 2 Source Data, and installed capacities come from the SI Spanish grid example in the <a href="https://github.com/emliang/Heat-Analysis/tree/main/vis/figure_source/data">figure source packages</a>.</p>
+      </div>
+    </section>
+
+    <section class="comparison-section" id="comparison" aria-labelledby="comparison-title">
+      <div class="page-width">
+        <div class="section-intro wide">
+          <p class="eyebrow dark">Spain: comparing methods</p>
+          <h2 id="comparison-title">Why the modelling approach matters</h2>
+          <p>The map shows one solved hour. Across a wider set of heatwave conditions, how much does the modelling approach change the bottlenecks we identify? We compare four approaches on the Spanish grid using the same 480 projected heatwave hours.</p>
+        </div>
+        <p class="comparison-copy">AC-OPF uses fixed transmission limits, while Quad-OPF approximates their temperature dependence. Iter-OPF is the study's two-update method; TD-OPF continues the temperature-dependent calculation until the results stabilise, providing a convergence reference.</p>
+        <figure class="research-figure results-figure">
+          <a href="images/spain-opf-comparison.png" target="_blank" rel="noreferrer" title="Open the full-size Spain method comparison">
+            <img src="images/spain-opf-comparison.png" alt="Four OPF methods compared in Spain: available line capacity, conductor temperature, load shedding and solver running time" width="2000" height="1067" loading="lazy">
+          </a>
+          <figcaption>Paper Fig. 3. Panels a and b summarise 442 lines across 480 heatwave hours; panels c and d summarise the 480 hourly scenarios. Boxes show the middle 50% of observations, whiskers extend to observations within 1.5 times the interquartile range, and red points mark means. Half-violins show the distributions. <a href="https://github.com/emliang/Heat-Analysis/blob/main/vis/figure_source/data/Source_Data_Fig_3.zip">Source data</a>.</figcaption>
+        </figure>
+        <p class="comparison-copy">In this comparison, AC-OPF and Quad-OPF yield less load shedding but allow some lines to exceed the modelled 90&deg;C thermal limit. Iter-OPF captures the additional constraints and closely matches the TD-OPF reference, with a shorter running time. The important difference lies in local thermal bottlenecks, even though average line temperatures are similar.</p>
+      </div>
+    </section>
+
+    <section class="findings-section" id="findings" aria-labelledby="findings-title">
+      <div class="page-width">
+        <div class="section-intro wide">
+          <p class="eyebrow dark">What the simulations show</p>
+          <h2 id="findings-title">Heatwave stress varies across represented grids</h2>
+          <p>The Spanish case shows why local thermal limits matter. Extending the analysis to eight country-level grid representations reveals how stress varies with weather, network structure, generation, demand and storage. Each grid is evaluated over 480 projected heatwave hours.</p>
+        </div>
+        <figure class="research-figure results-figure">
+          <a href="images/represented-grid-results.png" target="_blank" rel="noreferrer" title="Open the full-size results figure">
+            <img src="images/represented-grid-results.png" alt="Distributions of heatwave temperature, load shedding and available line capacity across represented European grid configurations">
+          </a>
+          <figcaption>The distributions show how air temperature, unmet demand and transmission-line conditions vary across the eight public-data grid representations. Supporting statistics and line counts accompany the paper in the Source Data.</figcaption>
+        </figure>
+        <div class="finding-grid">
+          <article>
+            <h3>Heat exposure varies across grids</h3>
+            <p>The temperature distributions show that the represented grids experience different heat conditions across the projected scenarios.</p>
+          </article>
+          <article>
+            <h3>Unmet demand is unevenly distributed</h3>
+            <p>The French, Spanish and Italian grid models show greater load shedding, while several other represented systems remain less affected under the tested conditions.</p>
+          </article>
+          <article>
+            <h3>Transmission capacity responds differently</h3>
+            <p>The available line-capacity distributions vary across grids, reflecting differences in weather exposure and the represented transmission networks.</p>
+          </article>
+        </div>
       </div>
     </section>
 
