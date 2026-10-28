@@ -69,8 +69,8 @@
           </article>
           <article>
             <strong>About 61,700</strong>
-            <h3>Human consequences</h3>
-            <p>A peer-reviewed study estimated this toll across 35 European countries in summer 2022.</p>
+            <h3>Estimated heat-related deaths</h3>
+            <p>A peer-reviewed study estimated this number across 35 European countries in summer 2022.</p>
             <a href="https://www.nature.com/articles/s41591-023-02419-z" target="_blank" rel="noreferrer">Nature Medicine study</a>
           </article>
         </div>
@@ -191,10 +191,10 @@
               <img src="images/framework_update_2025.png" alt="Framework linking heatwaves to demand, generation, transmission thermal limits, storage and power grids" width="2488" height="1073">
             </a>
             </figure>
-            <p>For each projected heatwave hour, we combine the weather-dependent inputs with the represented network, generation and storage configuration. We solve an independent grid-operation problem to determine generation, power flows and any unmet demand within the modelled operating limits.</p>
+            <p>For each projected heatwave hour, we combine the weather-dependent inputs with the represented network, generation and storage configuration. We solve an independent grid-operation problem within the modelled operating limits to determine generation, power flows and any unmet demand, recorded as load shedding.</p>
             <details><summary>Workflow details</summary>
               <h4 class="workflow-subtitle">Constructing future heatwave weather</h4>
-              <p>We start with selected ERA5 heat events from 2019, 2022 and 2024. For temperature, we take the difference between each historical heatwave and its reference weather, then add that difference to bias-corrected C3S/CORDEX reference conditions for 2026&ndash;2030 under RCP 4.5. This carries the historical event's hourly and spatial temperature pattern into a future climate setting. Changes in solar irradiance and wind speed are also transferred to their future reference conditions.</p>
+              <p>We start with historical weather records (ERA5) for selected heat events in 2019, 2022 and 2024. For temperature, we take the difference between each historical heatwave and its reference weather, then add it to the future reference climate. We use bias-corrected projections for 2026&ndash;2030 (C3S/CORDEX, under the RCP 4.5 climate scenario). This carries the historical event's hourly and spatial temperature pattern into a future climate setting. Changes in solar irradiance and wind speed are also transferred to their future reference conditions.</p>
               <figure class="research-figure weather-generation-figure">
                 <a href="images/heatwave-generation.png" target="_blank" rel="noreferrer" title="Open the full-size heatwave generation example">
                   <img src="images/heatwave-generation.png" alt="Spanish temperature example comparing historical reference and heatwave conditions with future reference and generated heatwave conditions, through hourly curves and maps; three regional plots show alternative generated heatwave profiles" width="2000" height="1312" loading="lazy">
@@ -210,11 +210,11 @@
             <h3 id="algorithm-title"><span class="framework-letter">b</span> Solving the electrical&ndash;thermal feedback</h3>
             <figure class="research-figure">
             <a href="images/heatwave-framework-panel-b.png" target="_blank" rel="noreferrer" title="Open the full-size OPF analysis">
-              <img src="images/heatwave-framework-panel-b.png" alt="Framework panel b showing the two-update temperature-dependent optimal power-flow analysis" width="2126" height="668">
+              <img class="framework-algorithm-image" src="images/heatwave-framework-panel-b.png" alt="Framework panel b showing the two-update temperature-dependent optimal power-flow analysis" width="2126" height="668">
             </a>
             </figure>
             <p>Power flows and conductor temperatures depend on one another. We alternate between solving grid operation at fixed temperatures and updating segment temperatures and line resistances using the resulting currents. Separating these calculations retains their feedback while reducing the cost of analysing many heatwave scenarios.</p>
-            <details><summary>Algorithm details</summary><p>Electrical heating depends on the current, while conductor temperature affects resistance and the resulting power flows. Each temperature update therefore feeds back into the next grid-operation calculation.</p><p>The European analysis uses two updates. Compared with the same procedure continued until the results stabilise, this gives average errors below 1% for both load-shedding and line-temperature metrics. The <a href="#comparison">Spanish method comparison</a> shows the differences in results and running time.</p></details>
+            <details><summary>Algorithm details</summary><p>The European analysis uses two updates. Compared with the same procedure continued until the results stabilise, this gives average errors below 1% for both load-shedding and line-temperature metrics. The <a href="#comparison">Spanish method comparison</a> shows the differences in results and running time.</p></details>
           </section>
         </div>
       </div>

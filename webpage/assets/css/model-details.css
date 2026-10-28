@@ -5,6 +5,8 @@
 .framework-step h3 { display: flex; align-items: baseline; gap: .85rem; font-size: 1.6rem; line-height: 1.3; margin: 0 0 1.2rem; }
 .framework-letter { flex: 0 0 auto; color: var(--heat); font-size: 1.25rem; font-weight: 700; }
 .framework-step .research-figure { margin: 0 0 1.2rem; }
+/* Hide the embedded panel label; the heading provides the webpage label. */
+.framework-algorithm-image { clip-path: polygon(3% 0, 100% 0, 100% 100%, 0 100%, 0 6%, 3% 6%); }
 .framework-step > p, .framework-step details { max-width: 900px; color: var(--muted); }
 .framework-step details { border-top: 1px solid var(--line); padding-top: .85rem; }
 .framework-step summary { color: var(--ink); font-weight: 600; cursor: pointer; }
